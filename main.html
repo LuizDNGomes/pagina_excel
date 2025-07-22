@@ -259,6 +259,7 @@
             flex: 1;
             min-height: 0;
             /* Importante para o flex e overflow */
+            transition: all 0.3s ease;
         }
 
         .anniversary-item {
@@ -266,6 +267,7 @@
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease forwards;
         }
 
         .anniversary-item:last-child {
@@ -1435,6 +1437,10 @@
             // Adicionar IDs aos elementos existentes para permitir exclusão
             adicionarIdsElementosExistentes();
 
+            // Ordenar aniversários na inicialização
+            ordenarAniversarios('bday');
+            ordenarAniversarios('anniv');
+
             // Atualiza o relógio a cada segundo
             setInterval(atualizarRelogio, 1000);
 
@@ -1517,6 +1523,9 @@
                     document.getElementById('adminBdayDept').value = '';
                     document.getElementById('adminBdayDate').value = '';
 
+                    // Ordena os aniversários após adicionar um novo
+                    ordenarAniversarios('bday');
+
                     // Atualiza contagem de aniversários no destaque de hoje
                     atualizarContagens();
 
@@ -1539,15 +1548,29 @@
                     const dataFormatada = dataObj.getDate() + ' de ' +
                         dataObj.toLocaleString('pt-BR', { month: 'long' });
 
+                    // Formatar os anos na empresa para exibir no plural ou singular
+                    const anosFormatado = anos == 1 ? '1 ano' : `${anos} anos`;
+
+                    // Verificar se é hoje para destacar
+                    const hoje = new Date();
+                    const ehHoje = hoje.getDate() === dataObj.getDate() && hoje.getMonth() === dataObj.getMonth();
+                    const dataCurta = `${dataObj.getDate().toString().padStart(2, '0')}/${(dataObj.getMonth() + 1).toString().padStart(2, '0')}`;
+
                     // Gerar um ID único para o item
                     const itemId = 'anniv-' + Date.now();
 
-                    const novoAniversario = `
+                    let novoAniversario = `
                         <li class="anniversary-item" data-id="${itemId}">
                             <div class="anniversary-avatar">${iniciais}</div>
                             <div class="anniversary-info">
-                                <div class="anniversary-name">${nome}</div>
-                                <div class="anniversary-date">${anos} anos • ${dataFormatada}</div>
+                                <div class="anniversary-name">${nome}`;
+
+                    if (ehHoje) {
+                        novoAniversario += `<span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta}</span>`;
+                    }
+
+                    novoAniversario += `</div>
+                                <div class="anniversary-date">${anosFormatado} • ${dataFormatada}</div>
                             </div>
                         </li>
                     `;
@@ -1560,7 +1583,7 @@
                         <div class="admin-list-item" data-id="${itemId}">
                             <div class="admin-list-item-content">
                                 <span class="admin-item-title">${nome}</span>
-                                <span class="admin-item-detail">${anos} anos • ${dataFormatada}</span>
+                                <span class="admin-item-detail">${anosFormatado} • ${dataFormatada}</span>
                             </div>
                             <div class="admin-list-item-actions">
                                 <button class="admin-btn-item-delete" onclick="excluirItem('${itemId}', 'anniv')">
@@ -1576,6 +1599,9 @@
                     document.getElementById('adminAnnivName').value = '';
                     document.getElementById('adminAnnivYears').value = '';
                     document.getElementById('adminAnnivDate').value = '';
+
+                    // Ordena os aniversários de empresa
+                    ordenarAniversarios('anniv');
 
                     alert('Aniversário de empresa adicionado com sucesso!');
                 } else {
@@ -1685,6 +1711,102 @@
 
         // Atualiza o relógio header a cada segundo
         setInterval(atualizarRelogioHeader, 1000);
+
+        // Função para ordenar aniversários por data
+        function ordenarAniversarios(tipo) {
+            // Seleciona o container de acordo com o tipo
+            const container = tipo === 'bday'
+                ? document.querySelector('.dashboard-col:first-child .anniversary-list')
+                : document.querySelector('.dashboard-col:nth-child(2) .anniversary-list');
+
+            // Coleta todos os itens
+            const items = Array.from(container.querySelectorAll('.anniversary-item'));
+
+            // Remove os itens do DOM
+            items.forEach(item => item.remove());
+
+            // Função para extrair o mês e dia de um texto de data
+            function extrairDataDeTexto(texto) {
+                // Procura padrões como "24 de julho" ou "25 de julho"
+                const match = texto.match(/(\d+) de ([^\s•]+)/);
+                if (match) {
+                    const dia = parseInt(match[1]);
+                    const mesTexto = match[2].toLowerCase();
+
+                    // Mapear nomes de meses para números
+                    const meses = {
+                        'janeiro': 0, 'fevereiro': 1, 'março': 2, 'abril': 3,
+                        'maio': 4, 'junho': 5, 'julho': 6, 'agosto': 7,
+                        'setembro': 8, 'outubro': 9, 'novembro': 10, 'dezembro': 11
+                    };
+
+                    const mes = meses[mesTexto];
+                    if (mes !== undefined) {
+                        return { mes, dia };
+                    }
+                }
+
+                // Tenta outro padrão como "22/07"
+                const matchCurto = texto.match(/(\d{1,2})\/(\d{1,2})/);
+                if (matchCurto) {
+                    return {
+                        dia: parseInt(matchCurto[1]),
+                        mes: parseInt(matchCurto[2]) - 1 // Mês em JavaScript é 0-11
+                    };
+                }
+
+                return { mes: 12, dia: 31 }; // Default para ordenação
+            }
+
+            // Ordena os itens por data
+            items.sort((a, b) => {
+                let dataA, dataB;
+
+                if (tipo === 'bday') {
+                    const textoDataA = a.querySelector('.anniversary-date').textContent;
+                    const textoDataB = b.querySelector('.anniversary-date').textContent;
+
+                    dataA = extrairDataDeTexto(textoDataA);
+                    dataB = extrairDataDeTexto(textoDataB);
+                } else {
+                    // Para aniversários de empresa, extrair a data após o "anos •"
+                    const textoDataA = a.querySelector('.anniversary-date').textContent;
+                    const textoDataB = b.querySelector('.anniversary-date').textContent;
+
+                    dataA = extrairDataDeTexto(textoDataA);
+                    dataB = extrairDataDeTexto(textoDataB);
+                }
+
+                // Primeiro compara mês, depois dia
+                if (dataA.mes === dataB.mes) {
+                    return dataA.dia - dataB.dia;
+                }
+                return dataA.mes - dataB.mes;
+            });
+
+            // Verifica se é hoje para colocar primeiro na lista
+            const hoje = new Date();
+            const mesAtual = hoje.getMonth();
+            const diaAtual = hoje.getDate();
+
+            // Reordena para priorizar os aniversários de hoje
+            const itemsDeHoje = [];
+            const itemsFuturos = [];
+
+            items.forEach(item => {
+                const badgeHoje = item.querySelector('.anniversary-badge');
+                if (badgeHoje) {
+                    itemsDeHoje.push(item);
+                } else {
+                    itemsFuturos.push(item);
+                }
+            });
+
+            // Adiciona os itens de volta ao container na ordem correta
+            [...itemsDeHoje, ...itemsFuturos].forEach(item => {
+                container.appendChild(item);
+            });
+        }
 
         // Função para adicionar IDs únicos aos elementos existentes
         function adicionarIdsElementosExistentes() {
@@ -1804,6 +1926,13 @@
                     }
                 }
 
+                // Atualizar a ordenação se for um aniversário
+                if (tipo === 'bday') {
+                    ordenarAniversarios('bday');
+                } else if (tipo === 'anniv') {
+                    ordenarAniversarios('anniv');
+                }
+
                 // Atualizar contagens
                 atualizarContagens();
 
@@ -1828,6 +1957,7 @@
                 // Limpar aniversários de empresa
                 document.querySelector('.dashboard-col:nth-child(2) .anniversary-list').innerHTML = '';
                 document.getElementById('adminAnnivList').innerHTML = '';
+                atualizarContagens(); // Atualizar contagens
                 alert('Aniversários de empresa removidos com sucesso!');
             }
         });
