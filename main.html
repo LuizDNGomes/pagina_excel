@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Engenharia - SharePoint</title>
+    <title>Intranet Excel Engenharia</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600;700&display=swap"
         rel="stylesheet">
@@ -799,12 +799,12 @@
             left: 0;
             right: 0;
             width: 100%;
-            background-color: #01627E;
+            background: linear-gradient(135deg, #01627E, #034158);
             color: white;
             padding: 30px 25px;
             z-index: 9999;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s ease;
+            box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.6);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             border-top: 5px solid #FFA500;
             transform: translateY(100%);
             opacity: 0;
@@ -813,6 +813,8 @@
             overflow-y: auto;
             display: block;
             pointer-events: none;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .admin-panel.active {
@@ -821,17 +823,47 @@
             visibility: visible;
             pointer-events: auto;
         }
+        
+        /* Responsividade para o painel admin */
+        @media (max-width: 768px) {
+            .admin-panel {
+                padding: 20px 15px 80px;
+                max-height: 80vh;
+            }
+        }
 
         .admin-panel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, #01627E, #034158);
+            z-index: 10;
+            padding-top: 5px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .admin-panel-title {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .admin-panel-title:before {
+            content: '\f013';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: #FFA500;
+            font-size: 24px;
         }
 
         /* Botão de fechar painel totalmente redesenhado */
@@ -839,10 +871,10 @@
             background-color: #ff4444;
             border: 2px solid white;
             color: white;
-            font-size: 22px;
+            font-size: 20px;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -850,64 +882,157 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            z-index: 15;
         }
 
         .admin-panel-close:hover {
             background-color: #ff0000;
-            transform: scale(1.1);
+            transform: rotate(90deg);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .admin-panel-header {
+                padding-right: 60px;
+            }
+            
+            .admin-panel-title {
+                font-size: 18px;
+            }
+            
+            .admin-panel-close {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                right: 10px;
+            }
         }
 
         .admin-controls {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
+            padding: 20px;
+            max-height: 75vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 165, 0, 0.5) rgba(0, 0, 0, 0.2);
+        }
+        
+        .admin-controls::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .admin-controls::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .admin-controls::-webkit-scrollbar-thumb {
+            background: rgba(255, 165, 0, 0.5);
+            border-radius: 10px;
         }
 
         .admin-control-group {
             flex: 1;
-            min-width: 250px;
+            min-width: 280px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
-
+        
+        .admin-control-group:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+        
         .admin-control-group h4 {
-            margin-bottom: 10px;
-            font-size: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #FFA500;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+            padding-bottom: 10px;
         }
 
         .admin-field {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s ease;
         }
 
         .admin-field label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-size: 14px;
+            font-weight: 500;
+            color: #e6e6e6;
+            transition: all 0.2s;
         }
 
         .admin-field input,
         .admin-field textarea {
             width: 100%;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
             color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-field input:focus,
+        .admin-field textarea:focus {
+            outline: none;
+            border-color: #FFA500;
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 0 8px rgba(255, 165, 0, 0.4);
+        }
+        
+        .admin-field input::placeholder,
+        .admin-field textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            transition: opacity 0.2s ease;
+        }
+        
+        .admin-field input:focus::placeholder,
+        .admin-field textarea:focus::placeholder {
+            opacity: 0.5;
         }
 
         .admin-actions {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
-            gap: 10px;
+            margin-top: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-actions > div {
+            flex: 1;
+            min-width: 120px;
         }
 
         .admin-btn {
-            padding: 8px 15px;
-            border-radius: 4px;
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 6px;
             border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -917,39 +1042,112 @@
             transform: translateY(-2px);
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
+        
+        .admin-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .admin-btn:before {
+            margin-right: 8px;
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
 
         .admin-btn-save {
-            background: #FFA500;
+            background: linear-gradient(to bottom, #FFA500, #e89500);
             color: white;
+            border-bottom: 3px solid #d18100;
+        }
+        
+        .admin-btn-save:before {
+            content: '\f0c7';
+        }
+        
+        .admin-btn-save:hover {
+            background: linear-gradient(to bottom, #ffb733, #FFA500);
         }
 
         .admin-btn-delete {
-            background: #e74c3c;
+            background: linear-gradient(to bottom, #e74c3c, #c0392b);
             color: white;
+            border-bottom: 3px solid #962d22;
+        }
+        
+        .admin-btn-delete:before {
+            content: '\f2ed';
+        }
+        
+        .admin-btn-delete:hover {
+            background: linear-gradient(to bottom, #e95e4f, #e74c3c);
         }
 
         .admin-btn-edit {
-            background: #3498db;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
+            border-bottom: 3px solid #1f6698;
+        }
+        
+        .admin-btn-edit:before {
+            content: '\f044';
+        }
+        
+        .admin-btn-edit:hover {
+            background: linear-gradient(to bottom, #4aa3df, #3498db);
         }
 
         .admin-list {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 15px;
-            max-height: 150px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 15px 0;
+            max-height: 180px;
             overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 165, 0, 0.4) rgba(0, 0, 0, 0.2);
+        }
+        
+        .admin-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .admin-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .admin-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 165, 0, 0.4);
+            border-radius: 10px;
+        }
+        
+        .admin-list:empty::after {
+            content: 'Nenhum item adicionado';
+            display: block;
+            text-align: center;
+            padding: 15px;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
         }
 
         .admin-list-item {
-            padding: 6px 10px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            margin-bottom: 6px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.2);
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .admin-list-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
 
         .admin-list-item:last-child {
@@ -958,6 +1156,7 @@
 
         .admin-list-item-content {
             flex: 1;
+            padding-right: 10px;
         }
 
         .admin-item-title {
@@ -971,11 +1170,13 @@
             display: block;
             font-size: 12px;
             color: rgba(255, 255, 255, 0.7);
-            margin-top: 3px;
+            margin-top: 5px;
         }
 
         .admin-list-item-actions {
             margin-left: 10px;
+            display: flex;
+            gap: 8px;
         }
 
         .admin-btn-item-delete {
@@ -1309,7 +1510,7 @@
                     <!-- Logo da Excel Engenharia -->
                     <img src="img/Capturar.JPG1.JPG" alt="Excel Engenharia Logo">
                 </div>
-                <div class="company-name">SharePoint Excel Engenharia</div>
+                <div class="company-name">Intranet Excel Engenharia</div>
             </div>
 
             <!-- Removido menu de navegação para visualização em TV -->
@@ -1598,7 +1799,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | SharePoint Interno v1.0</p>
+            <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | Intranet Interno v1.0</p>
             <!-- Botão de administração no footer -->
             <button id="btnAdminAcesso"
                 style="background-color: #01627E; color: white; border: 2px solid #FFA500; border-radius: 4px; padding: 6px 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; margin-left: 15px;">
