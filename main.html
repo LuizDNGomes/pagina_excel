@@ -1,48 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Engenharia - Intranet</title>
+    <title>Excel Engenharia - SharePoint</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
- 
+
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #014558 0%, #6c6d70 50%, #f89c1c 100%);
+            font-family: 'Roboto', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #01627E 0%, #0a4a5c 50%, #FFA500 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             color: #333;
         }
- 
+
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 20px;
+            background: #01627E;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid #FFA500;
             z-index: 1000;
         }
- 
+
         .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .logo-brand {
             display: flex;
             align-items: center;
             gap: 15px;
         }
- 
+
         .logo {
             width: 60px;
             height: 60px;
             background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
-            border-radius: 16px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -55,7 +67,7 @@
             position: relative;
             overflow: hidden;
         }
- 
+
         .logo::before {
             content: '';
             position: absolute;
@@ -69,18 +81,18 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
- 
+
         .logo:hover {
             transform: scale(1.08) translateY(-2px);
             box-shadow:
                 0 12px 35px rgba(1, 69, 88, 0.4),
                 0 6px 20px rgba(248, 156, 28, 0.2);
         }
- 
+
         .logo:hover::before {
             opacity: 1;
         }
- 
+
         .logo img {
             max-width: 85%;
             max-height: 85%;
@@ -89,329 +101,1747 @@
             filter: drop-shadow(0 2px 8px rgba(1, 69, 88, 0.3));
             transition: filter 0.3s ease;
         }
- 
+
         .logo:hover img {
             filter: drop-shadow(0 4px 12px rgba(248, 156, 28, 0.4));
         }
- 
+
         .logo-placeholder {
             font-weight: bold;
             font-size: 14px;
-            color: #014558;
+            color: #01627E;
             text-align: center;
             line-height: 1.2;
         }
- 
+
         .company-name {
             color: white;
             font-size: 24px;
-            font-weight: bold;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
- 
+
+        .current-time-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .clock-header {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
         .main-content {
             flex: 1;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 120px 20px 20px;
-            text-align: center;
+            flex-direction: column;
+            padding: 100px 40px 30px;
+            height: 100vh;
+            overflow: hidden;
         }
- 
-        .construction-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow:
-                0 20px 40px rgba(1, 69, 88, 0.15),
-                0 10px 25px rgba(248, 156, 28, 0.1);
-            max-width: 600px;
-            width: 100%;
-            transform: translateY(0);
-            animation: fadeInUp 1s ease-out;
-            border: 1px solid rgba(248, 156, 28, 0.2);
-        }
- 
-        .construction-icon {
-            font-size: 80px;
-            margin-bottom: 30px;
-            animation: bounce 2s infinite;
-            filter: drop-shadow(0 4px 8px rgba(248, 156, 28, 0.3));
-        }
- 
-        .construction-title {
-            font-size: 48px;
-            font-weight: bold;
-            color: #014558;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(1, 69, 88, 0.3);
-        }
- 
-        .construction-subtitle {
-            font-size: 20px;
-            color: #6c6d70;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            font-weight: 500;
-        }
- 
-        .construction-message {
-            font-size: 16px;
-            color: #6c6d70;
-            line-height: 1.8;
-        }
- 
-        .progress-bar {
-            width: 100%;
-            height: 40px;
+
+        .dashboard {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
+            flex-direction: row;
+            gap: 25px;
+            width: 100%;
+            max-width: 1920px;
+            margin: 0 auto;
+            flex-wrap: nowrap;
+            height: calc(100vh - 180px);
+            /* Aumentado para cobrir mais espaço */
+            overflow: visible;
         }
 
-        .loading-dots {
+        .tv-view {
             display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .loading-dots .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #014558, #f89c1c);
-            animation: loadingDots 1.5s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(248, 156, 28, 0.5);
-        }
-
-        .loading-dots .dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-
-        .loading-dots .dot:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-
-        .loading-dots .dot:nth-child(3) {
-            animation-delay: 0.6s;
-        }
-
-        .progress-fill {
+            flex-direction: row;
             height: 100%;
-            background: linear-gradient(90deg, #014558 0%, #f89c1c 50%, #6c6d70 100%);
-            width: 0%;
-            animation: loading 3s ease-in-out infinite;
-            border-radius: 3px;
-            box-shadow: 0 0 10px rgba(248, 156, 28, 0.5);
-        }        .footer {
+        }
+
+        .dashboard-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-width: 0;
+            /* Importante para evitar overflow */
+        }
+
+        .dashboard-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(1, 98, 126, 0.1);
+            min-height: 0;
+            /* Importante para evitar overflow */
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #01627E, #0188a9);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid #FFA500;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-title i {
+            color: #FFA500;
+            font-size: 22px;
+        }
+
+        .card-action {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .card-action:hover {
+            opacity: 1;
+        }
+
+        .card-body {
             padding: 20px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            /* Importante para o scroll funcionar */
+        }
+
+        .card-footer {
+            padding: 12px 20px;
+            background: rgba(1, 98, 126, 0.05);
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(1, 98, 126, 0.1);
+            color: #666;
             font-size: 14px;
         }
- 
+
+        /* Estilo para aniversários */
+        .anniversary-list {
+            list-style-type: none;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+            /* Importante para o flex e overflow */
+        }
+
+        .anniversary-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .anniversary-item:last-child {
+            border-bottom: none;
+        }
+
+        .anniversary-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #01627E, #FFA500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .anniversary-info {
+            flex: 1;
+        }
+
+        .anniversary-name {
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #01627E;
+            font-size: 16px;
+        }
+
+        .anniversary-date {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .anniversary-badge {
+            background: #FFA500;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Estilo para notícias */
+        .news-item {
+            display: flex;
+            gap: 15px;
+            padding-bottom: 18px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            min-height: 0;
+            /* Importante para evitar overflow */
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        /* Contentor para scrolling em notícias se necessário */
+        .news-container {
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+            /* Importante para o flex e overflow funcionarem */
+            max-height: 100%;
+            padding-right: 5px;
+            /* Espaço para scrollbar */
+        }
+
+        .news-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f0f0f0;
+            flex-shrink: 0;
+        }
+
+        .news-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-content {
+            flex: 1;
+        }
+
+        .news-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #01627E;
+            line-height: 1.3;
+        }
+
+        .news-excerpt {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            font-weight: 600;
+            display: block;
+            /* Removido truncamento para mostrar texto completo */
+            overflow: visible;
+        }
+
+        .news-meta {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .news-date {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .news-date i,
+        .news-author i {
+            margin-right: 5px;
+            font-size: 14px;
+            color: #FFA500;
+        }
+
+        /* Vista para todos os cards */
+        .view-all {
+            display: block;
+            text-align: center;
+            padding: 8px;
+            color: #01627E;
+            font-weight: 500;
+            text-decoration: none;
+            margin-top: 15px;
+            border-top: 1px solid rgba(1, 98, 126, 0.1);
+        }
+
+        .view-all:hover {
+            background: rgba(1, 98, 126, 0.05);
+        }
+
+        .footer {
+            padding: 15px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 0;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
- 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
             }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
- 
-        @keyframes loadingDots {
-            0%, 80%, 100% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-            40% {
-                transform: scale(1.2);
+
+            to {
                 opacity: 1;
             }
         }
 
-        @keyframes loading {
+        @keyframes pulse {
             0% {
-                width: 0%;
+                transform: scale(1);
             }
+
             50% {
-                width: 70%;
+                transform: scale(1.05);
             }
+
             100% {
-                width: 100%;
+                transform: scale(1);
             }
         }
- 
+
+        /* Removida barra de pesquisa para TV */
+        .search-container {
+            display: none;
+        }
+
+        /* Página hoje */
+        .today-highlight {
+            background: linear-gradient(45deg, #FFA500, #ffc04d);
+            color: white;
+            border-radius: 8px;
+            padding: 15px 25px;
+            margin-bottom: 15px;
+            /* Reduzido para ter mais espaço para os cards */
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .today-date {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .today-events {
+            font-size: 18px;
+            display: flex;
+            gap: 25px;
+            font-weight: 600;
+        }
+
+        .today-event-item {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .today-event-item i {
+            margin-right: 10px;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .holiday-badge {
+            background: #01627E;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .holiday-badge i {
+            margin-right: 5px;
+        }
+
+        .today-events b {
+            margin-left: 5px;
+            font-weight: 700;
+        }
+
+        .clock {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             .header {
                 padding: 15px;
             }
- 
+
             .logo {
                 width: 50px;
                 height: 50px;
             }
- 
+
             .company-name {
-                font-size: 20px;
-            }
- 
-            .construction-container {
-                padding: 40px 30px;
-                margin: 0 10px;
-            }
- 
-            .construction-icon {
-                font-size: 60px;
-            }
- 
-            .construction-title {
-                font-size: 36px;
-            }
- 
-            .construction-subtitle {
                 font-size: 18px;
             }
- 
+
+            .nav-menu {
+                gap: 10px;
+            }
+
+            .nav-item {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .today-highlight {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
             .main-content {
-                padding: 100px 10px 20px;
+                padding: 90px 15px 20px;
             }
         }
- 
+
         @media (max-width: 480px) {
             .header {
                 padding: 10px;
             }
- 
+
+            .logo-brand {
+                gap: 10px;
+            }
+
             .logo {
                 width: 40px;
                 height: 40px;
             }
- 
+
             .company-name {
                 font-size: 16px;
             }
- 
-            .construction-container {
-                padding: 30px 20px;
+
+            .nav-menu {
+                display: none;
             }
- 
-            .construction-icon {
-                font-size: 50px;
+
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
             }
- 
-            .construction-title {
-                font-size: 28px;
+
+            .search-box {
+                padding: 5px 15px;
             }
- 
-            .construction-subtitle {
-                font-size: 16px;
-            }
- 
-            .construction-message {
+
+            .search-box input {
                 font-size: 14px;
             }
+
+            .card-header {
+                padding: 12px 15px;
+            }
+
+            .card-body {
+                padding: 15px;
+            }
+
+            .card-footer {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+
+            .news-thumbnail {
+                width: 60px;
+                height: 60px;
+            }
         }
- 
+
         /* Otimização para TVs */
         @media (min-width: 1920px) {
-            .construction-container {
-                max-width: 800px;
-                padding: 80px 60px;
+            .dashboard {
+                max-width: 1800px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 40px;
+                height: 100%;
+                padding: 0 20px;
             }
- 
-            .construction-title {
-                font-size: 64px;
+
+            .today-highlight {
+                max-width: 1800px;
+                margin: 0 auto 30px;
+                padding: 20px 40px;
             }
- 
-            .construction-subtitle {
+
+            .today-date {
                 font-size: 24px;
             }
- 
-            .construction-message {
+
+            .today-events {
+                font-size: 22px;
+            }
+
+            .holiday-badge {
+                font-size: 16px;
+            }
+
+            .clock {
                 font-size: 20px;
+                padding: 6px 18px;
             }
- 
+
             .company-name {
-                font-size: 32px;
+                font-size: 28px;
             }
- 
+
             .logo {
-                width: 80px;
-                height: 80px;
+                width: 70px;
+                height: 70px;
             }
+
+            .nav-item {
+                font-size: 18px;
+            }
+
+            .card-body {
+                padding: 30px;
+            }
+
+            .dashboard-card {
+                min-height: 600px;
+            }
+
+            .anniversary-item {
+                padding: 20px 0;
+                font-size: 18px;
+            }
+
+            .anniversary-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+
+            .anniversary-name {
+                font-size: 22px;
+                margin-bottom: 6px;
+            }
+
+            .anniversary-date {
+                font-size: 18px;
+            }
+
+            .news-item {
+                padding-bottom: 30px;
+                margin-bottom: 30px;
+            }
+
+            .news-thumbnail {
+                width: 120px;
+                height: 120px;
+            }
+
+            .news-title {
+                font-size: 22px;
+                margin-bottom: 12px;
+            }
+
+            .news-excerpt {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .news-meta {
+                font-size: 16px;
+            }
+
+            .card-title {
+                font-size: 22px;
+            }
+
+            .card-title i {
+                font-size: 22px;
+            }
+
+            .footer {
+                font-size: 16px;
+                padding: 24px;
+            }
+        }
+
+        /* Estilos para melhor visualização em TV */
+        .tv-mode .dashboard-card {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(1, 98, 126, 0.2);
+        }
+
+        .tv-mode .card-body {
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .tv-mode .footer {
+            padding: 15px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        /* Editor rápido para administradores */
+        .admin-panel {
+            position: fixed;
+            bottom: -500px;
+            /* Aumentado para garantir que fique fora da tela */
+            left: 0;
+            right: 0;
+            background: rgba(1, 98, 126, 0.95);
+            color: white;
+            padding: 15px 20px;
+            z-index: 2000;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+            transition: bottom 0.4s ease-in-out;
+            /* Transição melhorada */
+            border-top: 3px solid #FFA500;
+            visibility: hidden;
+            /* Inicialmente escondido */
+        }
+
+        .admin-panel.active {
+            bottom: 0;
+            visibility: visible;
+            /* Tornando visível quando ativo */
+        }
+
+        .admin-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .admin-panel-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .admin-panel-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .admin-controls {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-control-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .admin-control-group h4 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .admin-field {
+            margin-bottom: 10px;
+        }
+
+        .admin-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .admin-field input,
+        .admin-field textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .admin-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .admin-btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .admin-btn-save {
+            background: #FFA500;
+            color: white;
+        }
+
+        .admin-btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .admin-btn-edit {
+            background: #3498db;
+            color: white;
+        }
+
+        .admin-list {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .admin-list-item {
+            padding: 6px 10px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .admin-list-item-content {
+            flex: 1;
+        }
+
+        .admin-item-title {
+            display: block;
+            font-weight: 600;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .admin-item-detail {
+            display: block;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 3px;
+        }
+
+        .admin-list-item-actions {
+            margin-left: 10px;
+        }
+
+        .admin-btn-item-delete {
+            background-color: transparent;
+            color: #ff6b6b;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .admin-btn-item-delete:hover {
+            background-color: rgba(255, 107, 107, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .admin-item-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .admin-item-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .admin-item-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .admin-item-delete {
+            color: #e74c3c;
+        }
+
+        .admin-item-edit {
+            color: #3498db;
+        }
+
+        .admin-toggle {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #01627E;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 2001;
+            border: 2px solid #FFA500;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .admin-toggle:hover {
+            transform: rotate(30deg);
+            background: #FFA500;
+        }
+
+        .admin-toggle.active {
+            background: #FFA500;
+            transform: rotate(90deg);
+        }
+
+        .admin-toggle i {
+            font-size: 22px;
         }
     </style>
 </head>
+
 <body>
     <!-- Header com logo e nome da empresa -->
     <header class="header">
         <div class="logo-container">
-            <div class="logo">
-                <!-- Logo da Excel Engenharia -->
-                <img src="img/Capturar.JPG1.JPG" alt="Excel Engenharia Logo">
-                <!-- <div class="logo-placeholder">EXCEL<br>ENG</div> -->
+            <div class="logo-brand">
+                <div class="logo">
+                    <!-- Logo da Excel Engenharia -->
+                    <img src="img/Capturar.JPG1.JPG" alt="Excel Engenharia Logo">
+                </div>
+                <div class="company-name">SharePoint Excel Engenharia</div>
             </div>
-            <div class="company-name">Excel Engenharia</div>
+
+            <!-- Removido menu de navegação para visualização em TV -->
+            <div class="current-time-header">
+                <div class="clock-header" id="relogio-header">10:30:45</div>
+            </div>
         </div>
     </header>
- 
+
     <!-- Conteúdo principal -->
-    <main class="main-content">
-        <div class="construction-container">
-            <div class="construction-icon">🚧</div>
-            <h1 class="construction-title">Em Construção</h1>
-            <p class="construction-subtitle">Nossa intranet está sendo desenvolvida</p>
-            <p class="construction-message">
-                Estamos trabalhando para trazer a melhor experiência para nossos colaboradores.<br>
-                Em breve, teremos todas as funcionalidades disponíveis.
-            </p>
-            <div class="progress-bar">
-                <div class="loading-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+    <main class="main-content tv-mode">
+
+        <div class="today-highlight">
+            <div>
+                <div class="today-date" id="data-hoje">22 de julho de 2025</div>
+                <div id="holiday-info"></div>
+            </div>
+            <div class="today-events">
+                <div class="today-event-item">
+                    <i class="fas fa-birthday-cake"></i>
+                    Aniversários: <b>2</b>
+                </div>
+                <div class="today-event-item">
+                    <i class="fas fa-calendar-check"></i>
+                    Eventos: <b>1</b>
+                </div>
+                <div class="clock" id="relogio">10:30:45</div>
+            </div>
+        </div>
+
+        <div class="dashboard tv-view">
+            <!-- Coluna 1: Aniversários Pessoais -->
+            <div class="dashboard-col">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-birthday-cake"></i>
+                            Aniversários Pessoais
+                        </div>
+                        <div class="card-action">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="anniversary-list">
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">MB</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Mariana Bueno
+                                        <span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i>
+                                            22/07</span>
+                                    </div>
+                                    <div class="anniversary-date">Depto. Financeiro</div>
+                                </div>
+                            </li>
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">PL</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Paulo Lima</div>
+                                    <div class="anniversary-date">24 de julho • Engenharia</div>
+                                </div>
+                            </li>
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">RS</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Rafael Santos
+                                        <span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i>
+                                            22/07</span>
+                                    </div>
+                                    <div class="anniversary-date">Depto. Projetos</div>
+                                </div>
+                            </li>
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">AC</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Ana Carvalho</div>
+                                    <div class="anniversary-date">30 de julho • Comercial</div>
+                                </div>
+                            </li>
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">JP</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">João Paulo</div>
+                                    <div class="anniversary-date">2 de agosto • TI</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna 2: Aniversários de Empresa -->
+            <div class="dashboard-col">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-building"></i>
+                            Aniversários de Empresa
+                        </div>
+                        <div class="card-action">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="anniversary-list">
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">LG</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Lucas Gomes</div>
+                                    <div class="anniversary-date">5 anos • 25 de julho</div>
+                                </div>
+                            </li>
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">FS</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Fernanda Souza</div>
+                                    <div class="anniversary-date">3 anos • 1 de agosto</div>
+                                </div>
+                            </li>
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">JR</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Juliana Ribeiro</div>
+                                    <div class="anniversary-date">10 anos • 3 de agosto</div>
+                                </div>
+                            </li>
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">TM</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Thiago Mendes</div>
+                                    <div class="anniversary-date">2 anos • 10 de agosto</div>
+                                </div>
+                            </li>
+                            <li class="anniversary-item">
+                                <div class="anniversary-avatar">MC</div>
+                                <div class="anniversary-info">
+                                    <div class="anniversary-name">Maria Costa</div>
+                                    <div class="anniversary-date">7 anos • 15 de agosto</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna 3: Notícias -->
+            <div class="dashboard-col">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-newspaper"></i>
+                            Notícias Importantes
+                        </div>
+                        <div class="card-action">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="news-container">
+                            <div class="news-item">
+                                <div class="news-thumbnail">
+                                    <img src="img/news1.jpg" alt="Notícia"
+                                        onError="this.src='https://via.placeholder.com/80x80/01627E/FFFFFF?text=Excel'">
+                                </div>
+                                <div class="news-content">
+                                    <h3 class="news-title">Novo contrato firmado com cliente multinacional</h3>
+                                    <p class="news-excerpt">A Excel Engenharia acaba de firmar um importante contrato
+                                        para o desenvolvimento de projetos estruturais em cinco estados brasileiros.
+                                        Este contrato marca uma expansão significativa da empresa.</p>
+                                    <div class="news-meta">
+                                        <div class="news-date">
+                                            <i class="far fa-calendar"></i>
+                                            20/07/2025
+                                        </div>
+                                        <div class="news-author">
+                                            <i class="far fa-user"></i>
+                                            Diretoria
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="news-item">
+                                <div class="news-thumbnail">
+                                    <img src="img/news3.jpg" alt="Notícia"
+                                        onError="this.src='https://via.placeholder.com/80x80/01627E/FFFFFF?text=Excel'">
+                                </div>
+                                <div class="news-content">
+                                    <h3 class="news-title">Novas tecnologias implementadas na empresa</h3>
+                                    <p class="news-excerpt">A partir de agosto, todos os setores da Excel Engenharia
+                                        passarão a utilizar o novo sistema integrado de gestão de projetos. Treinamentos
+                                        serão oferecidos durante todo o mês de julho para adaptação dos colaboradores.
+                                    </p>
+                                    <div class="news-meta">
+                                        <div class="news-date">
+                                            <i class="far fa-calendar"></i>
+                                            15/07/2025
+                                        </div>
+                                        <div class="news-author">
+                                            <i class="far fa-user"></i>
+                                            TI
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="news-item">
+                                <div class="news-thumbnail">
+                                    <img src="img/news2.jpg" alt="Notícia"
+                                        onError="this.src='https://via.placeholder.com/80x80/01627E/FFFFFF?text=Excel'">
+                                </div>
+                                <div class="news-content">
+                                    <h3 class="news-title">Confraternização semestral será realizada em agosto</h3>
+                                    <p class="news-excerpt">Reserve a data! Nossa confraternização semestral acontecerá
+                                        no dia 15 de agosto, com várias novidades e atividades para todos os
+                                        colaboradores da empresa. O evento será realizado no Espaço Green Garden a
+                                        partir das 18h.</p>
+                                    <div class="news-meta">
+                                        <div class="news-date">
+                                            <i class="far fa-calendar"></i>
+                                            18/07/2025
+                                        </div>
+                                        <div class="news-author">
+                                            <i class="far fa-user"></i>
+                                            RH
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
- 
+
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados.</p>
-    </footer>
- 
+        <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | SharePoint Interno v1.0</p>
+    </footer> <!-- Botão admin e painel -->
+    <div class="admin-toggle" id="adminToggle">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-panel-header">
+            <div class="admin-panel-title">Painel de Administração</div>
+            <button class="admin-panel-close" id="adminClose"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="admin-controls">
+            <div class="admin-control-group">
+                <h4>Aniversários Pessoais</h4>
+                <div class="admin-field">
+                    <label>Nome</label>
+                    <input type="text" id="adminBdayName" placeholder="Nome do aniversariante">
+                </div>
+                <div class="admin-field">
+                    <label>Departamento</label>
+                    <input type="text" id="adminBdayDept" placeholder="Departamento">
+                </div>
+                <div class="admin-field">
+                    <label>Data</label>
+                    <input type="date" id="adminBdayDate">
+                </div>
+                <div class="admin-list" id="adminBdayList">
+                    <!-- Lista de aniversários para gerenciar -->
+                </div>
+                <div class="admin-actions">
+                    <div>
+                        <button class="admin-btn admin-btn-delete" id="clearBdayBtn">Limpar Selecionados</button>
+                    </div>
+                    <div>
+                        <button class="admin-btn admin-btn-save" id="saveBdayBtn">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-control-group">
+                <h4>Aniversários de Empresa</h4>
+                <div class="admin-field">
+                    <label>Nome do Funcionário</label>
+                    <input type="text" id="adminAnnivName" placeholder="Nome do funcionário">
+                </div>
+                <div class="admin-field">
+                    <label>Anos na Empresa</label>
+                    <input type="number" id="adminAnnivYears" placeholder="Anos de empresa">
+                </div>
+                <div class="admin-field">
+                    <label>Data</label>
+                    <input type="date" id="adminAnnivDate">
+                </div>
+                <div class="admin-list" id="adminAnnivList">
+                    <!-- Lista de aniversários para gerenciar -->
+                </div>
+                <div class="admin-actions">
+                    <div>
+                        <button class="admin-btn admin-btn-delete" id="clearAnnivBtn">Limpar Selecionados</button>
+                    </div>
+                    <div>
+                        <button class="admin-btn admin-btn-save" id="saveAnnivBtn">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-control-group">
+                <h4>Notícias</h4>
+                <div class="admin-field">
+                    <label>Título</label>
+                    <input type="text" id="adminNewsTitle" placeholder="Título da notícia">
+                </div>
+                <div class="admin-field">
+                    <label>Conteúdo</label>
+                    <textarea id="adminNewsContent" placeholder="Texto da notícia"></textarea>
+                </div>
+                <div class="admin-field">
+                    <label>Autor/Setor</label>
+                    <input type="text" id="adminNewsAuthor" placeholder="Autor ou setor">
+                </div>
+                <div class="admin-list" id="adminNewsList">
+                    <!-- Lista de notícias para gerenciar -->
+                </div>
+                <div class="admin-actions">
+                    <div>
+                        <button class="admin-btn admin-btn-delete" id="clearNewsBtn">Limpar Selecionados</button>
+                    </div>
+                    <div>
+                        <button class="admin-btn admin-btn-save" id="saveNewsBtn">Publicar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Feriados nacionais de 2025
+        const feriados = [
+            { data: '01-01-2025', nome: 'Confraternização Universal' },
+            { data: '03-03-2025', nome: 'Carnaval' },
+            { data: '04-03-2025', nome: 'Carnaval' },
+            { data: '18-04-2025', nome: 'Sexta-feira Santa' },
+            { data: '20-04-2025', nome: 'Páscoa' },
+            { data: '21-04-2025', nome: 'Tiradentes' },
+            { data: '01-05-2025', nome: 'Dia do Trabalho' },
+            { data: '19-06-2025', nome: 'Corpus Christi' },
+            { data: '07-09-2025', nome: 'Independência do Brasil' },
+            { data: '12-10-2025', nome: 'Nossa Senhora Aparecida' },
+            { data: '02-11-2025', nome: 'Finados' },
+            { data: '15-11-2025', nome: 'Proclamação da República' },
+            { data: '25-12-2025', nome: 'Natal' }
+        ];
+
+        // Função para verificar se hoje é um feriado
+        function verificarFeriado() {
+            const hoje = new Date();
+            const dataFormatada = String(hoje.getDate()).padStart(2, '0') + '-' +
+                String(hoje.getMonth() + 1).padStart(2, '0') + '-' +
+                hoje.getFullYear();
+
+            const feriadoHoje = feriados.find(feriado => feriado.data === dataFormatada);
+
+            if (feriadoHoje) {
+                document.getElementById('holiday-info').innerHTML = `
+                    <div class="holiday-badge">
+                        <i class="fas fa-calendar-check"></i> Feriado: ${feriadoHoje.nome}
+                    </div>`;
+            } else {
+                document.getElementById('holiday-info').innerHTML = '';
+            }
+        }
+
+        // Função para atualizar o relógio
+        function atualizarRelogio() {
+            const agora = new Date();
+            const hora = String(agora.getHours()).padStart(2, '0');
+            const minuto = String(agora.getMinutes()).padStart(2, '0');
+            const segundo = String(agora.getSeconds()).padStart(2, '0');
+
+            document.getElementById('relogio').textContent = `${hora}:${minuto}:${segundo}`;
+        }
+
         // Adiciona um efeito de parallax suave no background com as cores da Excel
         document.addEventListener('mousemove', (e) => {
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
-           
+
             // Usa as cores da Excel Engenharia no gradiente dinâmico
             const angle = 135 + (x * 15) - (y * 10);
-            document.body.style.background = `linear-gradient(${angle}deg, #014558 0%, #6c6d70 ${30 + x * 20}%, #f89c1c 100%)`;
+            document.body.style.background = `linear-gradient(${angle}deg, #01627E 0%, #054b5f ${30 + x * 20}%, #FFA500 100%)`;
         });
- 
-        // Auto-refresh da página a cada 5 minutos para TVs
+
+        // Atualiza a data no destaque de hoje
+        function atualizarDataHoje() {
+            const hoje = new Date();
+            const opcoes = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+
+            document.getElementById('data-hoje').textContent = hoje.toLocaleDateString('pt-BR', opcoes);
+        }
+
+        // Inicializa a página
+        document.addEventListener('DOMContentLoaded', function () {
+            atualizarDataHoje();
+            verificarFeriado();
+            atualizarRelogio();
+
+            // Garantir que o painel esteja escondido inicialmente
+            document.getElementById('adminPanel').classList.remove('active');
+
+            // Adicionar IDs aos elementos existentes para permitir exclusão
+            adicionarIdsElementosExistentes();
+
+            // Atualiza o relógio a cada segundo
+            setInterval(atualizarRelogio, 1000);
+
+            // Painel Admin
+            const adminToggle = document.getElementById('adminToggle');
+            const adminPanel = document.getElementById('adminPanel');
+            const adminClose = document.getElementById('adminClose');
+
+            // Toggle do painel admin
+            adminToggle.addEventListener('click', function () {
+                adminPanel.classList.toggle('active');
+                adminToggle.classList.toggle('active'); // Também altera o estilo do botão
+            });
+
+            adminClose.addEventListener('click', function () {
+                adminPanel.classList.remove('active');
+                adminToggle.classList.remove('active'); // Remove o estilo ativo do botão
+            });
+
+            // Função para adicionar aniversário pessoal
+            document.getElementById('saveBdayBtn').addEventListener('click', function () {
+                const nome = document.getElementById('adminBdayName').value;
+                const depto = document.getElementById('adminBdayDept').value;
+                const data = document.getElementById('adminBdayDate').value;
+
+                if (nome && depto && data) {
+                    // Lógica para adicionar aniversário na lista
+                    const iniciais = nome.split(' ').map(n => n[0]).slice(0, 2).join('');
+                    const dataObj = new Date(data);
+                    const dataFormatada = dataObj.getDate() + ' de ' +
+                        dataObj.toLocaleString('pt-BR', { month: 'long' });
+
+                    // Verifica se é hoje para adicionar a badge "Hoje!"
+                    const hoje = new Date();
+                    const ehHoje = hoje.getDate() === dataObj.getDate() && hoje.getMonth() === dataObj.getMonth();
+
+                    const dataCurta = `${dataObj.getDate().toString().padStart(2, '0')}/${(dataObj.getMonth() + 1).toString().padStart(2, '0')}`;
+
+                    // Gerar um ID único para o item
+                    const itemId = 'bday-' + Date.now();
+
+                    let aniversarioHTML = `
+                        <li class="anniversary-item" data-id="${itemId}">
+                            <div class="anniversary-avatar">${iniciais}</div>
+                            <div class="anniversary-info">
+                                <div class="anniversary-name">${nome}`;
+
+                    if (ehHoje) {
+                        aniversarioHTML += `<span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta}</span>`;
+                    }
+
+                    aniversarioHTML += `</div>
+                                <div class="anniversary-date">${dataFormatada} • ${depto}</div>
+                            </div>
+                        </li>
+                    `;
+
+                    const lista = document.querySelector('.dashboard-col:first-child .anniversary-list');
+                    lista.insertAdjacentHTML('beforeend', aniversarioHTML);
+
+                    // Adicionar ao painel administrativo para gerenciamento
+                    const adminItem = `
+                        <div class="admin-list-item" data-id="${itemId}">
+                            <div class="admin-list-item-content">
+                                <span class="admin-item-title">${nome}</span>
+                                <span class="admin-item-detail">${dataFormatada} • ${depto}</span>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <button class="admin-btn-item-delete" onclick="excluirItem('${itemId}', 'bday')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('adminBdayList').insertAdjacentHTML('beforeend', adminItem);
+
+                    // Limpa campos
+                    document.getElementById('adminBdayName').value = '';
+                    document.getElementById('adminBdayDept').value = '';
+                    document.getElementById('adminBdayDate').value = '';
+
+                    // Atualiza contagem de aniversários no destaque de hoje
+                    atualizarContagens();
+
+                    alert('Aniversário adicionado com sucesso!');
+                } else {
+                    alert('Por favor, preencha todos os campos.');
+                }
+            });
+
+            // Função para adicionar aniversário de empresa
+            document.getElementById('saveAnnivBtn').addEventListener('click', function () {
+                const nome = document.getElementById('adminAnnivName').value;
+                const anos = document.getElementById('adminAnnivYears').value;
+                const data = document.getElementById('adminAnnivDate').value;
+
+                if (nome && anos && data) {
+                    // Lógica para adicionar aniversário de empresa
+                    const iniciais = nome.split(' ').map(n => n[0]).slice(0, 2).join('');
+                    const dataObj = new Date(data);
+                    const dataFormatada = dataObj.getDate() + ' de ' +
+                        dataObj.toLocaleString('pt-BR', { month: 'long' });
+
+                    // Gerar um ID único para o item
+                    const itemId = 'anniv-' + Date.now();
+
+                    const novoAniversario = `
+                        <li class="anniversary-item" data-id="${itemId}">
+                            <div class="anniversary-avatar">${iniciais}</div>
+                            <div class="anniversary-info">
+                                <div class="anniversary-name">${nome}</div>
+                                <div class="anniversary-date">${anos} anos • ${dataFormatada}</div>
+                            </div>
+                        </li>
+                    `;
+
+                    const lista = document.querySelector('.dashboard-col:nth-child(2) .anniversary-list');
+                    lista.insertAdjacentHTML('beforeend', novoAniversario);
+
+                    // Adicionar ao painel administrativo para gerenciamento
+                    const adminItem = `
+                        <div class="admin-list-item" data-id="${itemId}">
+                            <div class="admin-list-item-content">
+                                <span class="admin-item-title">${nome}</span>
+                                <span class="admin-item-detail">${anos} anos • ${dataFormatada}</span>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <button class="admin-btn-item-delete" onclick="excluirItem('${itemId}', 'anniv')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('adminAnnivList').insertAdjacentHTML('beforeend', adminItem);
+
+                    // Limpa campos
+                    document.getElementById('adminAnnivName').value = '';
+                    document.getElementById('adminAnnivYears').value = '';
+                    document.getElementById('adminAnnivDate').value = '';
+
+                    alert('Aniversário de empresa adicionado com sucesso!');
+                } else {
+                    alert('Por favor, preencha todos os campos.');
+                }
+            });
+
+            // Função para atualizar contagens
+            function atualizarContagens() {
+                const aniversariosHoje = document.querySelectorAll('.anniversary-badge');
+                const eventosCount = document.querySelectorAll('.news-item').length;
+
+                document.querySelector('.today-event-item:first-child b').textContent = aniversariosHoje.length;
+                document.querySelector('.today-event-item:nth-child(2) b').textContent = eventosCount;
+            }
+
+            // Inicializar contagens ao carregar
+            atualizarContagens();
+
+            // Função para adicionar notícia
+            document.getElementById('saveNewsBtn').addEventListener('click', function () {
+                const titulo = document.getElementById('adminNewsTitle').value;
+                const conteudo = document.getElementById('adminNewsContent').value;
+                const autor = document.getElementById('adminNewsAuthor').value;
+
+                if (titulo && conteudo && autor) {
+                    // Formata data atual
+                    const hoje = new Date();
+                    const dataFormatada = hoje.getDate() + '/' +
+                        String(hoje.getMonth() + 1).padStart(2, '0') + '/' +
+                        hoje.getFullYear();
+
+                    // Gerar um ID único para o item
+                    const itemId = 'news-' + Date.now();
+
+                    const novaNoticia = `
+                        <div class="news-item" data-id="${itemId}">
+                            <div class="news-thumbnail">
+                                <img src="https://via.placeholder.com/80x80/01627E/FFFFFF?text=Excel" alt="Notícia">
+                            </div>
+                            <div class="news-content">
+                                <h3 class="news-title">${titulo}</h3>
+                                <p class="news-excerpt">${conteudo}</p>
+                                <div class="news-meta">
+                                    <div class="news-date">
+                                        <i class="far fa-calendar"></i>
+                                        ${dataFormatada}
+                                    </div>
+                                    <div class="news-author">
+                                        <i class="far fa-user"></i>
+                                        ${autor}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    const container = document.querySelector('.news-container');
+                    container.insertAdjacentHTML('afterbegin', novaNoticia);
+
+                    // Adicionar ao painel administrativo para gerenciamento
+                    const adminItem = `
+                        <div class="admin-list-item" data-id="${itemId}">
+                            <div class="admin-list-item-content">
+                                <span class="admin-item-title">${titulo}</span>
+                                <span class="admin-item-detail">${dataFormatada} • ${autor}</span>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <button class="admin-btn-item-delete" onclick="excluirItem('${itemId}', 'news')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('adminNewsList').insertAdjacentHTML('beforeend', adminItem);
+
+                    // Limpa campos
+                    document.getElementById('adminNewsTitle').value = '';
+                    document.getElementById('adminNewsContent').value = '';
+                    document.getElementById('adminNewsAuthor').value = '';
+
+                    // Atualiza contagem de eventos
+                    atualizarContagens();
+
+                    alert('Notícia publicada com sucesso!');
+                } else {
+                    alert('Por favor, preencha todos os campos.');
+                }
+            });
+        });
+
+        // Auto-refresh da página a cada 30 minutos para TVs
         setTimeout(() => {
             location.reload();
-        }, 5 * 60 * 1000);
+        }, 30 * 60 * 1000);
+
+        // Atualiza o relógio no cabeçalho também
+        function atualizarRelogioHeader() {
+            const agora = new Date();
+            const hora = String(agora.getHours()).padStart(2, '0');
+            const minuto = String(agora.getMinutes()).padStart(2, '0');
+            const segundo = String(agora.getSeconds()).padStart(2, '0');
+
+            document.getElementById('relogio-header').textContent = `${hora}:${minuto}:${segundo}`;
+        }
+
+        // Atualiza o relógio header a cada segundo
+        setInterval(atualizarRelogioHeader, 1000);
+
+        // Função para adicionar IDs únicos aos elementos existentes
+        function adicionarIdsElementosExistentes() {
+            // Adicionar IDs aos aniversários pessoais existentes
+            document.querySelectorAll('.dashboard-col:first-child .anniversary-item').forEach((item, index) => {
+                if (!item.getAttribute('data-id')) {
+                    const itemId = 'bday-existente-' + index;
+                    item.setAttribute('data-id', itemId);
+
+                    // Adicionar ao painel administrativo também
+                    const nome = item.querySelector('.anniversary-name').textContent.trim();
+                    const depto = item.querySelector('.anniversary-date').textContent.trim();
+
+                    const adminItem = `
+                        <div class="admin-list-item" data-id="${itemId}">
+                            <div class="admin-list-item-content">
+                                <span class="admin-item-title">${nome}</span>
+                                <span class="admin-item-detail">${depto}</span>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <button class="admin-btn-item-delete" onclick="excluirItem('${itemId}', 'bday')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('adminBdayList').insertAdjacentHTML('beforeend', adminItem);
+                }
+            });
+
+            // Adicionar IDs aos aniversários de empresa existentes
+            document.querySelectorAll('.dashboard-col:nth-child(2) .anniversary-item').forEach((item, index) => {
+                if (!item.getAttribute('data-id')) {
+                    const itemId = 'anniv-existente-' + index;
+                    item.setAttribute('data-id', itemId);
+
+                    // Adicionar ao painel administrativo também
+                    const nome = item.querySelector('.anniversary-name').textContent.trim();
+                    const detalhe = item.querySelector('.anniversary-date').textContent.trim();
+
+                    const adminItem = `
+                        <div class="admin-list-item" data-id="${itemId}">
+                            <div class="admin-list-item-content">
+                                <span class="admin-item-title">${nome}</span>
+                                <span class="admin-item-detail">${detalhe}</span>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <button class="admin-btn-item-delete" onclick="excluirItem('${itemId}', 'anniv')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('adminAnnivList').insertAdjacentHTML('beforeend', adminItem);
+                }
+            });
+
+            // Adicionar IDs às notícias existentes
+            document.querySelectorAll('.news-item').forEach((item, index) => {
+                if (!item.getAttribute('data-id') && item.querySelector('.news-title')) {
+                    const itemId = 'news-existente-' + index;
+                    item.setAttribute('data-id', itemId);
+
+                    // Adicionar ao painel administrativo também
+                    const titulo = item.querySelector('.news-title')?.textContent.trim() || 'Notícia ' + (index + 1);
+                    const autor = item.querySelector('.news-author')?.textContent.trim() || '';
+                    const data = item.querySelector('.news-date')?.textContent.trim() || '';
+
+                    const adminItem = `
+                        <div class="admin-list-item" data-id="${itemId}">
+                            <div class="admin-list-item-content">
+                                <span class="admin-item-title">${titulo}</span>
+                                <span class="admin-item-detail">${data} ${autor}</span>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <button class="admin-btn-item-delete" onclick="excluirItem('${itemId}', 'news')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('adminNewsList').insertAdjacentHTML('beforeend', adminItem);
+                }
+            });
+        }
+
+        // Função para excluir um item
+        function excluirItem(id, tipo) {
+            if (confirm('Tem certeza que deseja excluir este item?')) {
+                // Remover do painel administrativo
+                const adminItem = document.querySelector(`.admin-list-item[data-id="${id}"]`);
+                if (adminItem) {
+                    adminItem.remove();
+                }
+
+                // Remover da interface principal
+                if (tipo === 'bday') {
+                    const item = document.querySelector(`.dashboard-col:first-child .anniversary-item[data-id="${id}"]`);
+                    if (item) {
+                        item.remove();
+                        console.log("Item removido: aniversário pessoal", id);
+                    }
+                } else if (tipo === 'anniv') {
+                    const item = document.querySelector(`.dashboard-col:nth-child(2) .anniversary-item[data-id="${id}"]`);
+                    if (item) {
+                        item.remove();
+                        console.log("Item removido: aniversário de empresa", id);
+                    }
+                } else if (tipo === 'news') {
+                    const item = document.querySelector(`.news-item[data-id="${id}"]`);
+                    if (item) {
+                        item.remove();
+                        console.log("Item removido: notícia", id);
+                    }
+                }
+
+                // Atualizar contagens
+                atualizarContagens();
+
+                // Mensagem de confirmação
+                alert('Item excluído com sucesso!');
+            }
+        }
+
+        // Event listeners para os botões de limpar selecionados
+        document.getElementById('clearBdayBtn').addEventListener('click', function () {
+            if (confirm('Tem certeza que deseja limpar todos os aniversários pessoais?')) {
+                // Limpar aniversários pessoais
+                document.querySelector('.dashboard-col:first-child .anniversary-list').innerHTML = '';
+                document.getElementById('adminBdayList').innerHTML = '';
+                atualizarContagens();
+                alert('Aniversários pessoais removidos com sucesso!');
+            }
+        });
+
+        document.getElementById('clearAnnivBtn').addEventListener('click', function () {
+            if (confirm('Tem certeza que deseja limpar todos os aniversários de empresa?')) {
+                // Limpar aniversários de empresa
+                document.querySelector('.dashboard-col:nth-child(2) .anniversary-list').innerHTML = '';
+                document.getElementById('adminAnnivList').innerHTML = '';
+                alert('Aniversários de empresa removidos com sucesso!');
+            }
+        });
+
+        document.getElementById('clearNewsBtn').addEventListener('click', function () {
+            if (confirm('Tem certeza que deseja limpar todas as notícias?')) {
+                // Limpar notícias
+                document.querySelector('.news-container').innerHTML = '';
+                document.getElementById('adminNewsList').innerHTML = '';
+                atualizarContagens();
+                alert('Notícias removidas com sucesso!');
+            }
+        });
     </script>
 </body>
+
 </html>
