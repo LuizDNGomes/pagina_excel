@@ -421,13 +421,23 @@
         }
 
         .footer {
-            padding: 15px;
-            text-align: center;
+            padding: 15px 25px;
             color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
             background: rgba(0, 0, 0, 0.1);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 0;
+        }
+
+        /* Estilo para o botão de administração no footer */
+        #btnAdminAcesso {
+            transition: all 0.3s ease;
+        }
+
+        #btnAdminAcesso:hover {
+            background-color: #FFA500 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         @keyframes fadeInUp {
@@ -576,6 +586,22 @@
 
             .main-content {
                 padding: 90px 15px 20px;
+            }
+
+            /* Ajustes do footer para mobile */
+            .footer div {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .footer p {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            #btnAdminAcesso {
+                margin-left: 0;
             }
         }
 
@@ -766,29 +792,34 @@
             font-weight: 600;
         }
 
-        /* Editor rápido para administradores */
+        /* Editor rápido para administradores - completamente refeito para maior compatibilidade */
         .admin-panel {
             position: fixed;
-            bottom: -500px;
-            /* Aumentado para garantir que fique fora da tela */
+            bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(1, 98, 126, 0.95);
+            width: 100%;
+            background-color: #01627E;
             color: white;
-            padding: 15px 20px;
-            z-index: 2000;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
-            transition: bottom 0.4s ease-in-out;
-            /* Transição melhorada */
-            border-top: 3px solid #FFA500;
+            padding: 30px 25px;
+            z-index: 9999;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            border-top: 5px solid #FFA500;
+            transform: translateY(100%);
+            opacity: 0;
             visibility: hidden;
-            /* Inicialmente escondido */
+            max-height: 90vh;
+            overflow-y: auto;
+            display: block;
+            pointer-events: none;
         }
 
         .admin-panel.active {
-            bottom: 0;
+            transform: translateY(0);
+            opacity: 1;
             visibility: visible;
-            /* Tornando visível quando ativo */
+            pointer-events: auto;
         }
 
         .admin-panel-header {
@@ -803,12 +834,29 @@
             font-weight: 700;
         }
 
+        /* Botão de fechar painel totalmente redesenhado */
         .admin-panel-close {
-            background: none;
-            border: none;
+            background-color: #ff4444;
+            border: 2px solid white;
             color: white;
             font-size: 22px;
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .admin-panel-close:hover {
+            background-color: #ff0000;
+            transform: scale(1.1);
         }
 
         .admin-controls {
@@ -976,23 +1024,260 @@
             color: #3498db;
         }
 
+        /* Estilos para o cronômetro de eventos */
+        .event-countdown {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .countdown-event-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #01627E;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .countdown-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .countdown-digit {
+            background: #01627E;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .countdown-label {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #333;
+            text-transform: uppercase;
+        }
+
+        .event-details {
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .event-description {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #01627E;
+        }
+
+        .event-location i {
+            margin-right: 5px;
+            color: #FFA500;
+        }
+
+        /* Estilos para o container de eventos centralizado */
+        .event-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 30px auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .event-card {
+            width: 100%;
+            min-height: 300px;
+            /* Altura mínima fixa ao invés de aspect-ratio */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: 3px solid #01627E;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-card .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            overflow: hidden;
+            /* Para conter o conteúdo */
+        }
+
+        .event-countdown {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .countdown-event-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            word-wrap: break-word;
+            /* Quebra palavras longas */
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-height: 100px;
+            overflow-y: auto;
+            /* Adiciona scroll se o texto for muito longo */
+        }
+
+        .countdown-event-name {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .countdown-timer {
+            margin: 20px auto;
+            gap: 25px;
+        }
+
+        .countdown-digit {
+            width: 80px;
+            height: 80px;
+            font-size: 2.5rem;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #015a73, #01749b);
+        }
+
+        .event-info-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(1, 98, 126, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #FFA500;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        /* Ajustes responsivos para o layout */
+        @media (max-width: 1400px) {
+            .event-container {
+                width: 85%;
+            }
+
+            .countdown-digit {
+                width: 70px;
+                height: 70px;
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .event-container {
+                width: 90%;
+            }
+
+            .countdown-event-name {
+                font-size: 1.8rem;
+            }
+
+            .countdown-digit {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .event-container {
+                width: 95%;
+            }
+
+            .countdown-block {
+                margin: 0 5px;
+            }
+
+            .countdown-digit {
+                width: 50px;
+                height: 50px;
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Estilos específicos para visualização em TV */
+        @media screen and (min-width: 1920px) {
+            .countdown-digit {
+                width: 100px;
+                height: 100px;
+                font-size: 3rem;
+            }
+
+            .countdown-event-name {
+                font-size: 2.5rem;
+            }
+
+            .event-info-box {
+                font-size: 1.2rem;
+                padding: 20px;
+            }
+        }
+
         .admin-toggle {
             position: fixed;
-            bottom: 15px;
-            right: 15px;
-            width: 50px;
-            height: 50px;
+            bottom: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: #01627E;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
             cursor: pointer;
-            z-index: 2001;
-            border: 2px solid #FFA500;
+            z-index: 10001;
+            /* Acima do painel */
+            border: 4px solid #FFA500;
             transition: transform 0.3s ease, background-color 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            animation: pulse 2s infinite;
+            /* Animação pulsante para chamar atenção */
+        }
+
+        /* Animação de pulso para o botão */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 165, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
+            }
         }
 
         .admin-toggle:hover {
@@ -1006,7 +1291,11 @@
         }
 
         .admin-toggle i {
-            font-size: 22px;
+            font-size: 32px;
+            pointer-events: none;
+            /* Garante que o ícone não interfira nos cliques */
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -1255,20 +1544,74 @@
                 </div>
             </div>
         </div>
+
+        <!-- Evento com Cronômetro centralizado abaixo das colunas -->
+        <div class="event-container">
+            <div class="dashboard-card event-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        Próximo Evento
+                    </div>
+                    <div class="card-action">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="event-countdown">
+                        <div class="countdown-event-name" id="eventName">Carregando evento...</div>
+                        <div class="countdown-timer" id="countdownTimer">
+                            <div class="countdown-block">
+                                <div class="countdown-digit" id="countdownDays">00</div>
+                                <div class="countdown-label">Dias</div>
+                            </div>
+                            <div class="countdown-block">
+                                <div class="countdown-digit" id="countdownHours">00</div>
+                                <div class="countdown-label">Horas</div>
+                            </div>
+                            <div class="countdown-block">
+                                <div class="countdown-digit" id="countdownMinutes">00</div>
+                                <div class="countdown-label">Min</div>
+                            </div>
+                            <div class="countdown-block">
+                                <div class="countdown-digit" id="countdownSeconds">00</div>
+                                <div class="countdown-label">Seg</div>
+                            </div>
+                        </div>
+                        <div class="event-details" id="eventDetails">
+                            <p class="event-description" id="eventDescription"></p>
+                            <p class="event-location" id="eventLocation"></p>
+                        </div>
+                        <div class="event-info-box">
+                            <span id="evento-data">Data do evento: <span
+                                    id="eventDateDisplay">--/--/----</span></span><br>
+                            <span id="evento-info">Para adicionar ou modificar eventos, acesse o painel administrativo
+                                pela interface administrativa. Os eventos são exibidos em ordem cronológica, com o
+                                próximo evento sempre destacado neste painel.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | SharePoint Interno v1.0</p>
-    </footer> <!-- Botão admin e painel -->
-    <div class="admin-toggle" id="adminToggle">
-        <i class="fas fa-cog"></i>
-    </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | SharePoint Interno v1.0</p>
+            <!-- Botão de administração no footer -->
+            <button id="btnAdminAcesso"
+                style="background-color: #01627E; color: white; border: 2px solid #FFA500; border-radius: 4px; padding: 6px 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; margin-left: 15px;">
+                <i class="fas fa-cog"></i> Administração
+            </button>
+        </div>
+    </footer>
 
     <div class="admin-panel" id="adminPanel">
         <div class="admin-panel-header">
             <div class="admin-panel-title">Painel de Administração</div>
-            <button class="admin-panel-close" id="adminClose"><i class="fas fa-times"></i></button>
+            <button class="admin-panel-close" id="adminClose" onclick="fecharAdminPainel()"><i
+                    class="fas fa-times"></i></button>
         </div>
 
         <div class="admin-controls">
@@ -1327,6 +1670,37 @@
             </div>
 
             <div class="admin-control-group">
+                <h4>Eventos com Cronômetro</h4>
+                <div class="admin-field">
+                    <label>Nome do Evento</label>
+                    <input type="text" id="adminEventName" placeholder="Nome do evento">
+                </div>
+                <div class="admin-field">
+                    <label>Data e Hora do Evento</label>
+                    <input type="datetime-local" id="adminEventDateTime">
+                </div>
+                <div class="admin-field">
+                    <label>Descrição</label>
+                    <textarea id="adminEventDescription" placeholder="Descrição do evento"></textarea>
+                </div>
+                <div class="admin-field">
+                    <label>Local</label>
+                    <input type="text" id="adminEventLocation" placeholder="Local do evento">
+                </div>
+                <div class="admin-list" id="adminEventList">
+                    <!-- Lista de eventos para gerenciar -->
+                </div>
+                <div class="admin-actions">
+                    <div>
+                        <button class="admin-btn admin-btn-delete" id="clearEventBtn">Limpar Eventos</button>
+                    </div>
+                    <div>
+                        <button class="admin-btn admin-btn-save" id="saveEventBtn">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-control-group">
                 <h4>Notícias</h4>
                 <div class="admin-field">
                     <label>Título</label>
@@ -1372,6 +1746,19 @@
             { data: '15-11-2025', nome: 'Proclamação da República' },
             { data: '25-12-2025', nome: 'Natal' }
         ];
+
+        // Função global para fechar o painel de administração
+        function fecharAdminPainel() {
+            console.log('🔴 Fechando painel admin (função global)...');
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.classList.remove('active');
+                adminPanel.style.transform = 'translateY(100%)';
+                adminPanel.style.opacity = '0';
+                adminPanel.style.pointerEvents = 'none';
+                adminPanel.style.visibility = 'hidden';
+            }
+        }
 
         // Função para verificar se hoje é um feriado
         function verificarFeriado() {
@@ -1431,8 +1818,79 @@
             verificarFeriado();
             atualizarRelogio();
 
-            // Garantir que o painel esteja escondido inicialmente
-            document.getElementById('adminPanel').classList.remove('active');
+            // Configurar o botão de administração no footer
+            const btnAdmin = document.getElementById('btnAdminAcesso');
+            if (btnAdmin) {
+                btnAdmin.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Botão de administração clicado');
+
+                    const adminPanel = document.getElementById('adminPanel');
+                    if (adminPanel) {
+                        adminPanel.classList.add('active');
+                        adminPanel.style.display = 'block';
+                        adminPanel.style.visibility = 'visible';
+                        adminPanel.style.transform = 'translateY(0)';
+                        adminPanel.style.opacity = '1';
+                        adminPanel.style.pointerEvents = 'auto';
+                        adminPanel.style.zIndex = '9999';
+
+                        // Animação de feedback visual no botão
+                        btnAdmin.style.backgroundColor = '#FFA500';
+                        setTimeout(() => {
+                            btnAdmin.style.backgroundColor = '#01627E';
+                        }, 300);
+                    } else {
+                        alert('Erro: Painel de administração não encontrado!');
+                    }
+
+                    return false;
+                });
+            }
+
+            // Configuração robusta do painel admin na inicialização
+            console.log('🔄 Inicializando painel admin...');
+
+            const adminPanelInit = document.getElementById('adminPanel');
+            if (adminPanelInit) {
+                try {
+                    // Remover qualquer classe ativa e configurar estado inicial
+                    adminPanelInit.classList.remove('active');
+
+                    // Aplicar estilos inline diretamente
+                    Object.assign(adminPanelInit.style, {
+                        display: 'block',
+                        transform: 'translateY(100%)',
+                        opacity: '0',
+                        pointerEvents: 'none',
+                        bottom: '0px'
+                    });
+
+                    console.log('✅ Painel admin inicializado e configurado como escondido');
+
+                    // Verificação detalhada após um pequeno intervalo
+                    setTimeout(() => {
+                        const computedStyle = getComputedStyle(adminPanelInit);
+                        console.log('📊 Estado inicial do painel admin:',
+                            adminPanelInit.classList.contains('active') ? 'ativo' : 'inativo',
+                            '\n• opacity:', computedStyle.opacity,
+                            '\n• transform:', computedStyle.transform,
+                            '\n• display:', computedStyle.display,
+                            '\n• visibility:', computedStyle.visibility,
+                            '\n• bottom:', computedStyle.bottom,
+                            '\n• z-index:', computedStyle.zIndex);
+                    }, 500);
+                } catch (error) {
+                    console.error('❌ Erro ao inicializar painel admin:', error);
+                }
+            } else {
+                console.error('❌ ERRO CRÍTICO: Painel admin não encontrado durante inicialização!');
+            }
+
+            // Removida a inicialização do botão adminToggle que não é mais utilizado
+
+            // Removido botão de emergência que estava ocupando o mesmo lugar da engrenagem
 
             // Adicionar IDs aos elementos existentes para permitir exclusão
             adicionarIdsElementosExistentes();
@@ -1441,23 +1899,258 @@
             ordenarAniversarios('bday');
             ordenarAniversarios('anniv');
 
+            // Inicializar o cronômetro do próximo evento
+            inicializarEventos();
+
             // Atualiza o relógio a cada segundo
             setInterval(atualizarRelogio, 1000);
 
-            // Painel Admin
-            const adminToggle = document.getElementById('adminToggle');
+            // Painel Admin - Implementação simplificada sem o botão toggle
             const adminPanel = document.getElementById('adminPanel');
             const adminClose = document.getElementById('adminClose');
 
-            // Toggle do painel admin
-            adminToggle.addEventListener('click', function () {
-                adminPanel.classList.toggle('active');
-                adminToggle.classList.toggle('active'); // Também altera o estilo do botão
+            // Verificar se os elementos foram encontrados corretamente
+            if (!adminPanel) console.error('ERRO: Painel adminPanel não encontrado!');
+            if (!adminClose) console.error('ERRO: Botão adminClose não encontrado!');
+
+            // Função robusta para abrir o painel admin
+            function abrirPainelAdmin() {
+                console.log('🟢 Abrindo painel admin...');
+
+                // Busca o painel novamente para garantir que temos a referência mais recente
+                const painelAdmin = document.getElementById('adminPanel');
+
+                // Verifica se o elemento existe
+                if (!painelAdmin) {
+                    console.error('❌ ERRO CRÍTICO: adminPanel não encontrado!');
+                    alert('Erro ao abrir o painel. Atualize a página e tente novamente.');
+                    return;
+                }
+
+                try {
+                    // Aplica todas as mudanças necessárias para exibir o painel
+                    painelAdmin.className = 'admin-panel active'; // Redefine e adiciona a classe active
+                    painelAdmin.style.display = 'block';
+                    painelAdmin.style.visibility = 'visible';
+                    painelAdmin.style.transform = 'translateY(0)';
+                    painelAdmin.style.opacity = '1';
+                    painelAdmin.style.pointerEvents = 'auto';
+                    painelAdmin.style.zIndex = '9999';
+
+                    // Removida referência ao botão adminToggle que não existe mais
+
+                    // Log de sucesso
+                    console.log('✅ Painel admin ABERTO!');
+
+                    // Verifica o estado do painel após aplicar mudanças
+                    setTimeout(() => {
+                        const computedStyle = getComputedStyle(adminPanel);
+                        console.log('📊 Estado do painel após abrir:',
+                            adminPanel.classList.contains('active') ? 'ativo' : 'inativo',
+                            '\n• opacity:', computedStyle.opacity,
+                            '\n• transform:', computedStyle.transform,
+                            '\n• display:', computedStyle.display,
+                            '\n• visibility:', computedStyle.visibility,
+                            '\n• pointer-events:', computedStyle.pointerEvents);
+                    }, 100);
+                } catch (error) {
+                    console.error('❌ Erro ao abrir o painel:', error);
+                    alert('Ocorreu um erro ao abrir o painel. Tente novamente.');
+                }
+            }
+
+            // Função robusta para fechar o painel admin
+            function fecharPainelAdmin() {
+                console.log('🔴 Fechando painel admin...');
+
+                // Busca o painel novamente para garantir que temos a referência mais recente
+                const painelAdmin = document.getElementById('adminPanel');
+
+                if (!painelAdmin) {
+                    console.error('❌ ERRO: adminPanel não encontrado!');
+                    return;
+                }
+
+                try {
+                    // Remove a classe active
+                    painelAdmin.classList.remove('active');
+
+                    // Aplica os estilos para esconder o painel
+                    painelAdmin.style.transform = 'translateY(100%)';
+                    painelAdmin.style.opacity = '0';
+                    painelAdmin.style.pointerEvents = 'none';
+                    painelAdmin.style.visibility = 'hidden';
+
+                    // Removida referência ao botão adminToggle que não existe mais
+
+                    console.log('✅ Painel admin FECHADO!');
+
+                    // Verifica o estado do painel após aplicar mudanças
+                    setTimeout(() => {
+                        const computedStyle = getComputedStyle(adminPanel);
+                        console.log('📊 Estado do painel após fechar:',
+                            adminPanel.classList.contains('active') ? 'ativo' : 'inativo',
+                            '\n• opacity:', computedStyle.opacity,
+                            '\n• transform:', computedStyle.transform,
+                            '\n• display:', computedStyle.display,
+                            '\n• visibility:', computedStyle.visibility,
+                            '\n• pointer-events:', computedStyle.pointerEvents);
+                    }, 100);
+                } catch (error) {
+                    console.error('❌ Erro ao fechar o painel:', error);
+                }
+            }
+
+            // Removida configuração do botão adminToggle que não é mais utilizado
+
+            // Botão de fechar o painel - usando técnica mais direta e forçada para garantir funcionamento
+            const fecharPainel = document.getElementById('adminClose');
+            if (fecharPainel) {
+                // Remover absolutamente qualquer listener anterior
+                fecharPainel.onclick = null;
+
+                // Criar um botão completamente novo e substituir o existente
+                const novoBotaoFechar = document.createElement('button');
+                novoBotaoFechar.id = 'adminClose';
+                novoBotaoFechar.className = 'admin-panel-close';
+                novoBotaoFechar.innerHTML = '<i class="fas fa-times"></i>';
+
+                // Função de fechar diretamente no HTML
+                novoBotaoFechar.setAttribute('onclick', 'document.getElementById("adminPanel").classList.remove("active"); document.getElementById("adminPanel").style.transform = "translateY(100%)"; document.getElementById("adminPanel").style.opacity = "0"; document.getElementById("adminPanel").style.visibility = "hidden"; document.getElementById("adminPanel").style.pointerEvents = "none";');
+
+                // Estilizar o botão para garantir que ele seja bem visível
+                novoBotaoFechar.style.display = 'flex';
+                novoBotaoFechar.style.alignItems = 'center';
+                novoBotaoFechar.style.justifyContent = 'center';
+                novoBotaoFechar.style.position = 'absolute';
+                novoBotaoFechar.style.top = '10px';
+                novoBotaoFechar.style.right = '10px';
+                novoBotaoFechar.style.width = '40px';
+                novoBotaoFechar.style.height = '40px';
+                novoBotaoFechar.style.background = '#ff4444';
+                novoBotaoFechar.style.color = 'white';
+                novoBotaoFechar.style.borderRadius = '50%';
+                novoBotaoFechar.style.fontSize = '20px';
+                novoBotaoFechar.style.cursor = 'pointer';
+                novoBotaoFechar.style.border = '2px solid white';
+                novoBotaoFechar.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
+                novoBotaoFechar.style.zIndex = '10000';
+
+                // Substituir o botão existente
+                fecharPainel.parentNode.replaceChild(novoBotaoFechar, fecharPainel);
+
+                console.log('✅ Botão de fechar painel recriado com método ultra-direto');
+
+                console.log('✅ Botão de fechar painel configurado e estilizado');
+            } else {
+                console.error('❌ Botão de fechar painel não encontrado!');
+
+                // Criar o botão de fechar caso não exista
+                try {
+                    const adminPanel = document.getElementById('adminPanel');
+                    if (adminPanel) {
+                        const novoFechador = document.createElement('button');
+                        novoFechador.id = 'adminClose';
+                        novoFechador.innerHTML = '<i class="fas fa-times"></i>';
+                        novoFechador.className = 'admin-close';
+                        novoFechador.setAttribute('aria-label', 'Fechar painel de administração');
+
+                        // Estilizando
+                        novoFechador.style.position = 'absolute';
+                        novoFechador.style.top = '10px';
+                        novoFechador.style.right = '10px';
+                        novoFechador.style.width = '40px';
+                        novoFechador.style.height = '40px';
+                        novoFechador.style.background = '#ff4444';
+                        novoFechador.style.color = 'white';
+                        novoFechador.style.borderRadius = '50%';
+                        novoFechador.style.border = '2px solid white';
+                        novoFechador.style.fontSize = '20px';
+                        novoFechador.style.cursor = 'pointer';
+                        novoFechador.style.display = 'flex';
+                        novoFechador.style.alignItems = 'center';
+                        novoFechador.style.justifyContent = 'center';
+                        novoFechador.style.zIndex = '10000';
+
+                        adminPanel.appendChild(novoFechador);
+
+                        // Adicionar evento
+                        novoFechador.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            fecharPainelAdmin();
+                            return false;
+                        });
+
+                        console.log('✅ Botão de fechar criado e adicionado ao painel');
+                    }
+                } catch (error) {
+                    console.error('❌ Erro ao criar botão de fechar:', error);
+                }
+            }
+
+            // Adicionar um botão extra para emergências - botão vermelho destacado
+            const painelEmergencia = document.createElement('button');
+            painelEmergencia.innerHTML = '<i class="fas fa-tools"></i> ABRIR ADMIN (EMERGÊNCIA)';
+            painelEmergencia.style.position = 'fixed';
+            painelEmergencia.style.top = '10px';
+            painelEmergencia.style.right = '10px';
+            painelEmergencia.style.zIndex = '10002';
+            painelEmergencia.style.padding = '10px 15px';
+            painelEmergencia.style.background = 'red';
+            painelEmergencia.style.color = 'white';
+            painelEmergencia.style.border = '3px solid white';
+            painelEmergencia.style.borderRadius = '5px';
+            painelEmergencia.style.cursor = 'pointer';
+            painelEmergencia.style.fontWeight = 'bold';
+            painelEmergencia.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.7)';
+
+            // Usar onclick diretamente em vez de referenciar a função
+            painelEmergencia.onclick = function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🚨 Botão de EMERGÊNCIA clicado!');
+
+                // Força a abertura do painel com alerta
+                alert('Abrindo painel administrativo em modo de emergência!');
+
+                // Manipula diretamente o painel em vez de chamar a função
+                try {
+                    const adminPanelDir = document.getElementById('adminPanel');
+                    if (adminPanelDir) {
+                        adminPanelDir.className = 'admin-panel active';
+                        adminPanelDir.style.display = 'block';
+                        adminPanelDir.style.transform = 'translateY(0)';
+                        adminPanelDir.style.opacity = '1';
+                        adminPanelDir.style.pointerEvents = 'auto';
+                        console.log('✅ Painel admin aberto via botão de emergência!');
+                    } else {
+                        console.error('❌ Painel admin não encontrado (emergência)!');
+                        alert('ERRO: Painel admin não encontrado!');
+                    }
+                } catch (error) {
+                    console.error('❌ Erro ao abrir o painel via emergência:', error);
+                    alert('ERRO ao abrir painel: ' + error.message);
+                }
+
+                return false;
+            };
+
+            document.body.appendChild(painelEmergencia);
+
+            // Também fechar o painel ao clicar fora dele (simplificado)
+            document.addEventListener('click', function (e) {
+                if (adminPanel && adminPanel.classList.contains('active') &&
+                    !adminPanel.contains(e.target)) {
+                    fecharPainelAdmin();
+                }
             });
 
-            adminClose.addEventListener('click', function () {
-                adminPanel.classList.remove('active');
-                adminToggle.classList.remove('active'); // Remove o estilo ativo do botão
+            // Adicionar atalho de teclado para abrir/fechar painel (tecla ESC fecha)
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && adminPanel.classList.contains('active')) {
+                    fecharPainelAdmin();
+                }
             });
 
             // Função para adicionar aniversário pessoal
@@ -1498,7 +2191,7 @@
                         </li>
                     `;
 
-                    const lista = document.querySelector('.dashboard-col:first-child .anniversary-list');
+                    const lista = document.querySelector('.dashboard-col:nth-child(1) .anniversary-list');
                     lista.insertAdjacentHTML('beforeend', aniversarioHTML);
 
                     // Adicionar ao painel administrativo para gerenciamento
@@ -1613,12 +2306,11 @@
             function atualizarContagens() {
                 const aniversariosHoje = document.querySelectorAll('.anniversary-badge');
                 const eventosCount = document.querySelectorAll('.news-item').length;
+                const proximosEventos = document.querySelectorAll('.event-item').length || 1; // Ao menos 1 para o cronômetro
 
                 document.querySelector('.today-event-item:first-child b').textContent = aniversariosHoje.length;
-                document.querySelector('.today-event-item:nth-child(2) b').textContent = eventosCount;
-            }
-
-            // Inicializar contagens ao carregar
+                document.querySelector('.today-event-item:nth-child(2) b').textContent = eventosCount + proximosEventos;
+            }            // Inicializar contagens ao carregar
             atualizarContagens();
 
             // Função para adicionar notícia
@@ -1699,6 +2391,159 @@
             location.reload();
         }, 30 * 60 * 1000);
 
+        // Verificação adicional para garantir que o painel admin está funcionando
+        // Este código é executado após toda a página ser carregada
+        window.addEventListener('load', function () {
+            console.log('🔄 Verificação final do painel admin após carregamento completo');
+
+            // Garantir que o botão de admin (engrenagem) funcione corretamente
+            const btnAdmin = document.getElementById('adminToggle');
+            if (!btnAdmin) {
+                console.error('❌ ALERTA: Botão admin não encontrado na verificação final!');
+                alert('ATENÇÃO: O botão de administração não foi encontrado. Tente atualizar a página.');
+            } else {
+                console.log('✅ Botão admin verificado após carregamento');
+
+                // Garantir que o botão seja bem visível
+                btnAdmin.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    width: 60px;
+                    height: 60px;
+                    background-color: #01627E;
+                    color: white;
+                    border: 3px solid #FFA500;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+                    z-index: 1000;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                `;
+
+                // Remover qualquer listener anterior
+                const adminButtonClone = btnAdmin.cloneNode(true);
+                btnAdmin.parentNode.replaceChild(adminButtonClone, btnAdmin);
+
+                // Adicionar um handler de clique direto e independente
+                adminButtonClone.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    console.log('🔴 CLIQUE DIRETO no botão admin (verificação final)');
+
+                    // Manipular o painel diretamente
+                    const panel = document.getElementById('adminPanel');
+                    if (panel) {
+                        // Aplicar todas as propriedades necessárias diretamente
+                        panel.className = 'admin-panel active';
+                        panel.style.transform = 'translateY(0)';
+                        panel.style.opacity = '1';
+                        panel.style.visibility = 'visible';
+                        panel.style.pointerEvents = 'auto';
+                        panel.style.display = 'block';
+                        console.log('✅ Painel aberto pelo handler de verificação final');
+
+                        // Garantir que o botão de fechar esteja disponível e funcional
+                        const closeBtn = document.getElementById('adminClose');
+                        if (closeBtn) {
+                            // Estilizar para garantir visibilidade
+                            closeBtn.style.cssText = `
+                                background-color: #ff4444;
+                                border: 2px solid white;
+                                color: white;
+                                font-size: 22px;
+                                cursor: pointer;
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                position: absolute;
+                                top: 15px;
+                                right: 15px;
+                                z-index: 10001;
+                            `;
+
+                            // Remover qualquer listener anterior
+                            const closeBtnClone = closeBtn.cloneNode(true);
+                            closeBtn.parentNode.replaceChild(closeBtnClone, closeBtn);
+
+                            // Adicionar evento de fechamento direto
+                            closeBtnClone.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                panel.className = 'admin-panel';
+                                panel.style.transform = 'translateY(100%)';
+                                panel.style.opacity = '0';
+                                panel.style.visibility = 'hidden';
+                                panel.style.pointerEvents = 'none';
+                                console.log('✅ Painel fechado pelo handler de verificação final');
+                            });
+                        } else {
+                            console.warn('⚠️ Botão de fechar não encontrado, criando um novo');
+                            // Criar botão de fechar se não existir
+                            const newCloseBtn = document.createElement('button');
+                            newCloseBtn.id = 'adminClose';
+                            newCloseBtn.innerHTML = '<i class="fas fa-times"></i>';
+                            newCloseBtn.style.cssText = `
+                                background-color: #ff4444;
+                                border: 2px solid white;
+                                color: white;
+                                font-size: 22px;
+                                cursor: pointer;
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                position: absolute;
+                                top: 15px;
+                                right: 15px;
+                                z-index: 10001;
+                            `;
+                            panel.appendChild(newCloseBtn);
+
+                            newCloseBtn.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                panel.className = 'admin-panel';
+                                panel.style.transform = 'translateY(100%)';
+                                panel.style.opacity = '0';
+                                panel.style.visibility = 'hidden';
+                                panel.style.pointerEvents = 'none';
+                                console.log('✅ Painel fechado pelo novo botão');
+                            });
+                        }
+                    } else {
+                        console.error('❌ Painel não encontrado na verificação final');
+                        alert('O painel de administração não foi encontrado. Tente atualizar a página.');
+                    }
+                });
+
+                // Destacar visualmente para chamar atenção
+                adminButtonClone.querySelector('i').style.fontSize = '28px';
+                adminButtonClone.style.animation = 'pulse 1.5s infinite';
+
+                // Adicionar animação de pulse se ainda não existir
+                if (!document.getElementById('admin-button-animation')) {
+                    const style = document.createElement('style');
+                    style.id = 'admin-button-animation';
+                    style.textContent = `
+                        @keyframes pulse {
+                            0% { transform: scale(1); }
+                            50% { transform: scale(1.1); }
+                            100% { transform: scale(1); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+        });
+
         // Atualiza o relógio no cabeçalho também
         function atualizarRelogioHeader() {
             const agora = new Date();
@@ -1714,113 +2559,145 @@
 
         // Função para ordenar aniversários por data
         function ordenarAniversarios(tipo) {
-            // Seleciona o container de acordo com o tipo
-            const container = tipo === 'bday'
-                ? document.querySelector('.dashboard-col:first-child .anniversary-list')
-                : document.querySelector('.dashboard-col:nth-child(2) .anniversary-list');
+            try {
+                // Log para depuração
+                console.log(`Tentando ordenar aniversários do tipo: ${tipo}`);
 
-            // Coleta todos os itens
-            const items = Array.from(container.querySelectorAll('.anniversary-item'));
-
-            // Remove os itens do DOM
-            items.forEach(item => item.remove());
-
-            // Função para extrair o mês e dia de um texto de data
-            function extrairDataDeTexto(texto) {
-                // Procura padrões como "24 de julho" ou "25 de julho"
-                const match = texto.match(/(\d+) de ([^\s•]+)/);
-                if (match) {
-                    const dia = parseInt(match[1]);
-                    const mesTexto = match[2].toLowerCase();
-
-                    // Mapear nomes de meses para números
-                    const meses = {
-                        'janeiro': 0, 'fevereiro': 1, 'março': 2, 'abril': 3,
-                        'maio': 4, 'junho': 5, 'julho': 6, 'agosto': 7,
-                        'setembro': 8, 'outubro': 9, 'novembro': 10, 'dezembro': 11
-                    };
-
-                    const mes = meses[mesTexto];
-                    if (mes !== undefined) {
-                        return { mes, dia };
-                    }
-                }
-
-                // Tenta outro padrão como "22/07"
-                const matchCurto = texto.match(/(\d{1,2})\/(\d{1,2})/);
-                if (matchCurto) {
-                    return {
-                        dia: parseInt(matchCurto[1]),
-                        mes: parseInt(matchCurto[2]) - 1 // Mês em JavaScript é 0-11
-                    };
-                }
-
-                return { mes: 12, dia: 31 }; // Default para ordenação
-            }
-
-            // Ordena os itens por data
-            items.sort((a, b) => {
-                let dataA, dataB;
+                // Seleciona o container de acordo com o tipo - CORREÇÃO NOS SELETORES
+                // Usamos o nth-of-type em vez de nth-child para maior precisão
+                let container;
 
                 if (tipo === 'bday') {
-                    const textoDataA = a.querySelector('.anniversary-date').textContent;
-                    const textoDataB = b.querySelector('.anniversary-date').textContent;
-
-                    dataA = extrairDataDeTexto(textoDataA);
-                    dataB = extrairDataDeTexto(textoDataB);
-                } else {
-                    // Para aniversários de empresa, extrair a data após o "anos •"
-                    const textoDataA = a.querySelector('.anniversary-date').textContent;
-                    const textoDataB = b.querySelector('.anniversary-date').textContent;
-
-                    dataA = extrairDataDeTexto(textoDataA);
-                    dataB = extrairDataDeTexto(textoDataB);
+                    container = document.querySelector('.dashboard-col:nth-of-type(1) .anniversary-list');
+                    console.log('Seletor para aniversários:', '.dashboard-col:nth-of-type(1) .anniversary-list');
+                } else if (tipo === 'anniv') {
+                    container = document.querySelector('.dashboard-col:nth-of-type(2) .anniversary-list');
+                    console.log('Seletor para tempo de empresa:', '.dashboard-col:nth-of-type(2) .anniversary-list');
                 }
 
-                // Primeiro compara mês, depois dia
-                if (dataA.mes === dataB.mes) {
-                    return dataA.dia - dataB.dia;
+                // Verifica se o container existe antes de prosseguir
+                if (!container) {
+                    console.warn(`Container para aniversários do tipo '${tipo}' não encontrado`);
+                    return; // Encerra a função se o container não existir
                 }
-                return dataA.mes - dataB.mes;
-            });
 
-            // Verifica se é hoje para colocar primeiro na lista
-            const hoje = new Date();
-            const mesAtual = hoje.getMonth();
-            const diaAtual = hoje.getDate();
+                // Coleta todos os itens
+                const items = Array.from(container.querySelectorAll('.anniversary-item'));
 
-            // Reordena para priorizar os aniversários de hoje
-            const itemsDeHoje = [];
-            const itemsFuturos = [];
-
-            items.forEach(item => {
-                const badgeHoje = item.querySelector('.anniversary-badge');
-                if (badgeHoje) {
-                    itemsDeHoje.push(item);
-                } else {
-                    itemsFuturos.push(item);
+                // Verifica se há itens antes de tentar reordenar
+                if (items.length === 0) {
+                    console.log(`Não foram encontrados aniversários do tipo '${tipo}' para ordenar`);
+                    return;
                 }
-            });
 
-            // Adiciona os itens de volta ao container na ordem correta
-            [...itemsDeHoje, ...itemsFuturos].forEach(item => {
-                container.appendChild(item);
-            });
+                // Remove os itens do DOM
+                items.forEach(item => item.remove());
+
+                // Função para extrair o mês e dia de um texto de data
+                function extrairDataDeTexto(texto) {
+                    // Procura padrões como "24 de julho" ou "25 de julho"
+                    const match = texto.match(/(\d+) de ([^\s•]+)/);
+                    if (match) {
+                        const dia = parseInt(match[1]);
+                        const mesTexto = match[2].toLowerCase();
+
+                        // Mapear nomes de meses para números
+                        const meses = {
+                            'janeiro': 0, 'fevereiro': 1, 'março': 2, 'abril': 3,
+                            'maio': 4, 'junho': 5, 'julho': 6, 'agosto': 7,
+                            'setembro': 8, 'outubro': 9, 'novembro': 10, 'dezembro': 11
+                        };
+
+                        const mes = meses[mesTexto];
+                        if (mes !== undefined) {
+                            return { mes, dia };
+                        }
+                    }
+
+                    // Tenta outro padrão como "22/07"
+                    const matchCurto = texto.match(/(\d{1,2})\/(\d{1,2})/);
+                    if (matchCurto) {
+                        return {
+                            dia: parseInt(matchCurto[1]),
+                            mes: parseInt(matchCurto[2]) - 1 // Mês em JavaScript é 0-11
+                        };
+                    }
+
+                    return { mes: 12, dia: 31 }; // Default para ordenação
+                }
+
+                // Ordena os itens por data
+                items.sort((a, b) => {
+                    let dataA, dataB;
+
+                    if (tipo === 'bday') {
+                        const textoDataA = a.querySelector('.anniversary-date').textContent;
+                        const textoDataB = b.querySelector('.anniversary-date').textContent;
+
+                        dataA = extrairDataDeTexto(textoDataA);
+                        dataB = extrairDataDeTexto(textoDataB);
+                    } else {
+                        // Para aniversários de empresa, extrair a data após o "anos •"
+                        const textoDataA = a.querySelector('.anniversary-date').textContent;
+                        const textoDataB = b.querySelector('.anniversary-date').textContent;
+
+                        dataA = extrairDataDeTexto(textoDataA);
+                        dataB = extrairDataDeTexto(textoDataB);
+                    }
+
+                    // Primeiro compara mês, depois dia
+                    if (dataA.mes === dataB.mes) {
+                        return dataA.dia - dataB.dia;
+                    }
+                    return dataA.mes - dataB.mes;
+                });
+
+                // Verifica se é hoje para colocar primeiro na lista
+                const hoje = new Date();
+                const mesAtual = hoje.getMonth();
+                const diaAtual = hoje.getDate();
+
+                // Reordena para priorizar os aniversários de hoje
+                const itemsDeHoje = [];
+                const itemsFuturos = [];
+
+                items.forEach(item => {
+                    const badgeHoje = item.querySelector('.anniversary-badge');
+                    if (badgeHoje) {
+                        itemsDeHoje.push(item);
+                    } else {
+                        itemsFuturos.push(item);
+                    }
+                });
+
+                // Adiciona os itens de volta ao container na ordem correta
+                [...itemsDeHoje, ...itemsFuturos].forEach(item => {
+                    container.appendChild(item);
+                });
+            } catch (error) {
+                console.error(`Erro ao ordenar aniversários do tipo '${tipo}':`, error);
+            }
         }
 
         // Função para adicionar IDs únicos aos elementos existentes
         function adicionarIdsElementosExistentes() {
-            // Adicionar IDs aos aniversários pessoais existentes
-            document.querySelectorAll('.dashboard-col:first-child .anniversary-item').forEach((item, index) => {
-                if (!item.getAttribute('data-id')) {
-                    const itemId = 'bday-existente-' + index;
-                    item.setAttribute('data-id', itemId);
+            try {
+                console.log('Iniciando adição de IDs aos elementos existentes...');
 
-                    // Adicionar ao painel administrativo também
-                    const nome = item.querySelector('.anniversary-name').textContent.trim();
-                    const depto = item.querySelector('.anniversary-date').textContent.trim();
+                // Adicionar IDs aos aniversários pessoais existentes
+                const aniversariosPessoais = document.querySelectorAll('.dashboard-col:nth-of-type(1) .anniversary-item');
+                console.log(`Encontrados ${aniversariosPessoais.length} aniversários pessoais`);
 
-                    const adminItem = `
+                aniversariosPessoais.forEach((item, index) => {
+                    if (!item.getAttribute('data-id')) {
+                        const itemId = 'bday-existente-' + index;
+                        item.setAttribute('data-id', itemId);
+
+                        // Adicionar ao painel administrativo também
+                        const nome = item.querySelector('.anniversary-name').textContent.trim();
+                        const depto = item.querySelector('.anniversary-date').textContent.trim();
+
+                        const adminItem = `
                         <div class="admin-list-item" data-id="${itemId}">
                             <div class="admin-list-item-content">
                                 <span class="admin-item-title">${nome}</span>
@@ -1834,21 +2711,21 @@
                         </div>
                     `;
 
-                    document.getElementById('adminBdayList').insertAdjacentHTML('beforeend', adminItem);
-                }
-            });
+                        document.getElementById('adminBdayList').insertAdjacentHTML('beforeend', adminItem);
+                    }
+                });
 
-            // Adicionar IDs aos aniversários de empresa existentes
-            document.querySelectorAll('.dashboard-col:nth-child(2) .anniversary-item').forEach((item, index) => {
-                if (!item.getAttribute('data-id')) {
-                    const itemId = 'anniv-existente-' + index;
-                    item.setAttribute('data-id', itemId);
+                // Adicionar IDs aos aniversários de empresa existentes
+                document.querySelectorAll('.dashboard-col:nth-child(3) .anniversary-item').forEach((item, index) => {
+                    if (!item.getAttribute('data-id')) {
+                        const itemId = 'anniv-existente-' + index;
+                        item.setAttribute('data-id', itemId);
 
-                    // Adicionar ao painel administrativo também
-                    const nome = item.querySelector('.anniversary-name').textContent.trim();
-                    const detalhe = item.querySelector('.anniversary-date').textContent.trim();
+                        // Adicionar ao painel administrativo também
+                        const nome = item.querySelector('.anniversary-name').textContent.trim();
+                        const detalhe = item.querySelector('.anniversary-date').textContent.trim();
 
-                    const adminItem = `
+                        const adminItem = `
                         <div class="admin-list-item" data-id="${itemId}">
                             <div class="admin-list-item-content">
                                 <span class="admin-item-title">${nome}</span>
@@ -1862,22 +2739,22 @@
                         </div>
                     `;
 
-                    document.getElementById('adminAnnivList').insertAdjacentHTML('beforeend', adminItem);
-                }
-            });
+                        document.getElementById('adminAnnivList').insertAdjacentHTML('beforeend', adminItem);
+                    }
+                });
 
-            // Adicionar IDs às notícias existentes
-            document.querySelectorAll('.news-item').forEach((item, index) => {
-                if (!item.getAttribute('data-id') && item.querySelector('.news-title')) {
-                    const itemId = 'news-existente-' + index;
-                    item.setAttribute('data-id', itemId);
+                // Adicionar IDs às notícias existentes
+                document.querySelectorAll('.news-item').forEach((item, index) => {
+                    if (!item.getAttribute('data-id') && item.querySelector('.news-title')) {
+                        const itemId = 'news-existente-' + index;
+                        item.setAttribute('data-id', itemId);
 
-                    // Adicionar ao painel administrativo também
-                    const titulo = item.querySelector('.news-title')?.textContent.trim() || 'Notícia ' + (index + 1);
-                    const autor = item.querySelector('.news-author')?.textContent.trim() || '';
-                    const data = item.querySelector('.news-date')?.textContent.trim() || '';
+                        // Adicionar ao painel administrativo também
+                        const titulo = item.querySelector('.news-title')?.textContent.trim() || 'Notícia ' + (index + 1);
+                        const autor = item.querySelector('.news-author')?.textContent.trim() || '';
+                        const data = item.querySelector('.news-date')?.textContent.trim() || '';
 
-                    const adminItem = `
+                        const adminItem = `
                         <div class="admin-list-item" data-id="${itemId}">
                             <div class="admin-list-item-content">
                                 <span class="admin-item-title">${titulo}</span>
@@ -1891,9 +2768,14 @@
                         </div>
                     `;
 
-                    document.getElementById('adminNewsList').insertAdjacentHTML('beforeend', adminItem);
-                }
-            });
+                        document.getElementById('adminNewsList').insertAdjacentHTML('beforeend', adminItem);
+                    }
+                });
+
+                console.log('IDs adicionados com sucesso aos elementos existentes');
+            } catch (error) {
+                console.error('Erro ao adicionar IDs aos elementos:', error);
+            }
         }
 
         // Função para excluir um item
@@ -1907,16 +2789,23 @@
 
                 // Remover da interface principal
                 if (tipo === 'bday') {
-                    const item = document.querySelector(`.dashboard-col:first-child .anniversary-item[data-id="${id}"]`);
+                    const item = document.querySelector(`.dashboard-col:nth-of-type(1) .anniversary-item[data-id="${id}"]`);
                     if (item) {
                         item.remove();
                         console.log("Item removido: aniversário pessoal", id);
                     }
                 } else if (tipo === 'anniv') {
-                    const item = document.querySelector(`.dashboard-col:nth-child(2) .anniversary-item[data-id="${id}"]`);
+                    const item = document.querySelector(`.dashboard-col:nth-of-type(2) .anniversary-item[data-id="${id}"]`);
                     if (item) {
                         item.remove();
                         console.log("Item removido: aniversário de empresa", id);
+                    }
+                } else if (tipo === 'event') {
+                    const item = document.querySelector(`.event-item[data-id="${id}"]`);
+                    if (item) {
+                        item.remove();
+                        console.log("Item removido: evento", id);
+                        atualizarProximoEvento();
                     }
                 } else if (tipo === 'news') {
                     const item = document.querySelector(`.news-item[data-id="${id}"]`);
@@ -1945,7 +2834,7 @@
         document.getElementById('clearBdayBtn').addEventListener('click', function () {
             if (confirm('Tem certeza que deseja limpar todos os aniversários pessoais?')) {
                 // Limpar aniversários pessoais
-                document.querySelector('.dashboard-col:first-child .anniversary-list').innerHTML = '';
+                document.querySelector('.dashboard-col:nth-of-type(1) .anniversary-list').innerHTML = '';
                 document.getElementById('adminBdayList').innerHTML = '';
                 atualizarContagens();
                 alert('Aniversários pessoais removidos com sucesso!');
@@ -1971,6 +2860,257 @@
                 alert('Notícias removidas com sucesso!');
             }
         });
+
+        // Funções para gerenciar eventos com cronômetro
+        let eventos = [];
+
+        // Função para inicializar eventos e cronômetro
+        function inicializarEventos() {
+            // Verificar se já existem eventos salvos no localStorage
+            const eventosArmazenados = localStorage.getItem('excelEventos');
+            if (eventosArmazenados) {
+                eventos = JSON.parse(eventosArmazenados);
+            }
+
+            // Se não houver eventos, criar um evento padrão
+            if (eventos.length === 0) {
+                const eventoDemo = {
+                    id: 'evento-demo',
+                    nome: 'Confraternização Excel Engenharia',
+                    data: '2025-08-15T18:00:00',
+                    descricao: 'Confraternização semestral da empresa com diversas atividades e sorteios para os colaboradores.',
+                    local: 'Espaço Green Garden'
+                };
+                eventos.push(eventoDemo);
+                salvarEventos();
+            }
+
+            // Adicionar eventos ao painel administrativo
+            atualizarListaEventosAdmin();
+
+            // Atualizar o cronômetro com o próximo evento
+            atualizarProximoEvento();
+
+            // Iniciar o cronômetro que atualiza a cada segundo
+            setInterval(atualizarCronometro, 1000);
+        }
+
+        // Função para ordenar eventos por data (mais próximo primeiro)
+        function ordenarEventos() {
+            eventos.sort((a, b) => {
+                const dataA = new Date(a.data);
+                const dataB = new Date(b.data);
+                return dataA - dataB;
+            });
+        }
+
+        // Função para salvar eventos no localStorage
+        function salvarEventos() {
+            localStorage.setItem('excelEventos', JSON.stringify(eventos));
+        }
+
+        // Função para atualizar a lista de eventos no painel administrativo
+        function atualizarListaEventosAdmin() {
+            const lista = document.getElementById('adminEventList');
+            if (!lista) return; // Verificação de segurança
+
+            lista.innerHTML = '';
+
+            eventos.forEach(evento => {
+                const dataFormatada = formatarDataEvento(evento.data);
+                const adminItem = `
+                    <div class="admin-list-item" data-id="${evento.id}">
+                        <div class="admin-list-item-content">
+                            <span class="admin-item-title">${evento.nome}</span>
+                            <span class="admin-item-detail">${dataFormatada} • ${evento.local}</span>
+                        </div>
+                        <div class="admin-list-item-actions">
+                            <button class="admin-btn-item-delete" onclick="excluirItem('${evento.id}', 'event')">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                lista.insertAdjacentHTML('beforeend', adminItem);
+            });
+        }
+
+        // Função para formatar a data do evento
+        function formatarDataEvento(dataString) {
+            const data = new Date(dataString);
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            const hora = String(data.getHours()).padStart(2, '0');
+            const minuto = String(data.getMinutes()).padStart(2, '0');
+
+            return `${dia}/${mes}/${ano} às ${hora}:${minuto}`;
+        }
+
+        // Função para atualizar o cronômetro e detalhes do próximo evento
+        function atualizarProximoEvento() {
+            ordenarEventos();
+
+            // Obter o evento mais próximo (primeiro na lista ordenada)
+            if (eventos.length > 0) {
+                const proximoEvento = eventos[0];
+                const elementoNome = document.getElementById('eventName');
+                const elementoDesc = document.getElementById('eventDescription');
+                const elementoLocal = document.getElementById('eventLocation');
+                const elementoData = document.getElementById('eventDateDisplay');
+
+                if (elementoNome) elementoNome.textContent = proximoEvento.nome;
+                if (elementoDesc) elementoDesc.textContent = proximoEvento.descricao;
+                if (elementoLocal) elementoLocal.innerHTML = '<i class="fas fa-map-marker-alt"></i> ' + proximoEvento.local;
+
+                // Formatar e exibir a data do evento
+                if (elementoData) {
+                    const dataEvento = new Date(proximoEvento.data);
+                    const dataFormatada = formatarData(dataEvento);
+                    elementoData.textContent = dataFormatada;
+                }
+
+                // Atualiza o cronômetro imediatamente
+                atualizarCronometro();
+            } else {
+                const elementoNome = document.getElementById('eventName');
+                const elementoDesc = document.getElementById('eventDescription');
+                const elementoLocal = document.getElementById('eventLocation');
+                const elementoData = document.getElementById('eventDateDisplay');
+
+                if (elementoNome) elementoNome.textContent = 'Nenhum evento programado';
+                if (elementoDesc) elementoDesc.textContent = '';
+                if (elementoLocal) elementoLocal.textContent = '';
+                if (elementoData) elementoData.textContent = '--/--/----';
+
+                // Zera o cronômetro
+                zerarCronometro();
+            }
+        }
+
+        // Função para zerar o cronômetro
+        function zerarCronometro() {
+            const elementoDias = document.getElementById('countdownDays');
+            const elementoHoras = document.getElementById('countdownHours');
+            const elementoMinutos = document.getElementById('countdownMinutes');
+            const elementoSegundos = document.getElementById('countdownSeconds');
+
+            if (elementoDias) elementoDias.textContent = '00';
+            if (elementoHoras) elementoHoras.textContent = '00';
+            if (elementoMinutos) elementoMinutos.textContent = '00';
+            if (elementoSegundos) elementoSegundos.textContent = '00';
+        }
+
+        // Função para atualizar o cronômetro
+        function atualizarCronometro() {
+            if (eventos.length === 0) return;
+
+            const proximoEvento = eventos[0];
+            const agora = new Date();
+            const dataEvento = new Date(proximoEvento.data);
+
+            // Calcular a diferença em milissegundos
+            let diferenca = dataEvento - agora;
+
+            // Se o evento já passou, mostrar o próximo
+            if (diferenca < 0) {
+                // Remover o evento que já passou
+                eventos.shift();
+                salvarEventos();
+                atualizarProximoEvento();
+                atualizarListaEventosAdmin();
+                return;
+            }
+
+            // Converter para dias, horas, minutos e segundos
+            const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+            diferenca -= dias * (1000 * 60 * 60 * 24);
+
+            const horas = Math.floor(diferenca / (1000 * 60 * 60));
+            diferenca -= horas * (1000 * 60 * 60);
+
+            const minutos = Math.floor(diferenca / (1000 * 60));
+            diferenca -= minutos * (1000 * 60);
+
+            const segundos = Math.floor(diferenca / 1000);
+
+            // Atualizar o cronômetro na interface
+            const elementoDias = document.getElementById('countdownDays');
+            const elementoHoras = document.getElementById('countdownHours');
+            const elementoMinutos = document.getElementById('countdownMinutes');
+            const elementoSegundos = document.getElementById('countdownSeconds');
+
+            if (elementoDias) elementoDias.textContent = String(dias).padStart(2, '0');
+            if (elementoHoras) elementoHoras.textContent = String(horas).padStart(2, '0');
+            if (elementoMinutos) elementoMinutos.textContent = String(minutos).padStart(2, '0');
+            if (elementoSegundos) elementoSegundos.textContent = String(segundos).padStart(2, '0');
+        }
+
+        // Event listener para adicionar novo evento
+        const btnSaveEvent = document.getElementById('saveEventBtn');
+        if (btnSaveEvent) {
+            btnSaveEvent.addEventListener('click', function () {
+                const nome = document.getElementById('adminEventName').value;
+                const dataHora = document.getElementById('adminEventDateTime').value;
+                const descricao = document.getElementById('adminEventDescription').value;
+                const local = document.getElementById('adminEventLocation').value;
+
+                if (nome && dataHora && descricao && local) {
+                    // Criar um ID único para o evento
+                    const eventoId = 'evento-' + Date.now();
+
+                    // Criar o objeto de evento
+                    const novoEvento = {
+                        id: eventoId,
+                        nome: nome,
+                        data: dataHora,
+                        descricao: descricao,
+                        local: local
+                    };
+
+                    // Adicionar ao array de eventos
+                    eventos.push(novoEvento);
+
+                    // Salvar no localStorage
+                    salvarEventos();
+
+                    // Atualizar a lista no painel administrativo
+                    atualizarListaEventosAdmin();
+
+                    // Atualizar o cronômetro se necessário
+                    atualizarProximoEvento();
+
+                    // Limpar campos
+                    document.getElementById('adminEventName').value = '';
+                    document.getElementById('adminEventDateTime').value = '';
+                    document.getElementById('adminEventDescription').value = '';
+                    document.getElementById('adminEventLocation').value = '';
+
+                    // Atualizar contagens
+                    atualizarContagens();
+
+                    alert('Evento adicionado com sucesso!');
+                } else {
+                    alert('Por favor, preencha todos os campos.');
+                }
+            });
+        }
+
+        // Event listener para limpar todos os eventos
+        const btnClearEvent = document.getElementById('clearEventBtn');
+        if (btnClearEvent) {
+            btnClearEvent.addEventListener('click', function () {
+                if (confirm('Tem certeza que deseja limpar todos os eventos?')) {
+                    eventos = [];
+                    salvarEventos();
+                    atualizarListaEventosAdmin();
+                    atualizarProximoEvento();
+                    atualizarContagens();
+                    alert('Eventos removidos com sucesso!');
+                }
+            });
+        }
     </script>
 </body>
 
