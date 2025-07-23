@@ -9,6 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="data_manager.js" defer></script>
     <style>
         * {
             margin: 0;
@@ -267,9 +268,105 @@
         .anniversary-item {
             display: flex;
             align-items: center;
-            padding: 12px 0;
+            padding: 15px;
+            margin-bottom: 10px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             animation: fadeIn 0.5s ease forwards;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* Estilo comum para aniversários com badge */
+        .anniversary-item:has(.anniversary-badge) {
+            background: linear-gradient(to right, rgba(1, 98, 126, 0.15), rgba(255, 165, 0, 0.15));
+            border-left: 5px solid #FFA500;
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
+            transform: translateY(-3px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .anniversary-item:has(.anniversary-badge)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.4) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+            animation: shine 2s infinite;
+        }
+
+        /* Estilo especial para aniversários de empresa */
+        .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge) {
+            background: linear-gradient(to right, rgba(1, 98, 126, 0.2), rgba(255, 215, 0, 0.3));
+            border-left: 5px solid gold;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+            transform: translateY(-5px) scale(1.03);
+        }
+
+        .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge) .anniversary-avatar {
+            background: linear-gradient(135deg, #01627E, gold);
+            border: 3px solid gold;
+            animation: pulse 1.5s infinite;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px gold;
+        }
+
+        .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge) .anniversary-badge {
+            background: linear-gradient(135deg, gold, #ff7700);
+            box-shadow: 0 3px 8px rgba(255, 215, 0, 0.8);
+            padding: 6px 15px;
+            font-size: 15px;
+        }
+
+        .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
+            content: "🏆";
+            /* Troféu em vez de bolo para aniversário de empresa */
+            font-size: 22px;
+        }
+
+        /* Efeito de confete para aniversários de empresa */
+        @keyframes confetti {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 20px 20px;
+            }
+        }
+
+        .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle, gold 2px, transparent 2px),
+                radial-gradient(circle, #01627E 2px, transparent 2px),
+                radial-gradient(circle, orange 2px, transparent 2px);
+            background-size: 30px 30px;
+            background-position: 0 0, 10px 10px, 20px 20px;
+            opacity: 0.2;
+            pointer-events: none;
+            animation: confetti 3s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         .anniversary-item:last-child {
@@ -277,8 +374,8 @@
         }
 
         .anniversary-avatar {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: linear-gradient(135deg, #01627E, #FFA500);
             display: flex;
@@ -286,8 +383,11 @@
             justify-content: center;
             margin-right: 15px;
             color: white;
-            font-weight: 600;
-            font-size: 18px;
+            font-weight: 700;
+            font-size: 20px;
+            border: 2px solid white;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
         }
 
         .anniversary-info {
@@ -298,25 +398,64 @@
             font-weight: 700;
             margin-bottom: 5px;
             color: #01627E;
-            font-size: 16px;
+            font-size: 17px;
+        }
+
+        .anniversary-item:has(.anniversary-badge) .anniversary-name {
+            color: #01627E;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
+            content: "🎂";
+            font-size: 20px;
+            margin-left: 5px;
+            animation: bounce 1s infinite alternate;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-5px);
+            }
         }
 
         .anniversary-date {
             font-size: 14px;
             color: #333;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .anniversary-item:has(.anniversary-badge) .anniversary-date {
+            color: #000;
+        }
+
+        .anniversary-date::before {
+            content: "•";
+            margin-right: 5px;
+            color: #FFA500;
+            font-size: 18px;
         }
 
         .anniversary-badge {
-            background: #FFA500;
+            background: linear-gradient(135deg, #FFA500, #ff7700);
             color: white;
-            padding: 3px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 14px;
+            font-weight: 700;
             margin-left: 10px;
             display: flex;
             align-items: center;
+            box-shadow: 0 2px 5px rgba(255, 165, 0, 0.5);
+            animation: pulse-badge 1.5s infinite;
             gap: 5px;
         }
 
@@ -348,20 +487,7 @@
             /* Espaço para scrollbar */
         }
 
-        .news-thumbnail {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #f0f0f0;
-            flex-shrink: 0;
-        }
-
-        .news-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        /* Thumbnails removidas das notícias */
 
         .news-content {
             flex: 1;
@@ -766,14 +892,7 @@
                 border-bottom: 2px solid rgba(0, 0, 0, 0.1);
             }
 
-            .news-thumbnail {
-                width: 180px;
-                height: 180px;
-                border-radius: 15px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-                border: 3px solid #01627E;
-                overflow: hidden;
-            }
+            /* Thumbnails removidas das notícias */
 
             .news-title {
                 font-size: 34px;
@@ -1158,6 +1277,27 @@
             background: linear-gradient(to bottom, #4aa3df, #3498db);
         }
 
+        .admin-btn-primary {
+            background: linear-gradient(to bottom, #01627E, #01526a);
+            color: white;
+            border-bottom: 3px solid #01415a;
+        }
+
+        .admin-btn-primary:hover {
+            background: linear-gradient(to bottom, #0179a1, #01627E);
+        }
+
+        .admin-help-text {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #777;
+            font-style: italic;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border-left: 3px solid #01627E;
+        }
+
         .admin-list {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 8px;
@@ -1307,6 +1447,50 @@
             align-items: center;
             text-align: center;
             padding: 15px 0;
+        }
+
+        /* Estilo especial para eventos que ocorrem hoje */
+        .event-today {
+            position: relative;
+            background: linear-gradient(to right, rgba(1, 98, 126, 0.2), rgba(255, 165, 0, 0.3));
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #FFA500;
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.4);
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+
+        .event-today::before {
+            content: 'HOJE';
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background: #FFA500;
+            color: white;
+            padding: 5px 40px;
+            font-weight: bold;
+            transform: rotate(45deg);
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 5;
+        }
+
+        .event-today .countdown-event-name {
+            color: #01627E;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-today .event-description {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .event-today .event-location {
+            font-weight: 700;
+            color: #01627E;
         }
 
         .countdown-event-name {
@@ -1796,10 +1980,6 @@
                     <div class="card-body">
                         <div class="news-container">
                             <div class="news-item">
-                                <div class="news-thumbnail">
-                                    <img src="img/news1.jpg" alt="Notícia"
-                                        onError="this.src='https://via.placeholder.com/80x80/01627E/FFFFFF?text=Excel'">
-                                </div>
                                 <div class="news-content">
                                     <h3 class="news-title">Novo contrato firmado com cliente multinacional</h3>
                                     <p class="news-excerpt">A Excel Engenharia acaba de firmar um importante contrato
@@ -1819,10 +1999,6 @@
                             </div>
 
                             <div class="news-item">
-                                <div class="news-thumbnail">
-                                    <img src="img/news3.jpg" alt="Notícia"
-                                        onError="this.src='https://via.placeholder.com/80x80/01627E/FFFFFF?text=Excel'">
-                                </div>
                                 <div class="news-content">
                                     <h3 class="news-title">Novas tecnologias implementadas na empresa</h3>
                                     <p class="news-excerpt">A partir de agosto, todos os setores da Excel Engenharia
@@ -1843,10 +2019,6 @@
                             </div>
 
                             <div class="news-item">
-                                <div class="news-thumbnail">
-                                    <img src="img/news2.jpg" alt="Notícia"
-                                        onError="this.src='https://via.placeholder.com/80x80/01627E/FFFFFF?text=Excel'">
-                                </div>
                                 <div class="news-content">
                                     <h3 class="news-title">Confraternização semestral será realizada em agosto</h3>
                                     <p class="news-excerpt">Reserve a data! Nossa confraternização semestral acontecerá
@@ -2052,6 +2224,30 @@
                     </div>
                 </div>
             </div>
+
+            <div class="admin-control-group">
+                <h4>Gerenciamento de Dados</h4>
+                <p>Use estas opções para salvar ou carregar o estado atual do dashboard.</p>
+
+                <div class="admin-actions">
+                    <div>
+                        <button class="admin-btn admin-btn-save" id="exportDataBtn"
+                            onclick="window.dataManager.salvarDados()">
+                            <i class="fas fa-download"></i> Salvar
+                        </button>
+                    </div>
+                    <div>
+                        <button class="admin-btn admin-btn-primary" id="importDataBtn"
+                            onclick="window.dataManager.carregarDados()">
+                            <i class="fas fa-upload"></i> Carregar
+                        </button>
+                    </div>
+                </div>
+                <p class="admin-help-text">
+                    <i class="fas fa-info-circle"></i> Salve ou carregue os dados do dashboard (aniversários, notícias e
+                    eventos)
+                </p>
+            </div>
         </div>
     </div>
 
@@ -2072,6 +2268,10 @@
             { data: '15-11-2025', nome: 'Proclamação da República' },
             { data: '25-12-2025', nome: 'Natal' }
         ];
+
+        // Arrays para armazenar aniversários pessoais e de empresa
+        let aniversariosPessoais = [];
+        let aniversariosEmpresa = [];
 
         // Função global para fechar o painel de administração
         function fecharAdminPainel() {
@@ -2508,7 +2708,7 @@
                                 <div class="anniversary-name">${nome}`;
 
                     if (ehHoje) {
-                        aniversarioHTML += `<span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta}</span>`;
+                        aniversarioHTML += `<span class="anniversary-badge"><i class="fas fa-star"></i> Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta} <i class="fas fa-star"></i></span>`;
                     }
 
                     aniversarioHTML += `</div>
@@ -2585,7 +2785,7 @@
                                 <div class="anniversary-name">${nome}`;
 
                     if (ehHoje) {
-                        novoAniversario += `<span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta}</span>`;
+                        novoAniversario += `<span class="anniversary-badge"><i class="fas fa-star"></i> Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta} <i class="fas fa-star"></i></span>`;
                     }
 
                     novoAniversario += `</div>
@@ -2723,10 +2923,11 @@
             console.log('🔄 Verificação final do painel admin após carregamento completo');
 
             // Garantir que o botão de admin (engrenagem) funcione corretamente
-            const btnAdmin = document.getElementById('adminToggle');
+            // Procura pelo botão de emergência que está sendo criado anteriormente
+            const btnAdmin = document.querySelector('button[style*="position: fixed"][style*="background: red"]');
             if (!btnAdmin) {
-                console.error('❌ ALERTA: Botão admin não encontrado na verificação final!');
-                alert('ATENÇÃO: O botão de administração não foi encontrado. Tente atualizar a página.');
+                console.log('ℹ️ Botão de emergência não encontrado, mas o sistema continuará funcionando');
+                // Não mostrar alerta desnecessário
             } else {
                 console.log('✅ Botão admin verificado após carregamento');
 
@@ -2863,6 +3064,12 @@
                             0% { transform: scale(1); }
                             50% { transform: scale(1.1); }
                             100% { transform: scale(1); }
+                        }
+                        
+                        @keyframes pulse-badge {
+                            0% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.7); }
+                            70% { box-shadow: 0 0 0 10px rgba(255, 165, 0, 0); }
+                            100% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0); }
                         }
                     `;
                     document.head.appendChild(style);
@@ -3285,14 +3492,31 @@
                 const elementoDesc = document.getElementById('eventDescription');
                 const elementoLocal = document.getElementById('eventLocation');
                 const elementoData = document.getElementById('eventDateDisplay');
+                const eventContainer = document.querySelector('.event-countdown');
 
                 if (elementoNome) elementoNome.textContent = proximoEvento.nome;
                 if (elementoDesc) elementoDesc.textContent = proximoEvento.descricao;
                 if (elementoLocal) elementoLocal.innerHTML = '<i class="fas fa-map-marker-alt"></i> ' + proximoEvento.local;
 
+                // Verificar se o evento é hoje
+                const dataEvento = new Date(proximoEvento.data);
+                const hoje = new Date();
+
+                const ehHoje = dataEvento.getDate() === hoje.getDate() &&
+                    dataEvento.getMonth() === hoje.getMonth() &&
+                    dataEvento.getFullYear() === hoje.getFullYear();
+
+                // Adicionar ou remover classe para eventos de hoje
+                if (eventContainer) {
+                    if (ehHoje) {
+                        eventContainer.classList.add('event-today');
+                    } else {
+                        eventContainer.classList.remove('event-today');
+                    }
+                }
+
                 // Formatar e exibir a data do evento
                 if (elementoData) {
-                    const dataEvento = new Date(proximoEvento.data);
                     const dataFormatada = formatarData(dataEvento);
                     elementoData.textContent = dataFormatada;
                 }
