@@ -1,0 +1,65 @@
+{
+  "aniversariosPessoais": [
+    {
+      "nome": "Ana Silva",
+      "depto": "Projetos",
+      "data": "23/07"
+    },
+    {
+      "nome": "Carlos Mendes",
+      "depto": "Administração",
+      "data": "15/08"
+    },
+    {
+      "nome": "Marcos Oliveira",
+      "depto": "Engenharia",
+      "data": "10/09"
+    }
+  ],
+  "aniversariosEmpresa": [
+    {
+      "nome": "Juliana Costa",
+      "anos": 5,
+      "data": "23/07"
+    },
+    {
+      "nome": "Roberto Santos",
+      "anos": 10,
+      "data": "05/08"
+    },
+    {
+      "nome": "Patricia Almeida",
+      "anos": 3,
+      "data": "22/09"
+    }
+  ],
+  "noticias": [
+    {
+      "titulo": "Nova parceria estratégica",
+      "conteudo": "Excel Engenharia firma parceria com grande empresa do setor de construção.",
+      "autor": "Departamento de Marketing",
+      "data": "23/07/2025"
+    },
+    {
+      "titulo": "Treinamento de equipe",
+      "conteudo": "Próximo mês teremos treinamento técnico para todos os colaboradores.",
+      "autor": "RH",
+      "data": "20/07/2025"
+    }
+  ],
+  "eventos": [
+    {
+      "nome": "Reunião Geral",
+      "descricao": "Apresentação dos resultados trimestrais",
+      "local": "Auditório Principal",
+      "data": "2025-07-23T14:00:00"
+    },
+    {
+      "nome": "Workshop de Inovação",
+      "descricao": "Desenvolvimento de novas ideias para projetos",
+      "local": "Sala de Treinamento 2",
+      "data": "2025-08-05T09:00:00"
+    }
+  ],
+  "lastUpdated": "2025-07-23T10:00:00.000Z"
+}

@@ -526,10 +526,47 @@
         }
 
         .news-date i,
-        .news-author i {
+        .news-author i,
+        .news-priority i {
             margin-right: 5px;
             font-size: 14px;
             color: #FFA500;
+        }
+        
+        /* Estilo para notícias de alta prioridade */
+        .news-item.high-priority {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #FFA500;
+            padding-left: 15px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(255, 165, 0, 0.15);
+            transform: scale(1.02);
+            position: relative;
+        }
+        
+        .news-item.high-priority .news-title {
+            color: #ff7700;
+            font-weight: 700;
+        }
+        
+        .news-priority {
+            color: #ff7700;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        }
+        
+        .news-item.high-priority::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 20px 20px 0;
+            border-color: transparent #FFA500 transparent transparent;
         }
 
         /* Vista para todos os cards */
@@ -1104,6 +1141,37 @@
             background: rgba(255, 165, 0, 0.5);
             border-radius: 10px;
         }
+        
+        .admin-system-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+        }
+        
+        .admin-btn-warning {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .admin-btn-warning:hover {
+            background-color: #f57c00;
+        }
+        
+        .admin-help-text {
+            font-size: 0.8em;
+            color: #ccc;
+            margin-top: 5px;
+            text-align: center;
+        }
 
         .admin-control-group {
             flex: 1;
@@ -1148,7 +1216,8 @@
         }
 
         .admin-field input,
-        .admin-field textarea {
+        .admin-field textarea,
+        .admin-field select {
             width: 100%;
             padding: 12px 15px;
             border-radius: 6px;
@@ -1163,7 +1232,8 @@
         }
 
         .admin-field input:focus,
-        .admin-field textarea:focus {
+        .admin-field textarea:focus,
+        .admin-field select:focus {
             outline: none;
             border-color: #FFA500;
             background: rgba(255, 255, 255, 0.18);
@@ -1175,6 +1245,19 @@
             color: rgba(255, 255, 255, 0.5);
             font-size: 13px;
             transition: opacity 0.2s ease;
+        }
+        
+        .admin-field select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 35px;
+        }
+        
+        .admin-field select option {
+            background: #054b5f;
+            color: white;
         }
 
         .admin-field input:focus::placeholder,
@@ -2112,6 +2195,13 @@
                     class="fas fa-times"></i></button>
         </div>
 
+        <div class="admin-system-actions">
+            <button class="admin-btn admin-btn-warning" id="clearDuplicatesBtn" title="Remove 'Hoje!' duplicados">
+                <i class="fas fa-broom"></i> Limpar Duplicações
+            </button>
+            <div class="admin-help-text">Use este botão para remover duplicações de "Hoje!" nos aniversários</div>
+        </div>
+
         <div class="admin-controls">
             <div class="admin-control-group">
                 <h4>Aniversários Pessoais</h4>
@@ -2212,6 +2302,13 @@
                     <label>Autor/Setor</label>
                     <input type="text" id="adminNewsAuthor" placeholder="Autor ou setor">
                 </div>
+                <div class="admin-field">
+                    <label>Prioridade</label>
+                    <select id="adminNewsPriority">
+                        <option value="normal">Normal</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
                 <div class="admin-list" id="adminNewsList">
                     <!-- Lista de notícias para gerenciar -->
                 </div>
@@ -2233,19 +2330,21 @@
                     <div>
                         <button class="admin-btn admin-btn-save" id="exportDataBtn"
                             onclick="window.dataManager.salvarDados()">
-                            <i class="fas fa-download"></i> Salvar
+                            <i class="fas fa-download"></i> Exportar Dados
                         </button>
                     </div>
                     <div>
                         <button class="admin-btn admin-btn-primary" id="importDataBtn"
                             onclick="window.dataManager.carregarDados()">
-                            <i class="fas fa-upload"></i> Carregar
+                            <i class="fas fa-upload"></i> Importar Dados
                         </button>
                     </div>
                 </div>
                 <p class="admin-help-text">
-                    <i class="fas fa-info-circle"></i> Salve ou carregue os dados do dashboard (aniversários, notícias e
-                    eventos)
+                    <i class="fas fa-info-circle"></i> Seus dados são salvos automaticamente. Use estas opções apenas para backup ou transferência.
+                    <span style="display: block; margin-top: 5px; color: #01627E; font-size: 0.9em;">
+                        <i class="fas fa-sync-alt"></i> Última atualização: <span id="ultimaAtualizacao">-</span>
+                    </span>
                 </p>
             </div>
         </div>
@@ -2844,6 +2943,8 @@
                 const titulo = document.getElementById('adminNewsTitle').value;
                 const conteudo = document.getElementById('adminNewsContent').value;
                 const autor = document.getElementById('adminNewsAuthor').value;
+                const prioridade = document.getElementById('adminNewsPriority').value || 'normal';
+                const ehPrioridade = prioridade === 'alta';
 
                 if (titulo && conteudo && autor) {
                     // Formata data atual
@@ -2856,22 +2957,20 @@
                     const itemId = 'news-' + Date.now();
 
                     const novaNoticia = `
-                        <div class="news-item" data-id="${itemId}">
-                            <div class="news-thumbnail">
-                                <img src="https://via.placeholder.com/80x80/01627E/FFFFFF?text=Excel" alt="Notícia">
-                            </div>
+                        <div class="news-item${ehPrioridade ? ' high-priority' : ''}" data-id="${itemId}">
                             <div class="news-content">
                                 <h3 class="news-title">${titulo}</h3>
                                 <p class="news-excerpt">${conteudo}</p>
                                 <div class="news-meta">
                                     <div class="news-date">
-                                        <i class="far fa-calendar"></i>
+                                        <i class="fas fa-calendar-alt"></i>
                                         ${dataFormatada}
                                     </div>
                                     <div class="news-author">
-                                        <i class="far fa-user"></i>
+                                        <i class="fas fa-user-edit"></i>
                                         ${autor}
                                     </div>
+                                    ${ehPrioridade ? '<div class="news-priority"><i class="fas fa-exclamation-circle"></i> Prioridade Alta</div>' : ''}
                                 </div>
                             </div>
                         </div>
@@ -3661,6 +3760,81 @@
                 }
             });
         }
+
+        // Função para atualizar a exibição da última atualização dos dados
+        window.atualizarUltimaAtualizacao = function() {
+            const ultimaAtualizacaoEl = document.getElementById('ultimaAtualizacao');
+            if (ultimaAtualizacaoEl && window.dataManager && window.dataManager.data && window.dataManager.data.lastUpdated) {
+                try {
+                    const dataObj = new Date(window.dataManager.data.lastUpdated);
+                    ultimaAtualizacaoEl.textContent = window.dataManager.formatarData(dataObj);
+                } catch (e) {
+                    console.error('Erro ao formatar data:', e);
+                    ultimaAtualizacaoEl.textContent = 'Data indisponível';
+                }
+            }
+        }
+
+        // Função para lidar com o botão de limpar duplicações
+        function configurarBotaoLimpezaDuplicacoes() {
+            const btnLimparDuplicacoes = document.getElementById('clearDuplicatesBtn');
+            if (btnLimparDuplicacoes) {
+                btnLimparDuplicacoes.addEventListener('click', function() {
+                    if (window.dataManager) {
+                        // Executa a limpeza de dados
+                        window.dataManager._limparDadosArmazenados();
+                        // Salva os dados limpos
+                        window.dataManager.salvarNoLocalStorage();
+                        // Recarrega a página para atualizar a visualização
+                        showToast('Limpeza concluída! Recarregando...', 'success');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
+                    } else {
+                        showToast('Erro: DataManager não encontrado', 'error');
+                    }
+                });
+            }
+        }
+        
+        // Inicializar o gerenciador de dados e configurar eventos de salvamento automático
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se o DataManager já está inicializado
+            if (!window.dataManager) {
+                console.log('⚠️ DataManager não encontrado, inicializando...');
+                window.dataManager = new DataManager();
+            }
+            
+            // Configurar o botão de limpeza de duplicações
+            configurarBotaoLimpezaDuplicacoes();
+
+            // Atualizar informação de última atualização
+            window.atualizarUltimaAtualizacao();
+            
+            // Configurar atualização periódica da exibição da última atualização
+            setInterval(window.atualizarUltimaAtualizacao, 60000); // Atualizar a cada minuto
+            
+            // Aplicar dados na inicialização
+            setTimeout(() => {
+                if (window.dataManager && !window.dataManagerInitialized) {
+                    window.dataManager.aplicarDados(false); // Sem notificação
+                    window.dataManagerInitialized = true;
+                }
+            }, 500);
+            
+            // Vincular salvamento automático quando o botão de administração é clicado (para fechar)
+            const btnAdminClose = document.getElementById('adminClose');
+            if (btnAdminClose) {
+                btnAdminClose.addEventListener('click', function() {
+                    console.log('Fechando painel admin, salvando dados...');
+                    if (window.dataManager) {
+                        window.dataManager.salvarNoLocalStorage();
+                    }
+                });
+            }
+            
+            console.log('✅ Inicialização concluída');
+        });
     </script>
 </body>
 
