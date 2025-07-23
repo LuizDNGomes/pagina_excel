@@ -380,7 +380,12 @@ class DataManager {
             if (element) {
                 element.addEventListener('click', () => {
                     // Pequeno atraso para garantir que as alterações do DOM foram concluídas
-                    setTimeout(() => this.salvarNoLocalStorage(), 300);
+                    setTimeout(() => {
+                        // Coletar dados do painel, salvar e atualizar interface
+                        this.coletarDadosDoAdminPainel();
+                        this.salvarNoLocalStorage();
+                        this.aplicarDados(false);
+                    }, 300);
                 });
             }
         });
@@ -592,6 +597,10 @@ class DataManager {
     aplicarDados(notificar = true) {
         // Primeiro, limpar quaisquer dados com "Hoje!" duplicado
         this._limparDadosArmazenados();
+        
+        // Atualizar os dados no painel de administração também
+        this._atualizarPainelAdministracao();
+        
         try {
             // Verificar se os elementos necessários existem
             const listaBdayEl = document.querySelector('.dashboard-col:nth-of-type(1) .anniversary-list');
@@ -791,6 +800,111 @@ class DataManager {
     }
     
     /**
+     * Atualiza os dados no painel de administração
+     * @private
+     */
+    _atualizarPainelAdministracao() {
+        try {
+            // Atualizar aniversários pessoais no painel admin
+            const adminBdayList = document.getElementById('adminBdayList');
+            if (adminBdayList) {
+                adminBdayList.innerHTML = '';
+                
+                this.data.aniversariosPessoais.forEach(pessoa => {
+                    const itemHTML = `
+                        <div class="admin-list-item" data-name="${pessoa.nome}" data-dept="${pessoa.depto}" data-date="${pessoa.data}">
+                            <div class="admin-list-item-content">
+                                <div><strong>${pessoa.nome}</strong></div>
+                                <div>${pessoa.depto} • ${pessoa.data}</div>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <input type="checkbox" title="Selecionar para remoção">
+                            </div>
+                        </div>
+                    `;
+                    adminBdayList.insertAdjacentHTML('beforeend', itemHTML);
+                });
+            }
+            
+            // Atualizar aniversários de empresa no painel admin
+            const adminAnnivList = document.getElementById('adminAnnivList');
+            if (adminAnnivList) {
+                adminAnnivList.innerHTML = '';
+                
+                this.data.aniversariosEmpresa.forEach(pessoa => {
+                    const itemHTML = `
+                        <div class="admin-list-item" data-name="${pessoa.nome}" data-years="${pessoa.anos}" data-date="${pessoa.data}">
+                            <div class="admin-list-item-content">
+                                <div><strong>${pessoa.nome}</strong></div>
+                                <div>${pessoa.anos} anos • ${pessoa.data}</div>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <input type="checkbox" title="Selecionar para remoção">
+                            </div>
+                        </div>
+                    `;
+                    adminAnnivList.insertAdjacentHTML('beforeend', itemHTML);
+                });
+            }
+            
+            // Atualizar notícias no painel admin
+            const adminNewsList = document.getElementById('adminNewsList');
+            if (adminNewsList) {
+                adminNewsList.innerHTML = '';
+                
+                this.data.noticias.forEach(noticia => {
+                    const itemHTML = `
+                        <div class="admin-list-item" data-title="${noticia.titulo}" data-content="${noticia.conteudo}" data-author="${noticia.autor}" data-date="${noticia.data}" data-priority="${noticia.prioridade}">
+                            <div class="admin-list-item-content">
+                                <div><strong>${noticia.titulo}</strong></div>
+                                <div>Por: ${noticia.autor} • ${noticia.data} • Prioridade: ${noticia.prioridade}</div>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <input type="checkbox" title="Selecionar para remoção">
+                            </div>
+                        </div>
+                    `;
+                    adminNewsList.insertAdjacentHTML('beforeend', itemHTML);
+                });
+            }
+            
+            // Atualizar eventos no painel admin
+            const adminEventList = document.getElementById('adminEventList');
+            if (adminEventList) {
+                adminEventList.innerHTML = '';
+                
+                this.data.eventos.forEach(evento => {
+                    const dataEvento = new Date(evento.data);
+                    const dataFormatada = dataEvento.toLocaleDateString('pt-BR') + ' ' + dataEvento.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+                    
+                    const itemHTML = `
+                        <div class="admin-list-item" data-name="${evento.nome}" data-description="${evento.descricao}" data-location="${evento.local}" data-date="${evento.data}">
+                            <div class="admin-list-item-content">
+                                <div><strong>${evento.nome}</strong></div>
+                                <div>${dataFormatada} • ${evento.local}</div>
+                            </div>
+                            <div class="admin-list-item-actions">
+                                <input type="checkbox" title="Selecionar para remoção">
+                            </div>
+                        </div>
+                    `;
+                    adminEventList.insertAdjacentHTML('beforeend', itemHTML);
+                });
+            }
+            
+            // Atualizar timestamp no painel admin
+            const ultimaAtualizacao = document.getElementById('ultimaAtualizacao');
+            if (ultimaAtualizacao && this.data.lastUpdated) {
+                ultimaAtualizacao.textContent = this.formatarData(new Date(this.data.lastUpdated));
+            }
+            
+            console.log('✅ Painel de administração atualizado com sucesso!');
+        } catch (error) {
+            console.error('❌ Erro ao atualizar painel de administração:', error);
+        }
+    }
+
+    /**
      * Obtém as iniciais de um nome
      */
     _obterIniciais(nome) {
@@ -865,6 +979,231 @@ class DataManager {
                 }
             }, 300);
         }, 2000);
+    }
+    
+    /**
+     * Método específico para atualizar a interface a partir do painel de administração
+     * Coleta dados do painel, salva e atualiza a interface
+     * @returns {boolean} Sucesso da operação
+     */
+    atualizarDoAdminPainel() {
+        try {
+            console.log('📊 Iniciando atualização da interface a partir do painel de administração');
+            
+            // Coletar dados do painel de administração
+            this.coletarDadosDoAdminPainel();
+            
+            // Salvar no localStorage
+            this.salvarNoLocalStorage();
+            
+            // Aplicar os dados atualizados na interface
+            this.aplicarDados(false);
+            
+            // Mostrar feedback visual
+            const feedbackEl = document.createElement('div');
+            feedbackEl.style.position = 'fixed';
+            feedbackEl.style.top = '50%';
+            feedbackEl.style.left = '50%';
+            feedbackEl.style.transform = 'translate(-50%, -50%)';
+            feedbackEl.style.backgroundColor = '#4CAF50';
+            feedbackEl.style.color = 'white';
+            feedbackEl.style.padding = '20px 30px';
+            feedbackEl.style.borderRadius = '8px';
+            feedbackEl.style.fontSize = '18px';
+            feedbackEl.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+            feedbackEl.style.zIndex = '10000';
+            feedbackEl.style.textAlign = 'center';
+            feedbackEl.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 10px; font-size: 24px;"></i>Interface atualizada com sucesso!';
+            
+            document.body.appendChild(feedbackEl);
+            
+            setTimeout(() => {
+                feedbackEl.style.opacity = '0';
+                feedbackEl.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => document.body.removeChild(feedbackEl), 500);
+            }, 2000);
+            
+            return true;
+        } catch (error) {
+            console.error('❌ Erro ao atualizar da interface admin:', error);
+            alert('Erro ao atualizar interface: ' + error.message);
+            return false;
+        }
+    }
+    
+    /**
+     * Coleta dados diretamente dos campos de entrada do painel de administração
+     * Esta função pega os dados de todos os campos de administração e atualiza o objeto data
+     */
+    coletarDadosDoAdminPainel() {
+        // Aniversários Pessoais
+        const adminBdayList = document.getElementById('adminBdayList');
+        if (adminBdayList) {
+            this.data.aniversariosPessoais = [];
+            
+            // Coletar de cada item na lista admin que NÃO está marcado para remoção
+            adminBdayList.querySelectorAll('.admin-list-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (!checkbox || !checkbox.checked) {
+                    const nome = item.getAttribute('data-name');
+                    const depto = item.getAttribute('data-dept');
+                    const data = item.getAttribute('data-date');
+                    
+                    this.data.aniversariosPessoais.push({ nome, depto, data });
+                }
+            });
+            
+            // Verificar se há um novo item para adicionar
+            const adminBdayName = document.getElementById('adminBdayName');
+            const adminBdayDept = document.getElementById('adminBdayDept');
+            const adminBdayDate = document.getElementById('adminBdayDate');
+            
+            if (adminBdayName && adminBdayName.value && adminBdayDate && adminBdayDate.value) {
+                const nome = adminBdayName.value;
+                const depto = adminBdayDept ? adminBdayDept.value : '';
+                
+                // Converter data do formato YYYY-MM-DD para DD/MM
+                const dataObj = new Date(adminBdayDate.value);
+                const dia = String(dataObj.getDate()).padStart(2, '0');
+                const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+                const data = `${dia}/${mes}`;
+                
+                this.data.aniversariosPessoais.push({ nome, depto, data });
+                
+                // Limpar campos
+                adminBdayName.value = '';
+                if (adminBdayDept) adminBdayDept.value = '';
+                adminBdayDate.value = '';
+            }
+        }
+        
+            // Aniversários de Empresa
+        const adminAnnivList = document.getElementById('adminAnnivList');
+        if (adminAnnivList) {
+            this.data.aniversariosEmpresa = [];
+            
+            // Coletar de cada item na lista admin que NÃO está marcado para remoção
+            adminAnnivList.querySelectorAll('.admin-list-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (!checkbox || !checkbox.checked) {
+                    const nome = item.getAttribute('data-name');
+                    const anos = item.getAttribute('data-years');
+                    const data = item.getAttribute('data-date');
+                    
+                    this.data.aniversariosEmpresa.push({ nome, anos: parseInt(anos), data });
+                }
+            });            // Verificar se há um novo item para adicionar
+            const adminAnnivName = document.getElementById('adminAnnivName');
+            const adminAnnivYears = document.getElementById('adminAnnivYears');
+            const adminAnnivDate = document.getElementById('adminAnnivDate');
+            
+            if (adminAnnivName && adminAnnivName.value && adminAnnivDate && adminAnnivDate.value) {
+                const nome = adminAnnivName.value;
+                const anos = adminAnnivYears && adminAnnivYears.value ? parseInt(adminAnnivYears.value) : 1;
+                
+                // Converter data do formato YYYY-MM-DD para DD/MM
+                const dataObj = new Date(adminAnnivDate.value);
+                const dia = String(dataObj.getDate()).padStart(2, '0');
+                const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+                const data = `${dia}/${mes}`;
+                
+                this.data.aniversariosEmpresa.push({ nome, anos, data });
+                
+                // Limpar campos
+                adminAnnivName.value = '';
+                if (adminAnnivYears) adminAnnivYears.value = '';
+                adminAnnivDate.value = '';
+            }
+        }
+        
+        // Notícias
+        const adminNewsList = document.getElementById('adminNewsList');
+        if (adminNewsList) {
+            this.data.noticias = [];
+            
+            // Coletar de cada item na lista admin que NÃO está marcado para remoção
+            adminNewsList.querySelectorAll('.admin-list-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (!checkbox || !checkbox.checked) {
+                    const titulo = item.getAttribute('data-title');
+                    const conteudo = item.getAttribute('data-content');
+                    const autor = item.getAttribute('data-author');
+                    const data = item.getAttribute('data-date');
+                    const prioridade = item.getAttribute('data-priority');
+                    
+                    this.data.noticias.push({ titulo, conteudo, autor, data, prioridade });
+                }
+            });
+            
+            // Verificar se há um novo item para adicionar
+            const adminNewsTitle = document.getElementById('adminNewsTitle');
+            const adminNewsContent = document.getElementById('adminNewsContent');
+            const adminNewsAuthor = document.getElementById('adminNewsAuthor');
+            const adminNewsPriority = document.getElementById('adminNewsPriority');
+            
+            if (adminNewsTitle && adminNewsTitle.value && adminNewsContent && adminNewsContent.value) {
+                const titulo = adminNewsTitle.value;
+                const conteudo = adminNewsContent.value;
+                const autor = adminNewsAuthor ? adminNewsAuthor.value : '';
+                const dataAtual = new Date();
+                const dia = String(dataAtual.getDate()).padStart(2, '0');
+                const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+                const ano = dataAtual.getFullYear();
+                const data = `${dia}/${mes}/${ano}`;
+                const prioridade = adminNewsPriority && adminNewsPriority.value ? adminNewsPriority.value : 'normal';
+                
+                this.data.noticias.push({ titulo, conteudo, autor, data, prioridade });
+                
+                // Limpar campos
+                adminNewsTitle.value = '';
+                adminNewsContent.value = '';
+                if (adminNewsAuthor) adminNewsAuthor.value = '';
+                if (adminNewsPriority) adminNewsPriority.value = 'normal';
+            }
+        }
+        
+        // Eventos
+        const adminEventList = document.getElementById('adminEventList');
+        if (adminEventList) {
+            this.data.eventos = [];
+            
+            // Coletar de cada item na lista admin que NÃO está marcado para remoção
+            adminEventList.querySelectorAll('.admin-list-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (!checkbox || !checkbox.checked) {
+                    const nome = item.getAttribute('data-name');
+                    const descricao = item.getAttribute('data-description');
+                    const local = item.getAttribute('data-location');
+                    const data = item.getAttribute('data-date');
+                    
+                    this.data.eventos.push({ nome, descricao, local, data });
+                }
+            });
+            
+            // Verificar se há um novo item para adicionar
+            const adminEventName = document.getElementById('adminEventName');
+            const adminEventDateTime = document.getElementById('adminEventDateTime');
+            const adminEventDescription = document.getElementById('adminEventDescription');
+            const adminEventLocation = document.getElementById('adminEventLocation');
+            
+            if (adminEventName && adminEventName.value && adminEventDateTime && adminEventDateTime.value) {
+                const nome = adminEventName.value;
+                const data = adminEventDateTime.value; // Já está no formato ISO
+                const descricao = adminEventDescription ? adminEventDescription.value : '';
+                const local = adminEventLocation ? adminEventLocation.value : '';
+                
+                this.data.eventos.push({ nome, descricao, local, data });
+                
+                // Limpar campos
+                adminEventName.value = '';
+                adminEventDateTime.value = '';
+                if (adminEventDescription) adminEventDescription.value = '';
+                if (adminEventLocation) adminEventLocation.value = '';
+            }
+        }
+        
+        // Atualizar timestamp
+        this.data.lastUpdated = new Date().toISOString();
     }
 }
 

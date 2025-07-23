@@ -1043,6 +1043,21 @@
             font-size: 22px;
         }
 
+        /* Estilo para itens marcados para remoção no painel admin */
+        .admin-list-item input[type="checkbox"]:checked {
+            accent-color: #ff4444;
+        }
+
+        .admin-list-item input[type="checkbox"]:checked~.admin-list-item-content {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .admin-list-item:has(input[type="checkbox"]:checked) {
+            background-color: rgba(255, 68, 68, 0.1);
+            border-left: 3px solid #ff4444;
+        }
+
         /* Editor rápido para administradores - completamente refeito para maior compatibilidade */
         .admin-panel {
             position: fixed;
@@ -2382,6 +2397,14 @@
                         </button>
                     </div>
                 </div>
+                <div class="admin-actions" style="margin-top: 10px;">
+                    <div>
+                        <button class="admin-btn admin-btn-primary" id="saveAndUpdateBtn"
+                            style="background-color: #4CAF50; width: 100%;">
+                            <i class="fas fa-sync-alt"></i> Salvar e Atualizar Interface
+                        </button>
+                    </div>
+                </div>
                 <p class="admin-help-text">
                     <i class="fas fa-info-circle"></i> Seus dados são salvos automaticamente. Use estas opções apenas
                     para backup ou transferência.
@@ -3509,32 +3532,116 @@
 
         // Event listeners para os botões de limpar selecionados
         document.getElementById('clearBdayBtn').addEventListener('click', function () {
-            if (confirm('Tem certeza que deseja limpar todos os aniversários pessoais?')) {
-                // Limpar aniversários pessoais
-                document.querySelector('.dashboard-col:nth-of-type(1) .anniversary-list').innerHTML = '';
-                document.getElementById('adminBdayList').innerHTML = '';
+            // Verificar se há itens selecionados
+            const itensSelecionados = document.querySelectorAll('#adminBdayList .admin-list-item input[type="checkbox"]:checked');
+
+            if (itensSelecionados.length === 0) {
+                alert('Nenhum item selecionado. Selecione os aniversários que deseja remover.');
+                return;
+            }
+
+            if (confirm(`Tem certeza que deseja remover ${itensSelecionados.length} aniversário(s) pessoal(is) selecionado(s)?`)) {
+                // Para cada item selecionado
+                itensSelecionados.forEach(checkbox => {
+                    const item = checkbox.closest('.admin-list-item');
+                    const nome = item.getAttribute('data-name');
+
+                    // Remover do painel admin
+                    item.remove();
+
+                    // Remover da interface principal (procurar pelo nome)
+                    const itensInterface = document.querySelectorAll('.dashboard-col:nth-of-type(1) .anniversary-item');
+                    itensInterface.forEach(interfaceItem => {
+                        const nomeInterface = interfaceItem.querySelector('.anniversary-name').textContent;
+                        if (nomeInterface.includes(nome)) {
+                            interfaceItem.remove();
+                        }
+                    });
+                });
+
+                // Atualizar dados via DataManager e atualizar interface
+                if (window.dataManager) {
+                    window.dataManager.atualizarDoAdminPainel();
+                }
+
                 atualizarContagens();
-                alert('Aniversários pessoais removidos com sucesso!');
+                alert(`${itensSelecionados.length} aniversário(s) pessoal(is) removido(s) com sucesso!`);
             }
         });
 
         document.getElementById('clearAnnivBtn').addEventListener('click', function () {
-            if (confirm('Tem certeza que deseja limpar todos os aniversários de empresa?')) {
-                // Limpar aniversários de empresa
-                document.querySelector('.dashboard-col:nth-child(2) .anniversary-list').innerHTML = '';
-                document.getElementById('adminAnnivList').innerHTML = '';
-                atualizarContagens(); // Atualizar contagens
-                alert('Aniversários de empresa removidos com sucesso!');
+            // Verificar se há itens selecionados
+            const itensSelecionados = document.querySelectorAll('#adminAnnivList .admin-list-item input[type="checkbox"]:checked');
+
+            if (itensSelecionados.length === 0) {
+                alert('Nenhum item selecionado. Selecione os aniversários que deseja remover.');
+                return;
+            }
+
+            if (confirm(`Tem certeza que deseja remover ${itensSelecionados.length} aniversário(s) de empresa selecionado(s)?`)) {
+                // Para cada item selecionado
+                itensSelecionados.forEach(checkbox => {
+                    const item = checkbox.closest('.admin-list-item');
+                    const nome = item.getAttribute('data-name');
+
+                    // Remover do painel admin
+                    item.remove();
+
+                    // Remover da interface principal (procurar pelo nome)
+                    const itensInterface = document.querySelectorAll('.dashboard-col:nth-of-type(2) .anniversary-item');
+                    itensInterface.forEach(interfaceItem => {
+                        const nomeInterface = interfaceItem.querySelector('.anniversary-name').textContent;
+                        if (nomeInterface.includes(nome)) {
+                            interfaceItem.remove();
+                        }
+                    });
+                });
+
+                // Atualizar dados via DataManager e atualizar interface
+                if (window.dataManager) {
+                    window.dataManager.atualizarDoAdminPainel();
+                }
+
+                atualizarContagens();
+                alert(`${itensSelecionados.length} aniversário(s) de empresa removido(s) com sucesso!`);
             }
         });
 
         document.getElementById('clearNewsBtn').addEventListener('click', function () {
-            if (confirm('Tem certeza que deseja limpar todas as notícias?')) {
-                // Limpar notícias
-                document.querySelector('.news-container').innerHTML = '';
-                document.getElementById('adminNewsList').innerHTML = '';
+            // Verificar se há itens selecionados
+            const itensSelecionados = document.querySelectorAll('#adminNewsList .admin-list-item input[type="checkbox"]:checked');
+
+            if (itensSelecionados.length === 0) {
+                alert('Nenhum item selecionado. Selecione as notícias que deseja remover.');
+                return;
+            }
+
+            if (confirm(`Tem certeza que deseja remover ${itensSelecionados.length} notícia(s) selecionada(s)?`)) {
+                // Para cada item selecionado
+                itensSelecionados.forEach(checkbox => {
+                    const item = checkbox.closest('.admin-list-item');
+                    const titulo = item.getAttribute('data-title');
+
+                    // Remover do painel admin
+                    item.remove();
+
+                    // Remover da interface principal (procurar pelo título)
+                    const itensInterface = document.querySelectorAll('.news-item');
+                    itensInterface.forEach(interfaceItem => {
+                        const tituloInterface = interfaceItem.querySelector('.news-title').textContent;
+                        if (tituloInterface.includes(titulo)) {
+                            interfaceItem.remove();
+                        }
+                    });
+                });
+
+                // Atualizar dados via DataManager e atualizar interface
+                if (window.dataManager) {
+                    window.dataManager.atualizarDoAdminPainel();
+                }
+
                 atualizarContagens();
-                alert('Notícias removidas com sucesso!');
+                alert(`${itensSelecionados.length} notícia(s) removida(s) com sucesso!`);
             }
         });
 
@@ -3791,17 +3898,46 @@
             });
         }
 
-        // Event listener para limpar todos os eventos
+        // Event listener para limpar os eventos selecionados
         const btnClearEvent = document.getElementById('clearEventBtn');
         if (btnClearEvent) {
             btnClearEvent.addEventListener('click', function () {
-                if (confirm('Tem certeza que deseja limpar todos os eventos?')) {
-                    eventos = [];
+                // Verificar se há itens selecionados
+                const itensSelecionados = document.querySelectorAll('#adminEventList .admin-list-item input[type="checkbox"]:checked');
+
+                if (itensSelecionados.length === 0) {
+                    alert('Nenhum item selecionado. Selecione os eventos que deseja remover.');
+                    return;
+                }
+
+                if (confirm(`Tem certeza que deseja remover ${itensSelecionados.length} evento(s) selecionado(s)?`)) {
+                    // Para cada item selecionado
+                    itensSelecionados.forEach(checkbox => {
+                        const item = checkbox.closest('.admin-list-item');
+                        const nome = item.getAttribute('data-name');
+                        const data = item.getAttribute('data-date');
+
+                        // Remover do painel admin
+                        item.remove();
+
+                        // Remover do array de eventos
+                        eventos = eventos.filter(evento =>
+                            !(evento.nome === nome && evento.data === data)
+                        );
+                    });
+
+                    // Atualizar dados
                     salvarEventos();
                     atualizarListaEventosAdmin();
                     atualizarProximoEvento();
+
+                    // Atualizar dados via DataManager e atualizar interface
+                    if (window.dataManager) {
+                        window.dataManager.atualizarDoAdminPainel();
+                    }
+
                     atualizarContagens();
-                    alert('Eventos removidos com sucesso!');
+                    alert(`${itensSelecionados.length} evento(s) removido(s) com sucesso!`);
                 }
             });
         }
@@ -3856,6 +3992,50 @@
                     }
                 });
             }
+
+            // Configurar o botão Salvar e Atualizar Interface
+            const btnSaveAndUpdate = document.getElementById('saveAndUpdateBtn');
+            if (btnSaveAndUpdate) {
+                btnSaveAndUpdate.addEventListener('click', function () {
+                    console.log('Atualizando interface a partir do painel de administração...');
+                    if (window.dataManager) {
+                        window.dataManager.atualizarDoAdminPainel();
+                    }
+                });
+            }
+
+            // Adicionar eventos para todos os checkboxes do painel admin para melhorar a experiência visual
+            function configurarCheckboxesAdmin() {
+                const checkboxes = document.querySelectorAll('.admin-list-item input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function () {
+                        const item = this.closest('.admin-list-item');
+                        if (this.checked) {
+                            item.style.backgroundColor = 'rgba(255, 68, 68, 0.1)';
+                            item.style.borderLeft = '3px solid #ff4444';
+                            const content = item.querySelector('.admin-list-item-content');
+                            if (content) {
+                                content.style.textDecoration = 'line-through';
+                                content.style.opacity = '0.6';
+                            }
+                        } else {
+                            item.style.backgroundColor = '';
+                            item.style.borderLeft = '';
+                            const content = item.querySelector('.admin-list-item-content');
+                            if (content) {
+                                content.style.textDecoration = '';
+                                content.style.opacity = '';
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Configurar checkboxes inicialmente e quando o painel é aberto
+            configurarCheckboxesAdmin();
+            document.getElementById('btnAdminAcesso').addEventListener('click', function () {
+                setTimeout(configurarCheckboxesAdmin, 500);
+            });
 
             console.log('✅ Inicialização concluída');
         });
