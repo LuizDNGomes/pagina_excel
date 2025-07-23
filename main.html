@@ -324,9 +324,12 @@
         }
 
         .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
-            content: "🏆";
+            content: "🏆 FELIZ ANIVERSÁRIO DE EMPRESA!";
             /* Troféu em vez de bolo para aniversário de empresa */
             font-size: 22px;
+            color: #01627E;
+            font-weight: 800;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         /* Efeito de confete para aniversários de empresa */
@@ -408,11 +411,13 @@
         }
 
         .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
-            content: "🎂";
+            content: "🎂 FELIZ ANIVERSÁRIO!";
             font-size: 20px;
             margin-left: 5px;
             animation: bounce 1s infinite alternate;
             display: inline-block;
+            color: #01627E;
+            font-weight: 800;
         }
 
         @keyframes bounce {
@@ -532,7 +537,7 @@
             font-size: 14px;
             color: #FFA500;
         }
-        
+
         /* Estilo para notícias de alta prioridade */
         .news-item.high-priority {
             background: rgba(255, 165, 0, 0.1);
@@ -543,12 +548,12 @@
             transform: scale(1.02);
             position: relative;
         }
-        
+
         .news-item.high-priority .news-title {
             color: #ff7700;
             font-weight: 700;
         }
-        
+
         .news-priority {
             color: #ff7700;
             font-weight: 700;
@@ -556,7 +561,7 @@
             align-items: center;
             margin-left: 15px;
         }
-        
+
         .news-item.high-priority::before {
             content: '';
             position: absolute;
@@ -832,10 +837,17 @@
         @media (min-width: 1920px) {
             .dashboard {
                 max-width: 1800px;
-                grid-template-columns: repeat(3, 1fr);
                 gap: 60px;
                 height: 100%;
                 padding: 0 40px;
+            }
+
+            /* Ajuste para garantir que a disposição continue em linha na TV */
+            .tv-view {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                gap: 40px;
             }
 
             .today-highlight {
@@ -896,6 +908,39 @@
                 min-height: 650px;
                 border-radius: 18px;
                 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            }
+
+            /* Melhorias para textos de aniversários na TV */
+            .anniversary-item {
+                padding: 25px 15px;
+                margin-bottom: 20px;
+            }
+
+            .anniversary-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 28px;
+            }
+
+            .anniversary-name {
+                font-size: 26px;
+            }
+
+            .anniversary-date {
+                font-size: 22px;
+            }
+
+            .anniversary-badge {
+                font-size: 22px;
+                padding: 8px 20px;
+            }
+
+            .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
+                font-size: 28px;
+            }
+
+            .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
+                font-size: 28px;
             }
 
             .anniversary-item {
@@ -1141,7 +1186,7 @@
             background: rgba(255, 165, 0, 0.5);
             border-radius: 10px;
         }
-        
+
         .admin-system-actions {
             display: flex;
             flex-direction: column;
@@ -1150,7 +1195,7 @@
             margin-bottom: 15px;
             border-bottom: 1px solid rgba(255, 165, 0, 0.3);
         }
-        
+
         .admin-btn-warning {
             background-color: #ff9800;
             color: white;
@@ -1161,11 +1206,11 @@
             font-weight: 500;
             transition: background-color 0.3s ease;
         }
-        
+
         .admin-btn-warning:hover {
             background-color: #f57c00;
         }
-        
+
         .admin-help-text {
             font-size: 0.8em;
             color: #ccc;
@@ -1246,7 +1291,7 @@
             font-size: 13px;
             transition: opacity 0.2s ease;
         }
-        
+
         .admin-field select {
             appearance: none;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>');
@@ -1254,7 +1299,7 @@
             background-position: right 10px center;
             padding-right: 35px;
         }
-        
+
         .admin-field select option {
             background: #054b5f;
             color: white;
@@ -2195,11 +2240,8 @@
                     class="fas fa-times"></i></button>
         </div>
 
+        <!-- Botão de limpeza de duplicações removido por não ser mais necessário -->
         <div class="admin-system-actions">
-            <button class="admin-btn admin-btn-warning" id="clearDuplicatesBtn" title="Remove 'Hoje!' duplicados">
-                <i class="fas fa-broom"></i> Limpar Duplicações
-            </button>
-            <div class="admin-help-text">Use este botão para remover duplicações de "Hoje!" nos aniversários</div>
         </div>
 
         <div class="admin-controls">
@@ -2341,7 +2383,8 @@
                     </div>
                 </div>
                 <p class="admin-help-text">
-                    <i class="fas fa-info-circle"></i> Seus dados são salvos automaticamente. Use estas opções apenas para backup ou transferência.
+                    <i class="fas fa-info-circle"></i> Seus dados são salvos automaticamente. Use estas opções apenas
+                    para backup ou transferência.
                     <span style="display: block; margin-top: 5px; color: #01627E; font-size: 0.9em;">
                         <i class="fas fa-sync-alt"></i> Última atualização: <span id="ultimaAtualizacao">-</span>
                     </span>
@@ -2808,6 +2851,7 @@
 
                     if (ehHoje) {
                         aniversarioHTML += `<span class="anniversary-badge"><i class="fas fa-star"></i> Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta} <i class="fas fa-star"></i></span>`;
+                        // O texto "FELIZ ANIVERSÁRIO" é adicionado automaticamente pelo CSS
                     }
 
                     aniversarioHTML += `</div>
@@ -2885,6 +2929,7 @@
 
                     if (ehHoje) {
                         novoAniversario += `<span class="anniversary-badge"><i class="fas fa-star"></i> Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta} <i class="fas fa-star"></i></span>`;
+                        // O texto "FELIZ ANIVERSÁRIO DE EMPRESA" é adicionado automaticamente pelo CSS
                     }
 
                     novoAniversario += `</div>
@@ -3762,7 +3807,7 @@
         }
 
         // Função para atualizar a exibição da última atualização dos dados
-        window.atualizarUltimaAtualizacao = function() {
+        window.atualizarUltimaAtualizacao = function () {
             const ultimaAtualizacaoEl = document.getElementById('ultimaAtualizacao');
             if (ultimaAtualizacaoEl && window.dataManager && window.dataManager.data && window.dataManager.data.lastUpdated) {
                 try {
@@ -3775,45 +3820,24 @@
             }
         }
 
-        // Função para lidar com o botão de limpar duplicações
-        function configurarBotaoLimpezaDuplicacoes() {
-            const btnLimparDuplicacoes = document.getElementById('clearDuplicatesBtn');
-            if (btnLimparDuplicacoes) {
-                btnLimparDuplicacoes.addEventListener('click', function() {
-                    if (window.dataManager) {
-                        // Executa a limpeza de dados
-                        window.dataManager._limparDadosArmazenados();
-                        // Salva os dados limpos
-                        window.dataManager.salvarNoLocalStorage();
-                        // Recarrega a página para atualizar a visualização
-                        showToast('Limpeza concluída! Recarregando...', 'success');
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1500);
-                    } else {
-                        showToast('Erro: DataManager não encontrado', 'error');
-                    }
-                });
-            }
-        }
-        
+        // Função para lidar com o botão de limpar duplicações removida pois não é mais necessária
+
         // Inicializar o gerenciador de dados e configurar eventos de salvamento automático
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Verificar se o DataManager já está inicializado
             if (!window.dataManager) {
                 console.log('⚠️ DataManager não encontrado, inicializando...');
                 window.dataManager = new DataManager();
             }
-            
-            // Configurar o botão de limpeza de duplicações
-            configurarBotaoLimpezaDuplicacoes();
+
+            // Botão de limpeza de duplicações removido - não é mais necessário
 
             // Atualizar informação de última atualização
             window.atualizarUltimaAtualizacao();
-            
+
             // Configurar atualização periódica da exibição da última atualização
             setInterval(window.atualizarUltimaAtualizacao, 60000); // Atualizar a cada minuto
-            
+
             // Aplicar dados na inicialização
             setTimeout(() => {
                 if (window.dataManager && !window.dataManagerInitialized) {
@@ -3821,18 +3845,18 @@
                     window.dataManagerInitialized = true;
                 }
             }, 500);
-            
+
             // Vincular salvamento automático quando o botão de administração é clicado (para fechar)
             const btnAdminClose = document.getElementById('adminClose');
             if (btnAdminClose) {
-                btnAdminClose.addEventListener('click', function() {
+                btnAdminClose.addEventListener('click', function () {
                     console.log('Fechando painel admin, salvando dados...');
                     if (window.dataManager) {
                         window.dataManager.salvarNoLocalStorage();
                     }
                 });
             }
-            
+
             console.log('✅ Inicialização concluída');
         });
     </script>
