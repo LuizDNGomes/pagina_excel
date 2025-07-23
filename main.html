@@ -597,15 +597,27 @@
             background: rgba(0, 0, 0, 0.1);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         /* Estilo para o botão de administração no footer */
-        #btnAdminAcesso {
+        .admin-button {
+            background-color: #0078d4;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: bold;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        #btnAdminAcesso:hover {
-            background-color: #FFA500 !important;
+        .admin-button:hover {
+            background-color: #005a9e;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -759,10 +771,17 @@
             }
 
             /* Ajustes do footer para mobile */
-            .footer div {
+            .footer {
                 flex-direction: column;
                 gap: 10px;
                 align-items: center;
+            }
+
+            .admin-button {
+                margin-top: 10px;
+                margin-left: 0;
+                width: 100%;
+                max-width: 200px;
             }
 
             .footer p {
@@ -2007,48 +2026,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <ul class="anniversary-list">
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">MB</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Mariana Bueno
-                                        <span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i>
-                                            22/07</span>
-                                    </div>
-                                    <div class="anniversary-date">Depto. Financeiro</div>
-                                </div>
-                            </li>
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">PL</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Paulo Lima</div>
-                                    <div class="anniversary-date">24 de julho • Engenharia</div>
-                                </div>
-                            </li>
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">RS</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Rafael Santos
-                                        <span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i>
-                                            22/07</span>
-                                    </div>
-                                    <div class="anniversary-date">Depto. Projetos</div>
-                                </div>
-                            </li>
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">AC</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Ana Carvalho</div>
-                                    <div class="anniversary-date">30 de julho • Comercial</div>
-                                </div>
-                            </li>
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">JP</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">João Paulo</div>
-                                    <div class="anniversary-date">2 de agosto • TI</div>
-                                </div>
-                            </li>
+                        <ul class="anniversary-list" id="aniversariosPessoaisList">
+                            <!-- Aniversários pessoais serão carregados do JSON via JavaScript -->
                         </ul>
                     </div>
                 </div>
@@ -2067,42 +2046,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <ul class="anniversary-list">
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">LG</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Lucas Gomes</div>
-                                    <div class="anniversary-date">5 anos • 25 de julho</div>
-                                </div>
-                            </li>
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">FS</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Fernanda Souza</div>
-                                    <div class="anniversary-date">3 anos • 1 de agosto</div>
-                                </div>
-                            </li>
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">JR</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Juliana Ribeiro</div>
-                                    <div class="anniversary-date">10 anos • 3 de agosto</div>
-                                </div>
-                            </li>
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">TM</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Thiago Mendes</div>
-                                    <div class="anniversary-date">2 anos • 10 de agosto</div>
-                                </div>
-                            </li>
-                            <li class="anniversary-item">
-                                <div class="anniversary-avatar">MC</div>
-                                <div class="anniversary-info">
-                                    <div class="anniversary-name">Maria Costa</div>
-                                    <div class="anniversary-date">7 anos • 15 de agosto</div>
-                                </div>
-                            </li>
+                        <ul class="anniversary-list" id="aniversariosEmpresaList">
+                            <!-- Aniversários de empresa serão carregados do JSON via JavaScript -->
                         </ul>
                     </div>
                 </div>
@@ -2121,65 +2066,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="news-container">
-                            <div class="news-item">
-                                <div class="news-content">
-                                    <h3 class="news-title">Novo contrato firmado com cliente multinacional</h3>
-                                    <p class="news-excerpt">A Excel Engenharia acaba de firmar um importante contrato
-                                        para o desenvolvimento de projetos estruturais em cinco estados brasileiros.
-                                        Este contrato marca uma expansão significativa da empresa.</p>
-                                    <div class="news-meta">
-                                        <div class="news-date">
-                                            <i class="far fa-calendar"></i>
-                                            20/07/2025
-                                        </div>
-                                        <div class="news-author">
-                                            <i class="far fa-user"></i>
-                                            Diretoria
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="news-item">
-                                <div class="news-content">
-                                    <h3 class="news-title">Novas tecnologias implementadas na empresa</h3>
-                                    <p class="news-excerpt">A partir de agosto, todos os setores da Excel Engenharia
-                                        passarão a utilizar o novo sistema integrado de gestão de projetos. Treinamentos
-                                        serão oferecidos durante todo o mês de julho para adaptação dos colaboradores.
-                                    </p>
-                                    <div class="news-meta">
-                                        <div class="news-date">
-                                            <i class="far fa-calendar"></i>
-                                            15/07/2025
-                                        </div>
-                                        <div class="news-author">
-                                            <i class="far fa-user"></i>
-                                            TI
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="news-item">
-                                <div class="news-content">
-                                    <h3 class="news-title">Confraternização semestral será realizada em agosto</h3>
-                                    <p class="news-excerpt">Reserve a data! Nossa confraternização semestral acontecerá
-                                        no dia 15 de agosto, com várias novidades e atividades para todos os
-                                        colaboradores da empresa. O evento será realizado no Espaço Green Garden a
-                                        partir das 18h.</p>
-                                    <div class="news-meta">
-                                        <div class="news-date">
-                                            <i class="far fa-calendar"></i>
-                                            18/07/2025
-                                        </div>
-                                        <div class="news-author">
-                                            <i class="far fa-user"></i>
-                                            RH
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="news-container" id="noticiasContainer">
+                            <!-- Notícias serão carregadas do JSON via JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -2238,14 +2126,8 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | Intranet Interno v1.0</p>
-            <!-- Botão de administração no footer -->
-            <button id="btnAdminAcesso"
-                style="background-color: #01627E; color: white; border: 2px solid #FFA500; border-radius: 4px; padding: 6px 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; margin-left: 15px;">
-                <i class="fas fa-cog"></i> Administração
-            </button>
-        </div>
+        <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | Intranet Interno v1.0</p>
+        <button id="adminBtn" class="admin-button"><i class="fas fa-cog"></i> Administrador</button>
     </footer>
 
     <div class="admin-panel" id="adminPanel">
@@ -2509,37 +2391,6 @@
             verificarFeriado();
             atualizarRelogio();
 
-            // Configurar o botão de administração no footer
-            const btnAdmin = document.getElementById('btnAdminAcesso');
-            if (btnAdmin) {
-                btnAdmin.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Botão de administração clicado');
-
-                    const adminPanel = document.getElementById('adminPanel');
-                    if (adminPanel) {
-                        adminPanel.classList.add('active');
-                        adminPanel.style.display = 'block';
-                        adminPanel.style.visibility = 'visible';
-                        adminPanel.style.transform = 'translateY(0)';
-                        adminPanel.style.opacity = '1';
-                        adminPanel.style.pointerEvents = 'auto';
-                        adminPanel.style.zIndex = '9999';
-
-                        // Animação de feedback visual no botão
-                        btnAdmin.style.backgroundColor = '#FFA500';
-                        setTimeout(() => {
-                            btnAdmin.style.backgroundColor = '#01627E';
-                        }, 300);
-                    } else {
-                        alert('Erro: Painel de administração não encontrado!');
-                    }
-
-                    return false;
-                });
-            }
-
             // Configuração robusta do painel admin na inicialização
             console.log('🔄 Inicializando painel admin...');
 
@@ -2780,59 +2631,25 @@
                 }
             }
 
-            // Adicionar um botão extra para emergências - botão vermelho destacado
-            const painelEmergencia = document.createElement('button');
-            painelEmergencia.innerHTML = '<i class="fas fa-tools"></i> ABRIR ADMIN (EMERGÊNCIA)';
-            painelEmergencia.style.position = 'fixed';
-            painelEmergencia.style.top = '10px';
-            painelEmergencia.style.right = '10px';
-            painelEmergencia.style.zIndex = '10002';
-            painelEmergencia.style.padding = '10px 15px';
-            painelEmergencia.style.background = 'red';
-            painelEmergencia.style.color = 'white';
-            painelEmergencia.style.border = '3px solid white';
-            painelEmergencia.style.borderRadius = '5px';
-            painelEmergencia.style.cursor = 'pointer';
-            painelEmergencia.style.fontWeight = 'bold';
-            painelEmergencia.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.7)';
+            // Botão de emergência removido conforme solicitado
 
-            // Usar onclick diretamente em vez de referenciar a função
-            painelEmergencia.onclick = function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('🚨 Botão de EMERGÊNCIA clicado!');
-
-                // Força a abertura do painel com alerta
-                alert('Abrindo painel administrativo em modo de emergência!');
-
-                // Manipula diretamente o painel em vez de chamar a função
-                try {
-                    const adminPanelDir = document.getElementById('adminPanel');
-                    if (adminPanelDir) {
-                        adminPanelDir.className = 'admin-panel active';
-                        adminPanelDir.style.display = 'block';
-                        adminPanelDir.style.transform = 'translateY(0)';
-                        adminPanelDir.style.opacity = '1';
-                        adminPanelDir.style.pointerEvents = 'auto';
-                        console.log('✅ Painel admin aberto via botão de emergência!');
-                    } else {
-                        console.error('❌ Painel admin não encontrado (emergência)!');
-                        alert('ERRO: Painel admin não encontrado!');
-                    }
-                } catch (error) {
-                    console.error('❌ Erro ao abrir o painel via emergência:', error);
-                    alert('ERRO ao abrir painel: ' + error.message);
-                }
-
-                return false;
-            };
-
-            document.body.appendChild(painelEmergencia);
+            // Configurar o botão de administrador no footer
+            const adminBtn = document.getElementById('adminBtn');
+            if (adminBtn) {
+                adminBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    console.log('🔘 Botão de administrador no footer clicado');
+                    abrirPainelAdmin();
+                });
+                console.log('✅ Botão de administrador no footer configurado');
+            } else {
+                console.error('❌ Botão de administrador no footer não encontrado');
+            }
 
             // Também fechar o painel ao clicar fora dele (simplificado)
             document.addEventListener('click', function (e) {
                 if (adminPanel && adminPanel.classList.contains('active') &&
-                    !adminPanel.contains(e.target)) {
+                    !adminPanel.contains(e.target) && e.target.id !== 'adminBtn') {
                     fecharPainelAdmin();
                 }
             });
@@ -4031,14 +3848,233 @@
                 });
             }
 
-            // Configurar checkboxes inicialmente e quando o painel é aberto
+            // Configurar checkboxes inicialmente
             configurarCheckboxesAdmin();
-            document.getElementById('btnAdminAcesso').addEventListener('click', function () {
-                setTimeout(configurarCheckboxesAdmin, 500);
-            });
 
             console.log('✅ Inicialização concluída');
+
+            // Função para carregar dados do JSON e renderizá-los na interface
+            carregarDadosJSON();
         });
+
+        // Função para carregar dados do arquivo JSON
+        function carregarDadosJSON() {
+            fetch('dashboard_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Renderizar aniversários pessoais
+                    renderizarAniversariosPessoais(data.aniversariosPessoais);
+
+                    // Renderizar aniversários de empresa
+                    renderizarAniversariosEmpresa(data.aniversariosEmpresa);
+
+                    // Renderizar notícias
+                    renderizarNoticias(data.noticias);
+
+                    // Inicializar eventos (já está sendo tratado pelo código existente)
+                    // Atualizar com dados do JSON se necessário
+                    if (data.eventos && data.eventos.length > 0) {
+                        atualizarProximoEvento(data.eventos);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar dados do JSON:', error);
+                });
+        }
+
+        // Função para renderizar aniversários pessoais
+        function renderizarAniversariosPessoais(aniversarios) {
+            const lista = document.getElementById('aniversariosPessoaisList');
+            if (!lista) return;
+
+            lista.innerHTML = '';
+
+            aniversarios.forEach(aniversario => {
+                const hoje = new Date();
+                const dataAniv = extrairDataAniversario(aniversario.data);
+                const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
+
+                // Obter iniciais para o avatar
+                const iniciais = obterIniciais(aniversario.nome);
+
+                const li = document.createElement('li');
+                li.className = 'anniversary-item';
+
+                li.innerHTML = `
+                    <div class="anniversary-avatar">${iniciais}</div>
+                    <div class="anniversary-info">
+                        <div class="anniversary-name">${aniversario.nome}
+                            ${isHoje ? `<span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i>
+                                ${aniversario.data}</span>` : ''}
+                        </div>
+                        <div class="anniversary-date">${aniversario.depto}</div>
+                    </div>
+                `;
+
+                lista.appendChild(li);
+            });
+        }
+
+        // Função para renderizar aniversários de empresa
+        function renderizarAniversariosEmpresa(aniversarios) {
+            const lista = document.getElementById('aniversariosEmpresaList');
+            if (!lista) return;
+
+            lista.innerHTML = '';
+
+            aniversarios.forEach(aniversario => {
+                const hoje = new Date();
+                const dataAniv = extrairDataAniversario(aniversario.data);
+                const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
+
+                // Obter iniciais para o avatar
+                const iniciais = obterIniciais(aniversario.nome);
+
+                const li = document.createElement('li');
+                li.className = 'anniversary-item';
+
+                li.innerHTML = `
+                    <div class="anniversary-avatar">${iniciais}</div>
+                    <div class="anniversary-info">
+                        <div class="anniversary-name">${aniversario.nome}
+                            ${isHoje ? `<span class="anniversary-badge">Hoje! <i class="fas fa-trophy"></i></span>` : ''}
+                        </div>
+                        <div class="anniversary-date">${aniversario.anos} anos • ${aniversario.data}</div>
+                    </div>
+                `;
+
+                lista.appendChild(li);
+            });
+        }
+
+        // Função para renderizar notícias
+        function renderizarNoticias(noticias) {
+            const container = document.getElementById('noticiasContainer');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            noticias.forEach(noticia => {
+                const div = document.createElement('div');
+                div.className = 'news-item';
+
+                div.innerHTML = `
+                    <div class="news-content">
+                        <h3 class="news-title">${noticia.titulo}</h3>
+                        <p class="news-excerpt">${noticia.conteudo}</p>
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="far fa-calendar"></i>
+                                ${noticia.data}
+                            </div>
+                            <div class="news-author">
+                                <i class="far fa-user"></i>
+                                ${noticia.autor}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(div);
+            });
+        }
+
+        // Função para atualizar o próximo evento com dados do JSON
+        // Função para atualizar o próximo evento com dados do JSON
+        function atualizarProximoEvento(eventosDoJSON) {
+            // Se receber eventos do JSON, usar esses eventos
+            if (eventosDoJSON && eventosDoJSON.length > 0) {
+                eventos = eventosDoJSON; // Atualiza a variável global
+                salvarEventos(); // Salva no localStorage
+            }
+
+            // Se não houver eventos, não fazer nada
+            if (!eventos || eventos.length === 0) return;
+
+            // Ordenar eventos por data
+            eventos.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+            // Filtrar apenas eventos futuros
+            const eventosFuturos = eventos.filter(evento => new Date(evento.data) > new Date());
+
+            if (eventosFuturos.length > 0) {
+                const proximoEvento = eventosFuturos[0];
+
+                // Atualizar nome do evento
+                const eventNameEl = document.getElementById('eventName');
+                if (eventNameEl) eventNameEl.textContent = proximoEvento.nome;
+
+                // Atualizar descrição
+                const eventDescEl = document.getElementById('eventDescription');
+                if (eventDescEl) eventDescEl.textContent = proximoEvento.descricao;
+
+                // Atualizar local
+                const eventLocEl = document.getElementById('eventLocation');
+                if (eventLocEl) eventLocEl.textContent = proximoEvento.local;
+
+                // Atualizar data de exibição
+                const eventDateEl = document.getElementById('eventDateDisplay');
+                if (eventDateEl) {
+                    const dataEvento = new Date(proximoEvento.data);
+                    eventDateEl.textContent = dataEvento.toLocaleDateString('pt-BR');
+                }
+
+                // O cronômetro será atualizado pelo método inicializarEventos()
+                dataAlvoEvento = new Date(proximoEvento.data);
+            }
+        }
+
+        // Função para extrair dia e mês de uma string de data no formato DD/MM
+        function extrairDataAniversario(dataStr) {
+            const partes = dataStr.split('/');
+            return {
+                dia: parseInt(partes[0], 10),
+                mes: parseInt(partes[1], 10)
+            };
+        }
+
+        // Função para obter as iniciais de um nome
+        function obterIniciais(nome) {
+            if (!nome) return '';
+
+            return nome.split(' ')
+                .map(n => n[0])
+                .slice(0, 2)
+                .join('')
+                .toUpperCase();
+        }
+
+        // Função para iniciar o cronômetro para um evento
+        function iniciarCronometroEvento(dataEvento) {
+            const dataAlvo = new Date(dataEvento);
+
+            function atualizarCronometro() {
+                const agora = new Date();
+                const diferenca = dataAlvo - agora;
+
+                if (diferenca <= 0) {
+                    document.getElementById('countdownDays').textContent = '00';
+                    document.getElementById('countdownHours').textContent = '00';
+                    document.getElementById('countdownMinutes').textContent = '00';
+                    document.getElementById('countdownSeconds').textContent = '00';
+                    return;
+                }
+
+                const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+                document.getElementById('countdownDays').textContent = String(dias).padStart(2, '0');
+                document.getElementById('countdownHours').textContent = String(horas).padStart(2, '0');
+                document.getElementById('countdownMinutes').textContent = String(minutos).padStart(2, '0');
+                document.getElementById('countdownSeconds').textContent = String(segundos).padStart(2, '0');
+            }
+
+            // Atualizar imediatamente e depois a cada segundo
+            atualizarCronometro();
+            setInterval(atualizarCronometro, 1000);
+        }
     </script>
 </body>
 
