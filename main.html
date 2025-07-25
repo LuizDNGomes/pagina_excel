@@ -43,11 +43,13 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
+            padding: 10px 20px;
         }
 
         .logo-brand {
             display: flex;
             align-items: center;
+            gap: 20px;
             gap: 15px;
         }
 
@@ -130,12 +132,15 @@
 
         .clock-header {
             background: rgba(255, 255, 255, 0.2);
-            padding: 6px 20px;
+            padding: 10px 25px;
             border-radius: 20px;
-            font-weight: 700;
-            font-size: 20px;
+            font-weight: 800;
+            font-size: 28px;
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
 
         .main-content {
@@ -604,22 +609,37 @@
 
         /* Estilo para o botão de administração no footer */
         .admin-button {
-            background-color: #0078d4;
+            background: linear-gradient(135deg, #01627E, #014d62);
             color: white;
-            padding: 8px 15px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 4px;
-            margin-left: 10px;
+            border-radius: 8px;
+            margin-left: 15px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 18px;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-button i {
+            font-size: 20px;
+            color: #FFA500;
         }
 
         .admin-button:hover {
-            background-color: #005a9e;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #FFA500, #ff8c00);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .admin-button:hover i {
+            color: #fff;
         }
 
         @keyframes fadeInUp {
@@ -637,10 +657,48 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
+                transform: translateY(30px);
             }
 
             to {
                 opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
             }
         }
 
@@ -667,40 +725,99 @@
         .today-highlight {
             background: linear-gradient(45deg, #FFA500, #ffc04d);
             color: white;
-            border-radius: 15px;
-            padding: 25px 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.4);
+            border-radius: 20px;
+            padding: 30px 50px;
+            margin: 100px auto 40px;
+            max-width: 95%;
+            box-shadow: 0 15px 40px rgba(255, 165, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            animation: fadeIn 0.8s ease-out forwards;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: fadeIn 1s ease-out forwards;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .today-highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%);
+            z-index: 1;
+            pointer-events: none;
         }
 
         .today-date {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 28px;
+            font-weight: 800;
             text-transform: capitalize;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            position: relative;
+            z-index: 2;
+        }
+
+        .today-date .weekday {
+            font-weight: 900;
+            color: #01526a;
+            text-transform: uppercase;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+            margin-right: 5px;
         }
 
         .today-events {
-            font-size: 18px;
+            font-size: 22px;
             display: flex;
-            gap: 25px;
+            flex-wrap: wrap;
+            gap: 35px;
             font-weight: 600;
+            position: relative;
+            z-index: 2;
         }
 
         .today-event-item {
             display: flex;
             align-items: center;
             font-weight: 700;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 10px 18px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            min-width: 200px;
+            justify-content: space-between;
+        }
+
+        .today-event-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.2);
         }
 
         .today-event-item i {
-            margin-right: 10px;
-            color: #fff;
-            font-size: 18px;
+            margin-right: 12px;
+            color: #FFA500;
+            font-size: 24px;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .today-event-item:nth-child(2) i {
+            color: #01627E;
+        }
+
+        .today-event-item b {
+            margin-left: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 10px;
+            border-radius: 50px;
+            min-width: 32px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .holiday-badge {
@@ -725,10 +842,17 @@
         }
 
         .clock {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
             border-radius: 20px;
-            font-weight: 500;
+            font-weight: 700;
+            font-size: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+            color: white;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
         }
 
         /* Responsividade */
@@ -855,10 +979,11 @@
         /* Otimização para TVs */
         @media (min-width: 1920px) {
             .dashboard {
-                max-width: 1800px;
-                gap: 60px;
+                max-width: 1900px;
+                gap: 70px;
                 height: 100%;
-                padding: 0 40px;
+                padding: 0 50px;
+                margin: 0 auto 60px;
             }
 
             /* Ajuste para garantir que a disposição continue em linha na TV */
@@ -866,25 +991,38 @@
                 display: flex;
                 flex-direction: row;
                 width: 100%;
-                gap: 40px;
+                gap: 50px;
+                justify-content: space-between;
             }
 
             .today-highlight {
-                max-width: 1800px;
-                margin: 0 auto 40px;
-                padding: 30px 60px;
+                max-width: 1900px;
+                margin: 0 auto 50px;
+                padding: 35px 70px;
+                border-radius: 20px;
                 border-radius: 15px;
             }
 
             .today-date {
-                font-size: 36px;
+                font-size: 42px;
                 font-weight: 800;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+                margin-bottom: 15px;
+                line-height: 1.4;
+            }
+
+            .today-date .weekday {
+                font-size: 48px;
+                letter-spacing: 1px;
+                text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
             }
 
             .today-events {
                 font-size: 32px;
                 font-weight: 700;
+                gap: 40px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
             }
 
             .holiday-badge {
@@ -895,11 +1033,25 @@
             }
 
             .clock {
-                font-size: 30px;
-                padding: 10px 30px;
+                font-size: 36px;
+                padding: 12px 35px;
                 border-radius: 30px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-                background: rgba(255, 255, 255, 0.3);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+                background: rgba(0, 0, 0, 0.25);
+                border: 3px solid rgba(255, 255, 255, 0.4);
+                text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+                letter-spacing: 2px;
+                font-weight: 800;
+            }
+
+            .today-event-item {
+                padding: 12px 25px;
+                border-radius: 20px;
+            }
+
+            .today-event-item i {
+                font-size: 32px;
+                margin-right: 15px;
             }
 
             .company-name {
@@ -1044,22 +1196,51 @@
 
         /* Estilos para melhor visualização em TV */
         .tv-mode .dashboard-card {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-            border: 4px solid rgba(1, 98, 126, 0.4);
-            transform: scale(1.02);
-            transition: transform 0.5s ease;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border: 5px solid rgba(1, 98, 126, 0.5);
+            transform: scale(1.03);
+            transition: transform 0.6s ease, box-shadow 0.6s ease;
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(5px);
+        }
+
+        .tv-mode .dashboard-card:hover {
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+            transform: translateY(-5px) scale(1.04);
+        }
+
+        .tv-mode .card-header {
+            background: linear-gradient(135deg, #01627E, #01526a);
+            padding: 25px 30px;
+            border-bottom: 4px solid #FFA500;
+        }
+
+        .tv-mode .card-title {
+            font-size: 32px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tv-mode .card-title i {
+            font-size: 32px;
+            margin-right: 15px;
+            color: #FFA500;
         }
 
         .tv-mode .card-body {
-            padding-top: 35px;
-            padding-bottom: 35px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.98);
         }
 
         .tv-mode .footer {
-            padding: 20px;
-            margin-top: 25px;
+            padding: 25px 40px;
+            margin-top: 35px;
             font-weight: 700;
-            font-size: 22px;
+            font-size: 26px;
+            background: linear-gradient(to right, #01627E, #01526a);
+            border-top: 4px solid #FFA500;
         }
 
         /* Estilo para itens marcados para remoção no painel admin */
@@ -1915,22 +2096,24 @@
 
         .admin-toggle {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 70px;
-            height: 70px;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: #01627E;
+            background: linear-gradient(135deg, #01627E, #014d62);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
             cursor: pointer;
             z-index: 10001;
             /* Acima do painel */
-            border: 4px solid #FFA500;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            border: 5px solid #FFA500;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                box-shadow 0.3s ease;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             animation: pulse 2s infinite;
@@ -1944,7 +2127,7 @@
             }
 
             70% {
-                box-shadow: 0 0 0 15px rgba(255, 165, 0, 0);
+                box-shadow: 0 0 0 20px rgba(255, 165, 0, 0);
             }
 
             100% {
@@ -1953,21 +2136,28 @@
         }
 
         .admin-toggle:hover {
-            transform: rotate(30deg);
-            background: #FFA500;
+            transform: rotate(30deg) scale(1.1);
+            background: linear-gradient(135deg, #FFA500, #ff8c00);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
         }
 
         .admin-toggle.active {
-            background: #FFA500;
-            transform: rotate(90deg);
+            background: linear-gradient(135deg, #FFA500, #ff8c00);
+            transform: rotate(90deg) scale(1.1);
+            border-color: #fff;
         }
 
         .admin-toggle i {
-            font-size: 32px;
+            font-size: 36px;
             pointer-events: none;
             /* Garante que o ícone não interfira nos cliques */
             color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .admin-toggle:hover i {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -2002,13 +2192,17 @@
             <div class="today-events">
                 <div class="today-event-item">
                     <i class="fas fa-birthday-cake fa-lg"></i>
-                    Aniversários: <b>2</b>
+                    Aniversários: <b id="aniversarios-contador">0</b>
+                </div>
+                <div class="today-event-item">
+                    <i class="fas fa-building fa-lg"></i>
+                    Aniv. Empresa: <b id="aniversarios-empresa-contador">0</b>
                 </div>
                 <div class="today-event-item">
                     <i class="fas fa-calendar-check fa-lg"></i>
-                    Eventos: <b>1</b>
+                    Eventos: <b id="eventos-contador">1</b>
                 </div>
-                <div class="clock" id="relogio">10:30:45</div>
+                <div class="clock" id="relogio">16:42:56</div>
             </div>
         </div>
 
@@ -2367,9 +2561,29 @@
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
 
-            // Usa as cores da Excel Engenharia no gradiente dinâmico
-            const angle = 135 + (x * 15) - (y * 10);
-            document.body.style.background = `linear-gradient(${angle}deg, #01627E 0%, #054b5f ${30 + x * 20}%, #FFA500 100%)`;
+            // Usa as cores da Excel Engenharia no gradiente dinâmico com efeito mais suave
+            const angle = 135 + (x * 20) - (y * 15);
+            document.body.style.background = `linear-gradient(${angle}deg, #01627E 0%, #054b5f ${35 + x * 25}%, #FFA500 100%)`;
+
+            // Aplica efeito parallax em elementos de destaque
+            const cards = document.querySelectorAll('.dashboard-card');
+            cards.forEach(card => {
+                const depth = 15; // Profundidade do efeito
+                const moveX = (x * depth) - (depth / 2);
+                const moveY = (y * depth) - (depth / 2);
+                card.style.transform = `scale(1.03) translate3d(${moveX}px, ${moveY}px, 0)`;
+                card.style.transition = 'transform 0.3s ease-out';
+            });
+
+            // Efeito parallax no highlight de hoje
+            const todayHighlight = document.querySelector('.today-highlight');
+            if (todayHighlight) {
+                const depthToday = 25;
+                const moveXToday = (x * depthToday) - (depthToday / 2);
+                const moveYToday = (y * depthToday) - (depthToday / 2);
+                todayHighlight.style.transform = `translate3d(${moveXToday}px, ${moveYToday}px, 0)`;
+                todayHighlight.style.transition = 'transform 0.3s ease-out';
+            }
         });
 
         // Atualiza a data no destaque de hoje
@@ -2382,7 +2596,31 @@
                 day: 'numeric'
             };
 
-            document.getElementById('data-hoje').textContent = hoje.toLocaleDateString('pt-BR', opcoes);
+            // Formata a data e adiciona mais espaço entre o dia da semana e o resto da data
+            const dataFormatada = hoje.toLocaleDateString('pt-BR', opcoes);
+            const partesData = dataFormatada.split(', ');
+
+            if (partesData.length > 1) {
+                const diaSemana = partesData[0];
+                const restoDaData = partesData[1];
+
+                // Usar HTML para formatar o dia da semana diferente
+                document.getElementById('data-hoje').innerHTML =
+                    `<span class="weekday">${diaSemana}</span>,&nbsp;&nbsp;&nbsp;${restoDaData}`;
+            } else {
+                document.getElementById('data-hoje').textContent = dataFormatada;
+            }
+        }
+
+        // Função para atualizar os contadores de eventos do dia
+        function atualizarContadoresEventos() {
+            // Esta função deve ser chamada sempre que os dados de aniversários e eventos forem carregados
+            // Por enquanto, vamos apenas inicializar com valores estáticos
+            document.getElementById('aniversarios-contador').textContent = '0';
+            document.getElementById('aniversarios-empresa-contador').textContent = '0';
+            document.getElementById('eventos-contador').textContent = '1';
+
+            // No futuro, estes valores serão atualizados dinamicamente com base nos dados carregados
         }
 
         // Inicializa a página
@@ -2390,6 +2628,30 @@
             atualizarDataHoje();
             verificarFeriado();
             atualizarRelogio();
+            atualizarContadoresEventos();
+
+            // Aplicando animações aos cards do dashboard
+            const cols = document.querySelectorAll('.dashboard-col');
+            if (cols.length > 0) {
+                cols[0].querySelector('.dashboard-card').style.animation = 'slideInLeft 1s ease-out forwards';
+
+                if (cols.length > 1) {
+                    cols[1].querySelector('.dashboard-card').style.animation = 'fadeIn 1s ease-out 0.2s forwards';
+                    cols[1].querySelector('.dashboard-card').style.opacity = '0';
+                }
+
+                if (cols.length > 2) {
+                    cols[2].querySelector('.dashboard-card').style.animation = 'slideInRight 1s ease-out 0.4s forwards';
+                    cols[2].querySelector('.dashboard-card').style.opacity = '0';
+                }
+            }
+
+            // Animação para o card de evento
+            const eventCard = document.querySelector('.event-card');
+            if (eventCard) {
+                eventCard.style.animation = 'zoomIn 1.2s ease-out 0.6s forwards';
+                eventCard.style.opacity = '0';
+            }
 
             // Configuração robusta do painel admin na inicialização
             console.log('🔄 Inicializando painel admin...');
