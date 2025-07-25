@@ -218,7 +218,7 @@ class DataManager {
      */
     salvarDados() {
         try {
-            // Coletar dados do DOM
+            // Coletar dados do DOM - IMPORTANTE: Isso atualiza o objeto data com os valores atuais do DOM
             this.coletarDados();
             
             // Converter para string JSON
@@ -247,6 +247,9 @@ class DataManager {
             
             // Também salvar no localStorage
             this.salvarNoLocalStorage();
+            
+            // Mostrar mensagem ao usuário
+            alert('Arquivo JSON exportado com sucesso! Para atualizar o site, substitua o arquivo dashboard_data.json no servidor pelo arquivo baixado.');
             
             console.log('✅ Dados exportados com sucesso!');
             return true;
@@ -526,15 +529,39 @@ class DataManager {
         
         // Coletar notícias
         this.data.noticias = [];
-        document.querySelectorAll('.news-item').forEach(item => {
-            const titulo = item.querySelector('.news-title')?.textContent || '';
-            const conteudo = item.querySelector('.news-excerpt')?.textContent || '';
-            const autor = item.querySelector('.news-author')?.textContent.replace(/^.*?\s/, '') || '';
-            const data = item.querySelector('.news-date')?.textContent.replace(/^.*?\s/, '') || '';
-            const prioridade = item.classList.contains('high-priority') ? 'alta' : 'normal';
-            
-            this.data.noticias.push({ titulo, conteudo, autor, data, prioridade });
+        // Procurar por todos os card-titles para encontrar o de notícias
+        const cardTitles = document.querySelectorAll('.card-title');
+        let newsContainer = null;
+        
+        // Encontrar o container de notícias pelo texto do título
+        cardTitles.forEach(title => {
+            if (title.textContent.includes('Notícias')) {
+                // Subir para o card e depois descer para o card-body
+                newsContainer = title.closest('.dashboard-card')?.querySelector('.card-body');
+            }
         });
+        
+        // Se encontramos o container de notícias, verificamos se há itens de notícias
+        if (newsContainer) {
+            const newsItems = document.querySelectorAll('.news-item');
+            
+            // Se existem itens de notícias, os coletamos
+            if (newsItems && newsItems.length > 0) {
+                newsItems.forEach(item => {
+                    const titulo = item.querySelector('.news-title')?.textContent || '';
+                    const conteudo = item.querySelector('.news-excerpt')?.textContent || '';
+                    const autor = item.querySelector('.news-author')?.textContent.replace(/^.*?\s/, '') || '';
+                    const data = item.querySelector('.news-date')?.textContent.replace(/^.*?\s/, '') || '';
+                    const prioridade = item.classList.contains('high-priority') ? 'alta' : 'normal';
+                    
+                    this.data.noticias.push({ titulo, conteudo, autor, data, prioridade });
+                });
+            }
+            // Se não há itens de notícias, mantemos o array vazio
+            console.log('🔄 Coletado array de notícias com ' + this.data.noticias.length + ' itens');
+        } else {
+            console.log('ℹ️ Container de notícias não encontrado no DOM.');
+        }
         
         // Coletar eventos (se disponível no localStorage)
         const eventosArmazenados = localStorage.getItem('excelEventos');
