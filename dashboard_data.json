@@ -14,6 +14,16 @@
       "nome": "Marcos Oliveira",
       "depto": "Engenharia",
       "data": "10/09"
+    },
+    {
+      "nome": "Gabriela Santos",
+      "depto": "RH",
+      "data": "06/08"
+    },
+    {
+      "nome": "Roberto Almeida",
+      "depto": "Financeiro",
+      "data": "29/08"
     }
   ],
   "aniversariosEmpresa": [
@@ -31,35 +41,69 @@
       "nome": "Patricia Almeida",
       "anos": 3,
       "data": "22/09"
+    },
+    {
+      "nome": "Fernando Gomes",
+      "anos": 7,
+      "data": "06/08"
+    },
+    {
+      "nome": "Luciana Pereira",
+      "anos": 2,
+      "data": "18/08"
     }
   ],
   "noticias": [
     {
       "titulo": "Nova parceria estratégica",
-      "conteudo": "Excel Engenharia firma parceria com grande empresa do setor de construção.",
+      "conteudo": "Excel Engenharia firma parceria com grande empresa do setor de construção, expandindo nossa atuação para o mercado internacional.",
       "autor": "Departamento de Marketing",
-      "data": "23/07/2025"
+      "data": "01/08/2025"
     },
     {
       "titulo": "Treinamento de equipe",
-      "conteudo": "Próximo mês teremos treinamento técnico para todos os colaboradores.",
+      "conteudo": "Próximo mês teremos treinamento técnico para todos os colaboradores, focando em novas tecnologias e metodologias de trabalho.",
       "autor": "RH",
       "data": "20/07/2025"
+    },
+    {
+      "titulo": "Projeto premiado",
+      "conteudo": "Nosso projeto no Centro Empresarial foi premiado pela associação de arquitetos como melhor solução estrutural do ano.",
+      "autor": "Diretoria",
+      "data": "05/08/2025"
+    },
+    {
+      "titulo": "Novos equipamentos",
+      "conteudo": "Acabamos de adquirir novos equipamentos para o setor de projetos, melhorando nossa capacidade produtiva em 30%.",
+      "autor": "TI",
+      "data": "03/08/2025"
     }
   ],
   "eventos": [
     {
       "nome": "Reunião Geral",
-      "descricao": "Apresentação dos resultados trimestrais",
+      "descricao": "Apresentação dos resultados trimestrais e novas metas para o próximo trimestre",
       "local": "Auditório Principal",
-      "data": "2025-07-23T14:00:00"
+      "data": "2025-08-10T14:00:00"
     },
     {
       "nome": "Workshop de Inovação",
-      "descricao": "Desenvolvimento de novas ideias para projetos",
+      "descricao": "Desenvolvimento de novas ideias para projetos e melhorias nos processos internos",
       "local": "Sala de Treinamento 2",
-      "data": "2025-08-05T09:00:00"
+      "data": "2025-08-15T09:00:00"
+    },
+    {
+      "nome": "Confraternização de Aniversariantes",
+      "descricao": "Celebração dos aniversariantes do mês de agosto",
+      "local": "Área de Convivência",
+      "data": "2025-08-30T16:30:00"
+    },
+    {
+      "nome": "Treinamento BIM",
+      "descricao": "Capacitação em modelagem de informação da construção para toda equipe técnica",
+      "local": "Laboratório de Tecnologia",
+      "data": "2025-08-20T08:30:00"
     }
   ],
-  "lastUpdated": "2025-07-23T10:00:00.000Z"
+  "lastUpdated": "2025-08-06T10:00:00.000Z"
 }

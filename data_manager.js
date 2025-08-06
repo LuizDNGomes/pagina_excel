@@ -178,6 +178,11 @@ class DataManager {
                 window.atualizarUltimaAtualizacao();
             }
             
+            // Mostrar notificação de atualização
+            if (typeof window.mostrarNotificacaoAtualizacao === 'function') {
+                window.mostrarNotificacaoAtualizacao();
+            }
+            
             this.salvamentoEmAndamento = false;
             return true;
         } catch (error) {
