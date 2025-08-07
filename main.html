@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Intranet Excel Engenharia - Dashboard corporativo para aniversários, notícias e eventos">
+    <meta name="description" content="Intranet Excel Engenharia - Dashboard corporativo para aniversários, notícias e eventos">
     <meta name="author" content="Excel Engenharia">
     <meta name="theme-color" content="#01627E">
     <title>Intranet Excel Engenharia</title>
@@ -197,10 +196,12 @@
             border: 1px solid rgba(1, 98, 126, 0.1);
             min-height: 0;
             /* Importante para evitar overflow */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
         }
 
-        /* Removido efeito hover para uma interface mais estável */
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+        }
 
         .card-header {
             background: linear-gradient(45deg, #01627E, #0188a9);
@@ -1207,10 +1208,12 @@
             overflow: hidden;
             background-color: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(5px);
-            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
         }
 
-        /* Removido efeito hover para uma interface mais estável */
+        .tv-mode .dashboard-card:hover {
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+            transform: translateY(-5px) scale(1.04);
+        }
 
         .tv-mode .card-header {
             background: linear-gradient(135deg, #01627E, #01526a);
@@ -2160,7 +2163,7 @@
         .admin-toggle:hover i {
             transform: scale(1.1);
         }
-
+        
         /* Overlay de carregamento */
         .loading-overlay {
             position: fixed;
@@ -2175,137 +2178,12 @@
             z-index: 9999;
             transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
         }
-
+        
         .loading-overlay.hidden {
             opacity: 0;
             visibility: hidden;
         }
-
-        /* Banner de parabéns para aniversariantes */
-        .birthday-banner {
-            position: fixed;
-            top: 0;
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #01627E, #03465a, #01627E);
-            color: white;
-            text-align: center;
-            z-index: 1001;
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transform: translateY(-100%);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-bottom: 3px solid #FFA500;
-            width: 50%;
-            /* Largura de 50% para ficar lado a lado */
-        }
-
-        .birthday-banner.show {
-            transform: translateY(0);
-        }
-
-        .birthday-banner-personal {
-            left: 0;
-            background: linear-gradient(45deg, #01627E, #03465a, #01627E);
-            border-bottom: 3px solid #FFA500;
-        }
-
-        .birthday-banner-company {
-            right: 0;
-            background: linear-gradient(45deg, #FFA500, #ff8c00, #FFA500);
-            border-bottom: 3px solid #01627E;
-        }
-
-        .birthday-banner-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .birthday-banner-icon {
-            font-size: 26px;
-            animation: pulse 1.5s infinite;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            flex-shrink: 0;
-            /* Impede que o ícone encolha */
-        }
-
-        .birthday-banner-text {
-            flex: 1;
-            /* Permite que o texto ocupe o espaço disponível */
-            font-size: 16px;
-            /* Tamanho levemente reduzido para melhor legibilidade */
-            line-height: 1.4;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        .birthday-banner-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-        }
-
-        .birthday-banner-close:hover {
-            opacity: 1;
-        }
-
-        .birthday-banner-name {
-            font-weight: 700;
-            margin: 0 5px;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .birthday-banner-company .birthday-banner-icon {
-            color: #01627E;
-        }
-
-        @media (max-width: 768px) {
-            .birthday-banner {
-                padding: 12px 15px;
-                font-size: 15px;
-                width: 100%;
-                /* Largura total em dispositivos móveis */
-                left: 0;
-                right: 0;
-            }
-
-            .birthday-banner-personal,
-            .birthday-banner-company {
-                top: 0;
-                /* Ajuste para posicionamento em dispositivos móveis */
-            }
-
-            .birthday-banner-company {
-                top: 65px;
-                /* Posiciona o segundo banner abaixo do primeiro em dispositivos móveis */
-            }
-
-            .birthday-banner-icon {
-                font-size: 22px;
-            }
-
-            .birthday-banner-text {
-                font-size: 15px;
-            }
-        }
-
+        
         .loading-spinner {
             text-align: center;
             color: white;
@@ -2315,7 +2193,7 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-
+        
         .loading-spinner i {
             font-size: 50px;
             margin-bottom: 15px;
@@ -2323,29 +2201,24 @@
             text-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
             animation: spin 1.2s linear infinite;
         }
-
+        
         .loading-spinner p {
             font-size: 18px;
             font-weight: 500;
         }
-
+        
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
+        
         /* Tooltip de informação */
         .tooltip {
             position: relative;
             display: inline-block;
             cursor: help;
         }
-
+        
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 200px;
@@ -2366,7 +2239,7 @@
             font-size: 14px;
             font-weight: normal;
         }
-
+        
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
@@ -2391,22 +2264,22 @@
             transform: translateY(150%);
             opacity: 0;
         }
-
+        
         .update-notification.show {
             transform: translateY(0);
             opacity: 1;
         }
-
+        
         .update-notification i {
             font-size: 24px;
             color: #FFA500;
         }
-
+        
         .update-notification-text {
             font-weight: 500;
             font-size: 15px;
         }
-
+        
         .update-notification-close {
             background: none;
             border: none;
@@ -2416,7 +2289,7 @@
             margin-left: 10px;
             transition: color 0.2s;
         }
-
+        
         .update-notification-close:hover {
             color: white;
         }
@@ -2424,29 +2297,6 @@
 </head>
 
 <body>
-    <!-- Banners de parabéns para aniversariantes -->
-    <div id="birthdayPersonalBanner" class="birthday-banner birthday-banner-personal">
-        <div class="birthday-banner-content">
-            <div class="birthday-banner-icon"><i class="fas fa-birthday-cake"></i></div>
-            <div class="birthday-banner-text">A Excel Engenharia parabeniza <span class="birthday-banner-name"
-                    id="birthdayPersonalName">Nome do Colaborador</span> pelo seu aniversário! Desejamos muita saúde,
-                felicidade e sucesso em sua jornada.</div>
-            <button class="birthday-banner-close" onclick="closeBirthdayBanner('personal')"><i
-                    class="fas fa-times"></i></button>
-        </div>
-    </div>
-
-    <div id="birthdayCompanyBanner" class="birthday-banner birthday-banner-company">
-        <div class="birthday-banner-content">
-            <div class="birthday-banner-icon"><i class="fas fa-trophy"></i></div>
-            <div class="birthday-banner-text">A Excel Engenharia celebra os <span id="birthdayCompanyYears">0</span>
-                anos de dedicação e excelência de <span class="birthday-banner-name" id="birthdayCompanyName">Nome do
-                    Colaborador</span>! Agradecemos por sua contribuição valiosa para nossa empresa.</div>
-            <button class="birthday-banner-close" onclick="closeBirthdayBanner('company')"><i
-                    class="fas fa-times"></i></button>
-        </div>
-    </div>
-
     <!-- Overlay de carregamento -->
     <div id="loading-overlay" class="loading-overlay">
         <div class="loading-spinner">
@@ -2454,7 +2304,7 @@
             <p>Carregando dados...</p>
         </div>
     </div>
-
+    
     <!-- Header com logo e nome da empresa -->
     <header class="header">
         <div class="logo-container">
@@ -2624,7 +2474,7 @@
             <i class="fas fa-times"></i>
         </button>
     </div>
-
+    
     <div class="admin-panel" id="adminPanel">
         <div class="admin-panel-header">
             <div class="admin-panel-title">Painel de Administração</div>
@@ -2857,21 +2707,33 @@
             document.getElementById('relogio').textContent = `${hora}:${minuto}:${segundo}`;
         }
 
-        // Configuração estática do background e elementos
-        document.addEventListener('DOMContentLoaded', function () {
-            // Define um fundo estático com as cores da Excel Engenharia
-            document.body.style.background = 'linear-gradient(135deg, #01627E 0%, #054b5f 45%, #FFA500 100%)';
+        // Adiciona um efeito de parallax suave no background com as cores da Excel
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
 
-            // Define uma escala fixa para os cards para manter a aparência profissional
+            // Usa as cores da Excel Engenharia no gradiente dinâmico com efeito mais suave
+            const angle = 135 + (x * 20) - (y * 15);
+            document.body.style.background = `linear-gradient(${angle}deg, #01627E 0%, #054b5f ${35 + x * 25}%, #FFA500 100%)`;
+
+            // Aplica efeito parallax em elementos de destaque
             const cards = document.querySelectorAll('.dashboard-card');
             cards.forEach(card => {
-                card.style.transform = 'scale(1.03)';
+                const depth = 15; // Profundidade do efeito
+                const moveX = (x * depth) - (depth / 2);
+                const moveY = (y * depth) - (depth / 2);
+                card.style.transform = `scale(1.03) translate3d(${moveX}px, ${moveY}px, 0)`;
+                card.style.transition = 'transform 0.3s ease-out';
             });
 
-            // Configura o highlight de hoje com posição fixa
+            // Efeito parallax no highlight de hoje
             const todayHighlight = document.querySelector('.today-highlight');
             if (todayHighlight) {
-                todayHighlight.style.transform = 'none';
+                const depthToday = 25;
+                const moveXToday = (x * depthToday) - (depthToday / 2);
+                const moveYToday = (y * depthToday) - (depthToday / 2);
+                todayHighlight.style.transform = `translate3d(${moveXToday}px, ${moveYToday}px, 0)`;
+                todayHighlight.style.transition = 'transform 0.3s ease-out';
             }
         });
 
@@ -2916,7 +2778,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Inicializar o overlay de carregamento
             const loadingOverlay = document.getElementById('loading-overlay');
-
+            
             // Simular carregamento e depois esconder o overlay
             setTimeout(() => {
                 if (loadingOverlay) {
@@ -2926,7 +2788,7 @@
                     }, 500);
                 }
             }, 1000);
-
+            
             atualizarDataHoje();
             verificarFeriado();
             atualizarRelogio();
@@ -2935,18 +2797,18 @@
             // Botão para fechar notificação de atualização
             const updateNotification = document.getElementById('updateNotification');
             const closeUpdateNotification = document.getElementById('closeUpdateNotification');
-
+            
             if (closeUpdateNotification && updateNotification) {
-                closeUpdateNotification.addEventListener('click', function () {
+                closeUpdateNotification.addEventListener('click', function() {
                     updateNotification.classList.remove('show');
                 });
             }
-
+            
             // Configuração para mostrar notificação quando os dados forem atualizados
-            window.mostrarNotificacaoAtualizacao = function () {
+            window.mostrarNotificacaoAtualizacao = function() {
                 if (updateNotification) {
                     updateNotification.classList.add('show');
-
+                    
                     // Fechar automaticamente após 5 segundos
                     setTimeout(() => {
                         updateNotification.classList.remove('show');
@@ -2960,22 +2822,22 @@
                 const diaHoje = hoje.getDate();
                 const mesHoje = hoje.getMonth() + 1;
                 const dataHoje = `${diaHoje.toString().padStart(2, '0')}/${mesHoje.toString().padStart(2, '0')}`;
-
+                
                 let contAniv = 0;
                 let contAnivEmpresa = 0;
-
+                
                 // Verificar aniversários pessoais
                 document.querySelectorAll('.dashboard-col:nth-of-type(1) .anniversary-item').forEach(item => {
                     const dataTexto = item.querySelector('.anniversary-date')?.textContent || '';
                     const dataMatch = dataTexto.match(/(\d{1,2}) de (\w+)/);
-
+                    
                     if (dataMatch) {
                         const dia = parseInt(dataMatch[1]);
                         const mesNome = dataMatch[2].toLowerCase();
-                        const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-                            'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+                        const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 
+                                       'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
                         const mes = meses.indexOf(mesNome) + 1;
-
+                        
                         if (dia === diaHoje && mes === mesHoje) {
                             // É aniversário hoje!
                             contAniv++;
@@ -2988,19 +2850,19 @@
                         }
                     }
                 });
-
+                
                 // Verificar aniversários de empresa
                 document.querySelectorAll('.dashboard-col:nth-of-type(2) .anniversary-item').forEach(item => {
                     const dataTexto = item.querySelector('.anniversary-date')?.textContent || '';
                     const dataMatch = dataTexto.match(/(\d{1,2}) de (\w+)/);
-
+                    
                     if (dataMatch) {
                         const dia = parseInt(dataMatch[1]);
                         const mesNome = dataMatch[2].toLowerCase();
-                        const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-                            'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+                        const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 
+                                       'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
                         const mes = meses.indexOf(mesNome) + 1;
-
+                        
                         if (dia === diaHoje && mes === mesHoje) {
                             // É aniversário de empresa hoje!
                             contAnivEmpresa++;
@@ -3013,12 +2875,12 @@
                         }
                     }
                 });
-
+                
                 // Atualizar contadores
                 document.getElementById('aniversarios-contador').textContent = contAniv.toString();
                 document.getElementById('aniversarios-empresa-contador').textContent = contAnivEmpresa.toString();
             }
-
+            
             // Executar verificação inicial
             verificarAniversariosDeHoje();
 
@@ -3445,15 +3307,11 @@
 
             // Função para atualizar contagens
             function atualizarContagens() {
-                // Conta aniversários de hoje (pessoais e de empresa)
-                const aniversariosPessoaisHoje = document.querySelectorAll('.dashboard-col:nth-of-type(1) .anniversary-item:has(.anniversary-badge)').length;
-                const aniversariosEmpresaHoje = document.querySelectorAll('.dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge)').length;
-                const totalAniversariosHoje = aniversariosPessoaisHoje + aniversariosEmpresaHoje;
-
+                const aniversariosHoje = document.querySelectorAll('.anniversary-badge');
                 const eventosCount = document.querySelectorAll('.news-item').length;
                 const proximosEventos = document.querySelectorAll('.event-item').length || 1; // Ao menos 1 para o cronômetro
 
-                document.querySelector('.today-event-item:first-child b').textContent = totalAniversariosHoje;
+                document.querySelector('.today-event-item:first-child b').textContent = aniversariosHoje.length;
                 document.querySelector('.today-event-item:nth-child(2) b').textContent = eventosCount + proximosEventos;
             }            // Inicializar contagens ao carregar
             atualizarContagens();
@@ -4710,125 +4568,6 @@
             atualizarCronometro();
             setInterval(atualizarCronometro, 1000);
         }
-
-        // Funções para gerenciar os banners de parabéns
-        function mostrarParabensAniversarioPessoal(nome) {
-            const banner = document.getElementById('birthdayPersonalBanner');
-            const nameElement = document.getElementById('birthdayPersonalName');
-
-            if (banner && nameElement) {
-                nameElement.textContent = nome;
-                banner.classList.add('show');
-
-                // Armazena a informação de que o banner foi mostrado hoje
-                localStorage.setItem(`birthdayPersonalShown_${nome}`, new Date().toDateString());
-            }
-        }
-
-        function mostrarParabensAniversarioEmpresa(nome, anos) {
-            const banner = document.getElementById('birthdayCompanyBanner');
-            const nameElement = document.getElementById('birthdayCompanyName');
-            const yearsElement = document.getElementById('birthdayCompanyYears');
-
-            if (banner && nameElement && yearsElement) {
-                nameElement.textContent = nome;
-                yearsElement.textContent = anos;
-                banner.classList.add('show');
-
-                // Armazena a informação de que o banner foi mostrado hoje
-                localStorage.setItem(`birthdayCompanyShown_${nome}`, new Date().toDateString());
-            }
-        }
-
-        function closeBirthdayBanner(type) {
-            const bannerId = type === 'personal' ? 'birthdayPersonalBanner' : 'birthdayCompanyBanner';
-            const banner = document.getElementById(bannerId);
-
-            if (banner) {
-                banner.classList.remove('show');
-            }
-        }
-
-        // Função para verificar aniversários do dia
-        function verificarAniversarios() {
-            const hoje = new Date();
-            const dia = hoje.getDate();
-            const mes = hoje.getMonth() + 1;
-            const dataHoje = `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}`;
-            let totalAniversariantes = 0;
-
-            // Verificar aniversários pessoais
-            const aniversariosPessoais = document.querySelectorAll('.dashboard-col:nth-of-type(1) .anniversary-item');
-            aniversariosPessoais.forEach(item => {
-                const dataElement = item.querySelector('.anniversary-date');
-                const nomeElement = item.querySelector('.anniversary-name');
-
-                if (dataElement && nomeElement) {
-                    const dataTexto = dataElement.textContent;
-                    const nome = nomeElement.textContent.replace(/🎂.*$/, '').trim();
-
-                    // Verificar se é aniversário hoje
-                    if (dataTexto.includes(dataHoje) || item.querySelector('.anniversary-badge')) {
-                        totalAniversariantes++;
-
-                        // Verificar se o banner já foi mostrado hoje
-                        const lastShown = localStorage.getItem(`birthdayPersonalShown_${nome}`);
-
-                        if (lastShown !== new Date().toDateString()) {
-                            setTimeout(() => mostrarParabensAniversarioPessoal(nome), 1500);
-                        }
-                    }
-                }
-            });
-
-            // Verificar aniversários de empresa
-            const aniversariosEmpresa = document.querySelectorAll('.dashboard-col:nth-of-type(2) .anniversary-item');
-            aniversariosEmpresa.forEach(item => {
-                const dataElement = item.querySelector('.anniversary-date');
-                const nomeElement = item.querySelector('.anniversary-name');
-
-                if (dataElement && nomeElement) {
-                    const dataTexto = dataElement.textContent;
-                    const nome = nomeElement.textContent.replace(/🏆.*$/, '').trim();
-                    let anos = 0;
-
-                    // Extrair o número de anos
-                    const anosMatch = dataTexto.match(/(\d+) anos?/);
-                    if (anosMatch && anosMatch[1]) {
-                        anos = parseInt(anosMatch[1], 10);
-                    }
-
-                    // Verificar se é aniversário hoje
-                    if (dataTexto.includes(dataHoje) || item.querySelector('.anniversary-badge')) {
-                        totalAniversariantes++;
-
-                        // Verificar se o banner já foi mostrado hoje
-                        const lastShown = localStorage.getItem(`birthdayCompanyShown_${nome}`);
-
-                        if (lastShown !== new Date().toDateString()) {
-                            setTimeout(() => mostrarParabensAniversarioEmpresa(nome, anos), 2000);
-                        }
-                    }
-                }
-            });
-
-            // Atualizar contagem de aniversariantes
-            document.querySelector('.today-event-item:first-child b').textContent = totalAniversariantes;
-        }
-
-        // Executar a verificação após carregar o conteúdo
-        document.addEventListener('DOMContentLoaded', function () {
-            // Esconder o overlay de carregamento após um curto período
-            setTimeout(function () {
-                const loadingOverlay = document.getElementById('loading-overlay');
-                if (loadingOverlay) {
-                    loadingOverlay.classList.add('hidden');
-                }
-
-                // Verificar aniversários do dia após o carregamento
-                verificarAniversarios();
-            }, 1000);
-        });
     </script>
 </body>
 
