@@ -1,6 +1,46 @@
-# Webhook do WhatsApp
+# API de Webhook do WhatsApp da Excel Engenharia
 
-Este projeto implementa um webhook para integração com a API do WhatsApp Business Cloud, permitindo receber e responder a mensagens automaticamente.
+Este projeto implementa uma API completa de webhook para integração com a API do WhatsApp Business Cloud, permitindo receber e processar mensagens de diferentes tipos do WhatsApp, bem como enviar respostas personalizadas aos usuários.
+
+## Características
+
+- Recebimento e processamento de mensagens do WhatsApp
+- Suporte a diferentes tipos de mensagens:
+  - Texto
+  - Imagens
+  - Documentos
+  - Áudio
+  - Localização
+  - Contatos
+  - Interativo (botões e listas)
+- Envio de diferentes tipos de mensagens
+- Arquitetura modular e extensível
+- Sistema de logging e métricas
+- Verificação de saúde da aplicação
+
+## Estrutura do Projeto
+
+```
+webhook/
+├── app.js                 # Arquivo principal da aplicação
+├── config.js              # Configurações da aplicação
+├── package.json           # Dependências do projeto
+├── handlers/              # Manipuladores de mensagens
+│   ├── textHandler.js     # Manipulador de mensagens de texto
+│   ├── imageHandler.js    # Manipulador de mensagens de imagem
+│   ├── documentHandler.js # Manipulador de documentos
+│   ├── audioHandler.js    # Manipulador de mensagens de áudio
+│   ├── locationHandler.js # Manipulador de mensagens de localização
+│   ├── contactHandler.js  # Manipulador de contatos compartilhados
+│   └── interactiveHandler.js # Manipulador de mensagens interativas
+├── services/              # Serviços da aplicação
+│   └── whatsappApi.js     # Serviço para interação com a API do WhatsApp
+└── utils/                 # Utilitários
+    ├── logger.js          # Sistema de logging
+    ├── metrics.js         # Sistema de métricas
+    ├── templates.js       # Templates de mensagens
+    └── interactiveMessages.js # Utilitário para mensagens interativas
+```
 
 ## Pré-requisitos
 
@@ -10,7 +50,7 @@ Este projeto implementa um webhook para integração com a API do WhatsApp Busin
 - Um aplicativo Meta para desenvolvedores com acesso à API do WhatsApp Business Cloud
 - Um número de telefone do WhatsApp Business configurado
 
-## Configuração
+## Instalação
 
 1. Clone este repositório
 2. Instale as dependências:
@@ -18,16 +58,16 @@ Este projeto implementa um webhook para integração com a API do WhatsApp Busin
    cd webhook
    npm install
    ```
-3. Configure o arquivo `.env` com suas credenciais:
+3. Configure o arquivo `config.js` com suas credenciais:
+   ```javascript
+   module.exports = {
+     VERIFY_TOKEN: 'seu_token_de_verificacao_aqui',
+     ACCESS_TOKEN: 'seu_token_de_acesso_aqui',
+     PHONE_NUMBER_ID: 'seu_phone_number_id_aqui',
+     API_VERSION: 'v18.0',
+     PORT: 3000
+   };
    ```
-   VERIFY_TOKEN=seu_token_de_verificacao_aqui
-   WHATSAPP_TOKEN=seu_token_de_acesso_aqui
-   PHONE_NUMBER_ID=seu_phone_number_id_aqui
-   ```
-
-   - `VERIFY_TOKEN`: Um token de sua escolha para validar seu webhook com o WhatsApp
-   - `WHATSAPP_TOKEN`: Token de acesso permanente da API do WhatsApp
-   - `PHONE_NUMBER_ID`: ID do seu número de telefone do WhatsApp Business
 
 ## Execução
 
@@ -50,7 +90,7 @@ npm run dev
 3. Na seção do WhatsApp > Configuração, adicione um webhook
 4. Configure a URL do seu webhook (deve ser acessível publicamente)
    - Para teste local, você pode usar serviços como ngrok
-5. Insira seu `VERIFY_TOKEN` definido no arquivo `.env`
+5. Insira seu `VERIFY_TOKEN` definido no arquivo `config.js`
 6. Selecione os campos de mensagem aos quais você deseja se inscrever
 
 ## Exposição do Webhook
@@ -58,6 +98,7 @@ npm run dev
 Para testar com o WhatsApp, seu webhook precisa estar acessível pela internet. Você pode usar:
 
 - [ngrok](https://ngrok.com/) (para teste local)
+- [Replit](https://replit.com/) (para teste e desenvolvimento)
 - Um servidor web como Heroku, Vercel, Railway, etc. (para produção)
 
 ### Usando ngrok (para teste):
@@ -68,18 +109,40 @@ npx ngrok http 3000
 
 Depois use a URL https fornecida pelo ngrok na configuração do seu webhook no Meta for Developers.
 
-## Estrutura do Projeto
+## Endpoints Disponíveis
 
-- `index.js` - Implementação principal do servidor webhook
-- `package.json` - Configuração do projeto e dependências
-- `.env` - Variáveis de ambiente e tokens de autenticação
+- `GET /webhook` - Endpoint para verificação do webhook pelo WhatsApp
+- `POST /webhook` - Endpoint para recebimento de mensagens
+- `GET /health` - Verifica o status de saúde da aplicação
+- `GET /metrics` - Retorna métricas de uso da aplicação
 
-## Processamento de Mensagens
+## Funcionalidades Implementadas
 
-O webhook está configurado para:
-1. Verificar solicitações GET do Facebook/WhatsApp
-2. Receber mensagens via POST
-3. Extrair informações das mensagens recebidas
-4. Enviar respostas automáticas
+### Recebimento de Mensagens
 
-Você pode personalizar a lógica de processamento de mensagens no arquivo `index.js`.
+A API está configurada para receber os seguintes tipos de mensagens:
+- Texto
+- Imagem
+- Documento
+- Áudio
+- Localização
+- Contato
+- Interativo (botões e listas)
+
+### Envio de Mensagens
+
+Através do serviço `whatsappApi.js`, você pode enviar:
+- Mensagens de texto
+- Mensagens com template
+- Mensagens com imagem
+- Mensagens com documento
+- Mensagens interativas (botões e listas)
+- Marcar mensagens como lidas
+
+## Estendendo a API
+
+Para adicionar suporte a novos tipos de mensagens ou funcionalidades:
+
+1. Crie um novo manipulador em `/handlers`
+2. Adicione funções de serviço relacionadas em `/services`
+3. Registre o novo manipulador em `app.js`

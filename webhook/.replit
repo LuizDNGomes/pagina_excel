@@ -1,5 +1,5 @@
 run = "npm start"
-entrypoint = "index.js"
+entrypoint = "app.js"
 hidden = [".env", ".config", "package-lock.json"]
 
 [nix]
@@ -7,6 +7,7 @@ channel = "stable-22_11"
 
 [env]
 XDG_CONFIG_HOME = "/home/runner/.config"
+PORT = "3000"
 
 [packager]
 language = "nodejs"

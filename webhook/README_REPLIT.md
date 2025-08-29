@@ -1,22 +1,21 @@
 # Webhook do WhatsApp para Replit
 
-Este repositório contém um webhook para integração com a API do WhatsApp Business Cloud, pronto para ser importado e executado no Replit.
+Este repositório contém um webhook para integração com a API do WhatsApp Business Cloud, baseado no tutorial do vídeo: https://www.youtube.com/watch?v=bBRJD6S8Ims
 
 ## Como usar no Replit
 
-1. Importe este repositório no Replit
+1. Crie um novo Repl no Replit
    - Acesse [Replit](https://replit.com)
    - Clique em "+ Create Repl"
-   - Escolha "Import from GitHub"
-   - Cole a URL deste repositório
-   - Clique em "Import from GitHub"
+   - Selecione Node.js como template
+   - Dê um nome ao seu Repl (ex: "whatsapp-webhook")
+   - Clique em "Create Repl"
 
-2. Configure as variáveis de ambiente no Replit
-   - No painel lateral, clique na aba "Secrets"
-   - Adicione as seguintes variáveis:
-     - `VERIFY_TOKEN`: Token de verificação de sua escolha (ex: excel_webhook_verification_token)
-     - `WHATSAPP_TOKEN`: Seu token de acesso da API do WhatsApp
-     - `PHONE_NUMBER_ID`: ID do seu número de telefone do WhatsApp Business
+2. Configure os arquivos principais
+   - Renomeie o arquivo `index.js` para `app.js` (ou crie um novo)
+   - Copie o conteúdo do nosso arquivo `app.js` para lá
+   - Crie um arquivo `config.js` com suas credenciais
+   - Atualize o `package.json` para usar as dependências corretas
 
 3. Execute o webhook
    - Clique no botão "Run"
