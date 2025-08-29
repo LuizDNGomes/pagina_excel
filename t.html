@@ -35,13 +35,15 @@
       background: #f99d18;
     }
     .arrow.active {
-      background: linear-gradient(90deg, #f99d18 0%, #fff7e6 100%);
-      animation: progressAnim 1.2s linear infinite alternate;
+      background: linear-gradient(90deg, #f99d18 0%, #fff7e6 50%, #f99d18 100%);
+      background-size: 200% 100%;
+      animation: waveMove 1.2s linear infinite;
       box-shadow: 0 0 10px #f99d1899;
+      background-repeat: no-repeat;
     }
-    @keyframes progressAnim {
-      0% { background-position: 0% 0%; }
-      100% { background-position: 100% 0%; }
+    @keyframes waveMove {
+      0% { background-position: right; }
+      100% { background-position: left; }
     }
     .arrow:not(:last-child)::after {
       content: '';
