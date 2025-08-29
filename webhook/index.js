@@ -9,6 +9,11 @@ app.use(express.json());
 // Porta do servidor (use a porta fornecida pelo ambiente ou 3000 como padrão)
 const PORT = process.env.PORT || 3000;
 
+// Rota raiz para verificar se o servidor está funcionando
+app.get('/', (req, res) => {
+  res.send('Webhook do WhatsApp está ativo! Use a rota /webhook para o webhook.');
+});
+
 // Rota de verificação do Webhook (GET)
 app.get('/webhook', (req, res) => {
     console.log('Recebida solicitação de verificação do webhook');

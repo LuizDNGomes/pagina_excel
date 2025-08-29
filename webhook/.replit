@@ -1,0 +1,30 @@
+run = "npm start"
+entrypoint = "index.js"
+hidden = [".env", ".config", "package-lock.json"]
+
+[nix]
+channel = "stable-22_11"
+
+[env]
+XDG_CONFIG_HOME = "/home/runner/.config"
+
+[packager]
+language = "nodejs"
+  [packager.features]
+  enabledForHosting = false
+  packageSearch = true
+  guessImports = true
+
+[unitTest]
+language = "nodejs"
+
+[languages]
+[languages.javascript]
+pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
+  [languages.javascript.languageServer]
+  start = "typescript-language-server --stdio"
+
+[deployment]
+deploymentTarget = "cloudrun"
+build = ["npm", "install"]
+run = ["npm", "start"]

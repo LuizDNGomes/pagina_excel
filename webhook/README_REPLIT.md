@@ -1,0 +1,52 @@
+# Webhook do WhatsApp para Replit
+
+Este repositório contém um webhook para integração com a API do WhatsApp Business Cloud, pronto para ser importado e executado no Replit.
+
+## Como usar no Replit
+
+1. Importe este repositório no Replit
+   - Acesse [Replit](https://replit.com)
+   - Clique em "+ Create Repl"
+   - Escolha "Import from GitHub"
+   - Cole a URL deste repositório
+   - Clique em "Import from GitHub"
+
+2. Configure as variáveis de ambiente no Replit
+   - No painel lateral, clique na aba "Secrets"
+   - Adicione as seguintes variáveis:
+     - `VERIFY_TOKEN`: Token de verificação de sua escolha (ex: excel_webhook_verification_token)
+     - `WHATSAPP_TOKEN`: Seu token de acesso da API do WhatsApp
+     - `PHONE_NUMBER_ID`: ID do seu número de telefone do WhatsApp Business
+
+3. Execute o webhook
+   - Clique no botão "Run"
+   - O Replit instalará as dependências e iniciará o servidor
+   - Anote a URL gerada pelo Replit (será algo como `https://whatsapp-webhook.seunomedeusuario.repl.co`)
+
+4. Configure o webhook no Meta Developer Portal
+   - Acesse [Meta for Developers](https://developers.facebook.com)
+   - Vá para seu app > WhatsApp > Configuração
+   - Adicione um webhook com a URL: `sua-url-do-replit.com/webhook`
+   - Use o mesmo token de verificação que você definiu no passo 2
+   - Selecione os campos de mensagem para inscrição
+
+## Testando o webhook
+
+Para testar o webhook, você pode usar o seguinte comando curl:
+
+```bash
+curl -i -X POST \
+  https://graph.facebook.com/v22.0/SEU_PHONE_NUMBER_ID/messages \
+  -H 'Authorization: Bearer SEU_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{ "messaging_product": "whatsapp", "to": "551199999999", "type": "template", "template": { "name": "hello_world", "language": { "code": "pt_BR" } } }'
+```
+
+Substitua:
+- `SEU_PHONE_NUMBER_ID` pelo valor da variável `PHONE_NUMBER_ID`
+- `SEU_TOKEN` pelo valor da variável `WHATSAPP_TOKEN`
+- `551199999999` pelo número de telefone de destino
+
+## Manter o Replit ativo 24/7
+
+O Replit gratuito coloca aplicativos em hibernação após períodos de inatividade. Para manter seu webhook sempre disponível, você pode usar um serviço de ping como o [UptimeRobot](https://uptimerobot.com/) para fazer solicitações periódicas à URL raiz do seu aplicativo.
