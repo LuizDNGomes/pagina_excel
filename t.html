@@ -16,8 +16,8 @@
       margin-bottom: 30px;
     }
     .arrow {
-      width: 100px;
-      height: 40px;
+      width: 180px;
+      height: 60px;
       clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%, 15% 50%);
       background: #b4b4b4;
       margin-right: -30px;
@@ -28,8 +28,12 @@
       justify-content: center;
       font-weight: bold;
       color: #fff;
-      font-size: 1rem;
-      z-index: 1;
+  font-size: 0.85rem;
+  z-index: 1;
+  text-align: center;
+  padding: 10px 8px 10px 8px;
+  line-height: 1.05;
+  word-break: break-word;
     }
     .arrow.filled {
       background: #f99d18;
@@ -84,12 +88,26 @@
     const input = document.getElementById('arrowNumber');
     const totalArrows = 10;
 
+    const arrowTexts = [
+      '1. <br>Pré <br>Requisitos',
+      '2.1<br>Revisão Conceitual',
+      '2.2<br>Revisão Conceitual (2ª)',
+      '3.1<br>Revisão<br> Básico',
+      '3.2<br>Revisão<br> Básico (2ª)',
+      '4.<br>Pré <br>Executivo',
+      '5.1 <br>Executivo<br>BLOCOS',
+      '5.2 <br>Executivo<br>EMBASAMENTO',
+      '5.3 <br>Executivo<br>TIPOS',
+      '5.4 <br>Executivo<br>ATICO'
+    ];
+
     function renderArrows(selected) {
       progressBar.innerHTML = '';
       for (let i = 1; i <= totalArrows; i++) {
         const arrow = document.createElement('div');
         arrow.classList.add('arrow');
-        arrow.textContent = i;
+        // Quebra de linha para textos longos
+  arrow.innerHTML = arrowTexts[i-1];
         if (i < selected) arrow.classList.add('filled');
         if (i === selected) arrow.classList.add('active');
         progressBar.appendChild(arrow);
