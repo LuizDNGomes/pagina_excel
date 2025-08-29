@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Barra de Progresso com Setas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      margin: 40px;
+    }
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 0px;
+      margin-bottom: 30px;
+    }
+    .arrow {
+      width: 100px;
+      height: 40px;
+      clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%, 15% 50%);
+      background: #b4b4b4;
+      margin-right: -30px;
+      position: relative;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+      font-size: 1rem;
+      z-index: 1;
+    }
+    .arrow.filled {
+      background: #f99d18;
+    }
+    .arrow.active {
+      background: linear-gradient(90deg, #f99d18 0%, #fff7e6 100%);
+      animation: progressAnim 1.2s linear infinite alternate;
+      box-shadow: 0 0 10px #f99d1899;
+    }
+    @keyframes progressAnim {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 100% 0%; }
+    }
+    .arrow:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -10px;
+      top: 0;
+      width: 20px;
+      height: 100%;
+      background: transparent;
+      z-index: 0;
+    }
+    .input-area {
+      margin-bottom: 20px;
+    }
+    input[type="number"] {
+      width: 60px;
+      padding: 5px;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="input-area">
+    <label for="arrowNumber">Seta preenchida até:</label>
+    <input type="number" id="arrowNumber" min="1" max="10" value="1">
+  </div>
+  <div class="progress-container" id="progressBar">
+    <!-- Setas serão geradas pelo JS -->
+  </div>
+  <script>
+    const progressBar = document.getElementById('progressBar');
+    const input = document.getElementById('arrowNumber');
+    const totalArrows = 10;
+
+    function renderArrows(selected) {
+      progressBar.innerHTML = '';
+      for (let i = 1; i <= totalArrows; i++) {
+        const arrow = document.createElement('div');
+        arrow.classList.add('arrow');
+        arrow.textContent = i;
+        if (i < selected) arrow.classList.add('filled');
+        if (i === selected) arrow.classList.add('active');
+        progressBar.appendChild(arrow);
+      }
+    }
+
+    input.addEventListener('input', function() {
+      let val = parseInt(input.value);
+      if (isNaN(val) || val < 1) val = 1;
+      if (val > totalArrows) val = totalArrows;
+      renderArrows(val);
+    });
+
+    renderArrows(parseInt(input.value));
+  </script>
+</body>
+</html>
