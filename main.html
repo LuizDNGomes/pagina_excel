@@ -35,7 +35,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 15px 20px;
+            padding: 8px 15px;
             background: #01627E;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
             border-bottom: 2px solid #FFA500;
@@ -47,7 +47,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 10px 20px;
+            padding: 5px 15px;
         }
 
         .logo-brand {
@@ -58,16 +58,16 @@
         }
 
         .logo {
-            width: 60px;
-            height: 60px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow:
-                0 8px 25px rgba(1, 69, 88, 0.3),
-                0 4px 15px rgba(0, 0, 0, 0.1),
+                0 5px 15px rgba(1, 69, 88, 0.3),
+                0 3px 10px rgba(0, 0, 0, 0.1),
                 inset 0 1px 3px rgba(255, 255, 255, 0.8);
             transition: all 0.3s ease;
             border: 2px solid rgba(248, 156, 28, 0.3);
@@ -123,7 +123,7 @@
 
         .company-name {
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
@@ -136,13 +136,13 @@
 
         .clock-header {
             background: rgba(255, 255, 255, 0.2);
-            padding: 10px 25px;
-            border-radius: 20px;
+            padding: 8px 15px;
+            border-radius: 15px;
             font-weight: 800;
-            font-size: 28px;
+            font-size: 22px;
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             letter-spacing: 1px;
         }
@@ -165,18 +165,18 @@
             margin: 0 auto;
             flex-wrap: nowrap;
             height: calc(100vh - 180px);
-            /* Aumentado para cobrir mais espaço */
             overflow: visible;
         }
 
         .tv-view {
-            display: flex;
-            flex-direction: row;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             height: 100%;
+            gap: 25px;
+            width: 100%;
         }
 
         .dashboard-col {
-            flex: 1;
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -206,17 +206,17 @@
         .card-header {
             background: linear-gradient(45deg, #01627E, #0188a9);
             color: white;
-            padding: 22px 30px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 5px solid #FFA500;
+            border-bottom: 3px solid #FFA500;
             border-radius: 12px 12px 0 0;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .card-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -245,13 +245,12 @@
         }
 
         .card-body {
-            padding: 20px;
+            padding: 12px;
             flex: 1;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             min-height: 0;
-            /* Importante para o scroll funcionar */
         }
 
         .card-footer {
@@ -270,18 +269,17 @@
             overflow-y: auto;
             flex: 1;
             min-height: 0;
-            /* Importante para o flex e overflow */
             transition: all 0.3s ease;
         }
 
         .anniversary-item {
             display: flex;
             align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             animation: fadeIn 0.5s ease forwards;
-            border-radius: 10px;
+            border-radius: 8px;
             transition: all 0.3s ease;
         }
 
@@ -386,17 +384,17 @@
         }
 
         .anniversary-avatar {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, #01627E, #FFA500);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
+            margin-right: 10px;
             color: white;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 16px;
             border: 2px solid white;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
             text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
@@ -408,9 +406,9 @@
 
         .anniversary-name {
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             color: #01627E;
-            font-size: 17px;
+            font-size: 15px;
         }
 
         .anniversary-item:has(.anniversary-badge) .anniversary-name {
@@ -476,12 +474,11 @@
         /* Estilo para notícias */
         .news-item {
             display: flex;
-            gap: 15px;
-            padding-bottom: 18px;
-            margin-bottom: 18px;
+            gap: 10px;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             min-height: 0;
-            /* Importante para evitar overflow */
         }
 
         .news-item:last-child {
@@ -495,13 +492,9 @@
             overflow-y: auto;
             flex: 1;
             min-height: 0;
-            /* Importante para o flex e overflow funcionarem */
             max-height: 100%;
             padding-right: 5px;
-            /* Espaço para scrollbar */
         }
-
-        /* Thumbnails removidas das notícias */
 
         .news-content {
             flex: 1;
@@ -509,20 +502,19 @@
 
         .news-title {
             font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 16px;
+            margin-bottom: 8px;
             color: #01627E;
             line-height: 1.3;
         }
 
         .news-excerpt {
-            font-size: 14px;
+            font-size: 13px;
             color: #333;
-            margin-bottom: 12px;
-            line-height: 1.6;
+            margin-bottom: 10px;
+            line-height: 1.5;
             font-weight: 600;
             display: block;
-            /* Removido truncamento para mostrar texto completo */
             overflow: visible;
         }
 
@@ -600,9 +592,9 @@
         }
 
         .footer {
-            padding: 15px 25px;
+            padding: 8px 15px;
             color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
+            font-size: 12px;
             background: rgba(0, 0, 0, 0.1);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 0;
@@ -615,23 +607,23 @@
         .admin-button {
             background: linear-gradient(135deg, #01627E, #014d62);
             color: white;
-            padding: 12px 25px;
+            padding: 8px 15px;
             border: none;
             border-radius: 8px;
             margin-left: 15px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 14px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .admin-button i {
-            font-size: 20px;
+            font-size: 16px;
             color: #FFA500;
         }
 
@@ -725,15 +717,15 @@
             display: none;
         }
 
-        /* Página hoje */
+        /* Página hoje - otimizado para TV */
         .today-highlight {
             background: linear-gradient(45deg, #FFA500, #ffc04d);
             color: white;
             border-radius: 20px;
-            padding: 30px 50px;
-            margin: 100px auto 40px;
-            max-width: 95%;
-            box-shadow: 0 15px 40px rgba(255, 165, 0, 0.5);
+            padding: 15px 30px;
+            margin: 20px auto 20px;
+            max-width: 98%;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -756,7 +748,7 @@
         }
 
         .today-date {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 800;
             text-transform: capitalize;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
@@ -773,10 +765,10 @@
         }
 
         .today-events {
-            font-size: 22px;
+            font-size: 18px;
             display: flex;
             flex-wrap: wrap;
-            gap: 35px;
+            gap: 15px;
             font-weight: 600;
             position: relative;
             z-index: 2;
@@ -787,12 +779,12 @@
             align-items: center;
             font-weight: 700;
             background: rgba(0, 0, 0, 0.15);
-            padding: 10px 18px;
-            border-radius: 15px;
+            padding: 8px 15px;
+            border-radius: 12px;
             border: 2px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            min-width: 200px;
+            min-width: 180px;
             justify-content: space-between;
         }
 
@@ -803,9 +795,9 @@
         }
 
         .today-event-item i {
-            margin-right: 12px;
+            margin-right: 8px;
             color: #FFA500;
-            font-size: 24px;
+            font-size: 18px;
             text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
         }
 
@@ -816,9 +808,9 @@
         .today-event-item b {
             margin-left: 5px;
             background: rgba(255, 255, 255, 0.2);
-            padding: 2px 10px;
+            padding: 2px 8px;
             border-radius: 50px;
-            min-width: 32px;
+            min-width: 25px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -847,10 +839,10 @@
 
         .clock {
             background: rgba(0, 0, 0, 0.2);
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 8px 15px;
+            border-radius: 15px;
             font-weight: 700;
-            font-size: 24px;
+            font-size: 18px;
             border: 2px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
@@ -982,12 +974,28 @@
 
         /* Otimização para TVs */
         @media (min-width: 1920px) {
+            body {
+                overflow: hidden; /* Previne scrolling na tela principal */
+            }
+
+            .main-content {
+                padding: 80px 30px 20px; /* Reduz padding para caber melhor na TV */
+                height: calc(100vh - 15px); /* Garante que o conteúdo não ultrapasse a altura da tela */
+                overflow: hidden; /* Evita scrolling */
+            }
+
+            .today-highlight {
+                margin: 10px auto 20px; /* Reduz margem para ocupar menos espaço vertical */
+                padding: 20px 50px; /* Reduz padding interno */
+                max-width: 98%; /* Ocupa quase toda a largura disponível */
+            }
+
             .dashboard {
-                max-width: 1900px;
-                gap: 70px;
-                height: 100%;
-                padding: 0 50px;
-                margin: 0 auto 60px;
+                max-width: 100%;
+                gap: 30px; /* Reduz espaçamento entre colunas */
+                height: calc(65vh - 160px); /* Ajusta altura para caber na tela */
+                padding: 0 20px;
+                margin: 0 auto 20px; /* Reduz margem inferior */
             }
 
             /* Ajuste para garantir que a disposição continue em linha na TV */
@@ -995,8 +1003,14 @@
                 display: flex;
                 flex-direction: row;
                 width: 100%;
-                gap: 50px;
+                gap: 25px; /* Reduz espaçamento entre cartões */
                 justify-content: space-between;
+            }
+            
+            /* Reduz o tamanho da seção de eventos */
+            .event-container {
+                margin-top: 0; /* Remove espaço superior */
+                height: 25vh; /* Define altura fixa */
             }
 
             .today-highlight {
@@ -1907,19 +1921,18 @@
             color: #FFA500;
         }
 
-        /* Estilos para o container de eventos centralizado */
+        /* Estilos para o container de eventos centralizado - otimizado para TV */
         .event-container {
-            width: 80%;
-            max-width: 800px;
-            margin: 30px auto;
+            width: 98%;
+            max-width: 1800px;
+            margin: 15px auto;
             display: flex;
             justify-content: center;
         }
 
         .event-card {
             width: 100%;
-            min-height: 300px;
-            /* Altura mínima fixa ao invés de aspect-ratio */
+            min-height: 200px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             border: 3px solid #01627E;
             border-radius: 10px;
@@ -1932,9 +1945,8 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 15px;
+            padding: 10px 15px;
             overflow: hidden;
-            /* Para conter o conteúdo */
         }
 
         .event-countdown {
@@ -1945,16 +1957,14 @@
         }
 
         .countdown-event-name {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             word-wrap: break-word;
-            /* Quebra palavras longas */
             overflow-wrap: break-word;
             hyphens: auto;
-            max-height: 100px;
-            overflow-y: auto;
-            /* Adiciona scroll se o texto for muito longo */
+            max-height: 60px;
+            overflow-y: hidden;
         }
 
         .countdown-event-name {
@@ -2033,40 +2043,42 @@
         /* Estilos específicos para visualização em TV */
         @media screen and (min-width: 1920px) {
             .countdown-digit {
-                width: 150px;
-                height: 150px;
-                font-size: 5rem;
-                border-radius: 15px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-                border: 3px solid rgba(255, 255, 255, 0.3);
+                width: 90px;
+                height: 90px;
+                font-size: 3rem;
+                border-radius: 12px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                border: 2px solid rgba(255, 255, 255, 0.3);
                 background: linear-gradient(145deg, #01627E, #014d62);
             }
 
             .countdown-label {
-                font-size: 1.6rem;
-                margin-top: 15px;
+                font-size: 1.2rem;
+                margin-top: 8px;
                 font-weight: bold;
                 text-transform: uppercase;
                 color: #01627E;
             }
 
             .countdown-event-name {
-                font-size: 4rem;
-                margin-bottom: 35px;
+                font-size: 2.5rem;
+                margin-bottom: 15px;
                 color: #01627E;
                 text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             }
 
             .event-description {
-                font-size: 2rem;
-                line-height: 1.7;
+                font-size: 1.5rem;
+                line-height: 1.4;
                 font-weight: 500;
                 color: #333;
-                margin-bottom: 25px;
+                margin-bottom: 15px;
+                max-height: 80px;
+                overflow: hidden;
             }
 
             .event-location {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
                 font-weight: 600;
                 color: #01627E;
                 display: flex;
@@ -2077,23 +2089,25 @@
 
             .event-location i {
                 color: #FFA500;
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
 
             .event-info-box {
-                font-size: 1.8rem;
-                padding: 35px;
-                margin-top: 40px;
+                font-size: 1rem;
+                padding: 15px;
+                margin-top: 10px;
                 background-color: rgba(1, 98, 126, 0.15);
-                border-radius: 15px;
-                border-left: 8px solid #FFA500;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                border-radius: 12px;
+                border-left: 5px solid #FFA500;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                max-height: 60px;
+                overflow: hidden;
             }
 
             #evento-data,
             #evento-info {
-                font-size: 1.8rem;
-                line-height: 2;
+                font-size: 1rem;
+                line-height: 1.4;
                 font-weight: 500;
             }
         }
@@ -2350,61 +2364,55 @@
 
         <div class="dashboard tv-view">
             <!-- Coluna 1: Aniversários Pessoais -->
-            <div class="dashboard-col">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-birthday-cake"></i>
-                            Aniversários Pessoais
-                        </div>
-                        <div class="card-action">
-                            <i class="fas fa-user-friends"></i>
-                        </div>
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-birthday-cake"></i>
+                        Aniversários Pessoais
                     </div>
-                    <div class="card-body">
-                        <ul class="anniversary-list" id="aniversariosPessoaisList">
-                            <!-- Aniversários pessoais serão carregados do JSON via JavaScript -->
-                        </ul>
+                    <div class="card-action">
+                        <i class="fas fa-user-friends"></i>
                     </div>
+                </div>
+                <div class="card-body">
+                    <ul class="anniversary-list" id="aniversariosPessoaisList">
+                        <!-- Aniversários pessoais serão carregados do JSON via JavaScript -->
+                    </ul>
                 </div>
             </div>
 
             <!-- Coluna 2: Aniversários de Empresa -->
-            <div class="dashboard-col">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-building"></i>
-                            Aniversários de Empresa
-                        </div>
-                        <div class="card-action">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-building"></i>
+                        Aniversários de Empresa
                     </div>
-                    <div class="card-body">
-                        <ul class="anniversary-list" id="aniversariosEmpresaList">
-                            <!-- Aniversários de empresa serão carregados do JSON via JavaScript -->
-                        </ul>
+                    <div class="card-action">
+                        <i class="fas fa-chart-line"></i>
                     </div>
+                </div>
+                <div class="card-body">
+                    <ul class="anniversary-list" id="aniversariosEmpresaList">
+                        <!-- Aniversários de empresa serão carregados do JSON via JavaScript -->
+                    </ul>
                 </div>
             </div>
 
             <!-- Coluna 3: Notícias -->
-            <div class="dashboard-col">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-newspaper"></i>
-                            Notícias Importantes
-                        </div>
-                        <div class="card-action">
-                            <i class="fas fa-bell"></i>
-                        </div>
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-newspaper"></i>
+                        Notícias Importantes
                     </div>
-                    <div class="card-body">
-                        <div class="news-container" id="noticiasContainer">
-                            <!-- Notícias serão carregadas do JSON via JavaScript -->
-                        </div>
+                    <div class="card-action">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="news-container" id="noticiasContainer">
+                        <!-- Notícias serão carregadas do JSON via JavaScript -->
                     </div>
                 </div>
             </div>
