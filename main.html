@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Intranet Excel Engenharia - Dashboard corporativo para aniversários, notícias e eventos">
+    <meta name="description"
+        content="Intranet Excel Engenharia - Dashboard corporativo para aniversários, notícias e eventos">
     <meta name="author" content="Excel Engenharia">
     <meta name="theme-color" content="#01627E">
     <title>Intranet Excel Engenharia</title>
@@ -35,42 +36,60 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 8px 15px;
-            background: #01627E;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(90deg, #01627E 0%, #014b61 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             border-bottom: 2px solid #FFA500;
             z-index: 1000;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             width: 100%;
-            padding: 5px 15px;
+            max-width: 1800px;
+            padding: 0 25px;
         }
 
         .logo-brand {
             display: flex;
             align-items: center;
-            gap: 20px;
             gap: 15px;
+            position: relative;
+        }
+
+        .logo-brand::after {
+            content: '';
+            position: absolute;
+            right: -30px;
+            height: 35px;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .logo-brand::after {
+                display: block;
+            }
         }
 
         .logo {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
+            width: 38px;
+            height: 38px;
+            background: #ffffff;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow:
-                0 5px 15px rgba(1, 69, 88, 0.3),
-                0 3px 10px rgba(0, 0, 0, 0.1),
-                inset 0 1px 3px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            border: 2px solid rgba(248, 156, 28, 0.3);
+            border: 1px solid rgba(255, 165, 0, 0.25);
             position: relative;
             overflow: hidden;
         }
@@ -82,18 +101,16 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(45deg, #014558, #f89c1c);
-            border-radius: 18px;
+            background: linear-gradient(45deg, #01627E, #FFA500);
+            border-radius: 10px;
             z-index: -1;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .logo:hover {
-            transform: scale(1.08) translateY(-2px);
-            box-shadow:
-                0 12px 35px rgba(1, 69, 88, 0.4),
-                0 6px 20px rgba(248, 156, 28, 0.2);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
 
         .logo:hover::before {
@@ -101,16 +118,16 @@
         }
 
         .logo img {
-            max-width: 85%;
-            max-height: 85%;
+            max-width: 80%;
+            max-height: 80%;
             object-fit: contain;
-            border-radius: 8px;
-            filter: drop-shadow(0 2px 8px rgba(1, 69, 88, 0.3));
-            transition: filter 0.3s ease;
+            border-radius: 6px;
+            filter: drop-shadow(0 2px 6px rgba(1, 69, 88, 0.25));
+            transition: all 0.3s ease;
         }
 
         .logo:hover img {
-            filter: drop-shadow(0 4px 12px rgba(248, 156, 28, 0.4));
+            filter: drop-shadow(0 3px 8px rgba(248, 156, 28, 0.4));
         }
 
         .logo-placeholder {
@@ -123,37 +140,44 @@
 
         .company-name {
             color: white;
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .current-time-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .clock-header {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 15px;
-            font-weight: 800;
-            font-size: 22px;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+            letter-spacing: 0.8px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
+            position: relative;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
         }
 
+        .company-name::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #FFA500;
+            transition: width 0.3s ease;
+        }
+
+        .company-name:hover {
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .company-name:hover::after {
+            width: 80%;
+        }
+
+        /* Espaço para Main Content */
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 100px 40px 30px;
+            padding: 63px 20px 20px;
             height: 100vh;
             overflow: hidden;
+            max-width: 100%;
         }
 
         .dashboard {
@@ -161,11 +185,12 @@
             flex-direction: row;
             gap: 25px;
             width: 100%;
-            max-width: 1920px;
+            max-width: 100%;
             margin: 0 auto;
             flex-wrap: nowrap;
-            height: calc(100vh - 180px);
+            height: calc(100vh - 100px);
             overflow: visible;
+            position: relative;
         }
 
         .tv-view {
@@ -206,7 +231,7 @@
         .card-header {
             background: linear-gradient(45deg, #01627E, #0188a9);
             color: white;
-            padding: 12px 20px;
+            padding: 15px 25px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -216,7 +241,7 @@
         }
 
         .card-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -245,7 +270,7 @@
         }
 
         .card-body {
-            padding: 12px;
+            padding: 15px 20px;
             flex: 1;
             overflow: hidden;
             display: flex;
@@ -254,7 +279,7 @@
         }
 
         .card-footer {
-            padding: 12px 20px;
+            padding: 15px 25px;
             background: rgba(1, 98, 126, 0.05);
             display: flex;
             justify-content: space-between;
@@ -698,23 +723,258 @@
             }
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
+        /* Estilos para o título do carrossel */
+        .carousel-title {
+            text-align: center;
+            color: #01627E;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .carousel-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #01627E, #FFA500);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* Estilos para o carrossel */
+        .carousel-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 2;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .carousel-indicator {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(1, 98, 126, 0.5);
+            position: relative;
+            overflow: hidden;
+            margin: 0 5px;
+        }
+
+        .carousel-indicator:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.1);
+        }
+
+        .carousel-indicator.active {
+            background: #FFA500;
+            transform: scale(1.3);
+            border-color: white;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.7);
+        }
+
+        /* Adaptação da lista de aniversários para o carrossel */
+        #slide-1 .anniversary-list,
+        #slide-2 .anniversary-list {
+            max-height: 70vh;
+            padding: 5px 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-gap: 15px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(1, 98, 126, 0.5) rgba(255, 255, 255, 0.1);
+        }
+
+        /* Adaptação das notícias para o carrossel */
+        #slide-3 .news-container {
+            max-height: 70vh;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-gap: 15px;
+            padding: 5px 10px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(1, 98, 126, 0.5) rgba(255, 255, 255, 0.1);
+        }
+
+        /* Estilo para as transições de slide */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
             }
 
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
+            to {
+                opacity: 1;
                 transform: scale(1);
             }
         }
 
-        /* Removida barra de pesquisa para TV */
-        .search-container {
-            display: none;
+        /* Melhoria dos cartões no carrossel */
+        .carousel-slide .dashboard-card {
+            width: 95%;
+            max-width: 1600px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 16px;
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.1),
+                0 1px 5px rgba(0, 0, 0, 0.05),
+                0 20px 50px rgba(1, 98, 126, 0.2);
+            border: 1px solid rgba(1, 98, 126, 0.1);
+            transform: translateY(10px);
+            opacity: 0.8;
+            transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
+            height: auto;
+            min-height: 65vh;
+            max-height: 85vh;
+        }
+
+        .carousel-slide.active .dashboard-card {
+            animation: fadeInScale 0.8s ease forwards;
+            transform: translateY(0);
+            opacity: 1;
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.15),
+                0 2px 10px rgba(0, 0, 0, 0.1),
+                0 25px 65px rgba(1, 98, 126, 0.25);
+        }
+
+        /* Navegação do carrossel com setas */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            z-index: 10;
+            padding: 0 30px;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .carousel-container:hover .carousel-nav {
+            opacity: 1;
+        }
+
+        .carousel-nav-button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            color: #01627E;
+            font-size: 18px;
+        }
+
+        .carousel-nav-button:hover {
+            background: #FFA500;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 165, 0, 0.4);
+        }
+
+        /* Otimização do estilo do contador de evento */
+        #slide-4 .countdown-event-name {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #01627E;
+            text-align: center;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #slide-4 .countdown-timer {
+            margin: 30px auto;
+            gap: 30px;
+        }
+
+        #slide-4 .countdown-digit {
+            width: 100px;
+            height: 100px;
+            font-size: 3rem;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #015a73, #01749b);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #slide-4 .countdown-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 10px;
+            color: #01627E;
+        }
+
+        #slide-4 .event-description {
+            font-size: 1.4rem;
+            margin: 20px 0;
+            text-align: center;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        #slide-4 .event-location {
+            font-size: 1.2rem;
+            margin: 15px 0;
+        }
+
+        #slide-4 .event-location i {
+            font-size: 1.4rem;
+            margin-right: 10px;
         }
 
         /* Página hoje - otimizado para TV */
@@ -975,241 +1235,340 @@
         /* Otimização para TVs */
         @media (min-width: 1920px) {
             body {
-                overflow: hidden; /* Previne scrolling na tela principal */
+                overflow: hidden;
+                /* Previne scrolling na tela principal */
             }
 
             .main-content {
-                padding: 80px 30px 20px; /* Reduz padding para caber melhor na TV */
-                height: calc(100vh - 15px); /* Garante que o conteúdo não ultrapasse a altura da tela */
-                overflow: hidden; /* Evita scrolling */
+                padding: 65px 30px 20px;
+                /* Ajustado para o novo tamanho do cabeçalho */
+                height: calc(100vh - 15px);
+                /* Garante que o conteúdo não ultrapasse a altura da tela */
+                overflow: hidden;
+                /* Evita scrolling */
             }
 
-            .today-highlight {
-                margin: 10px auto 20px; /* Reduz margem para ocupar menos espaço vertical */
-                padding: 20px 50px; /* Reduz padding interno */
-                max-width: 98%; /* Ocupa quase toda a largura disponível */
+            .carousel-slide .dashboard-card {
+                width: 98%;
+                max-width: 2000px;
+                min-height: 72vh;
+            }
+
+            #slide-1 .anniversary-list,
+            #slide-2 .anniversary-list {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                grid-gap: 25px;
+                max-height: 72vh;
+            }
+
+            #slide-3 .news-container {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                max-height: 72vh;
             }
 
             .dashboard {
-                max-width: 100%;
-                gap: 30px; /* Reduz espaçamento entre colunas */
-                height: calc(65vh - 160px); /* Ajusta altura para caber na tela */
-                padding: 0 20px;
-                margin: 0 auto 20px; /* Reduz margem inferior */
-            }
-
-            /* Ajuste para garantir que a disposição continue em linha na TV */
-            .tv-view {
-                display: flex;
-                flex-direction: row;
-                width: 100%;
-                gap: 25px; /* Reduz espaçamento entre cartões */
-                justify-content: space-between;
-            }
-            
-            /* Reduz o tamanho da seção de eventos */
-            .event-container {
-                margin-top: 0; /* Remove espaço superior */
-                height: 25vh; /* Define altura fixa */
-            }
-
-            .today-highlight {
-                max-width: 1900px;
-                margin: 0 auto 50px;
-                padding: 35px 70px;
-                border-radius: 20px;
-                border-radius: 15px;
-            }
-
-            .today-date {
-                font-size: 42px;
-                font-weight: 800;
-                text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-                margin-bottom: 15px;
-                line-height: 1.4;
-            }
-
-            .today-date .weekday {
-                font-size: 48px;
-                letter-spacing: 1px;
-                text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
-            }
-
-            .today-events {
-                font-size: 32px;
-                font-weight: 700;
-                gap: 40px;
-                flex-wrap: wrap;
-                justify-content: flex-end;
-            }
-
-            .holiday-badge {
-                font-size: 24px;
-                padding: 10px 25px;
-                border-radius: 30px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            }
-
-            .clock {
-                font-size: 36px;
-                padding: 12px 35px;
-                border-radius: 30px;
-                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
-                background: rgba(0, 0, 0, 0.25);
-                border: 3px solid rgba(255, 255, 255, 0.4);
-                text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-                letter-spacing: 2px;
-                font-weight: 800;
-            }
-
-            .today-event-item {
-                padding: 12px 25px;
-                border-radius: 20px;
-            }
-
-            .today-event-item i {
-                font-size: 32px;
-                margin-right: 15px;
-            }
-
-            .company-name {
-                font-size: 40px;
-                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-                letter-spacing: 1px;
-            }
-
-            .logo {
-                width: 100px;
-                height: 100px;
-                border-width: 4px;
-            }
-
-            .nav-item {
-                font-size: 24px;
-                padding: 12px 25px;
+                height: calc(100vh - 90px);
             }
 
             .card-body {
-                padding: 50px;
+                padding: 20px 25px;
             }
 
-            .dashboard-card {
-                min-height: 650px;
-                border-radius: 18px;
-                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            .today-highlight {
+                margin: 10px auto 20px;
+                /* Reduz margem para ocupar menos espaço vertical */
+                padding: 20px 50px;
+                /* Reduz padding interno */
+                max-width: 98%;
+                /* Ocupa quase toda a largura disponível */
             }
 
-            /* Melhorias para textos de aniversários na TV */
-            .anniversary-item {
-                padding: 25px 15px;
-                margin-bottom: 20px;
+            /* Dashboard como carrossel */
+            .dashboard {
+                max-width: 100%;
+                height: calc(75vh - 160px);
+                /* Ajusta altura para caber na tela */
+                padding: 0;
+                margin: 0 auto;
+                position: relative;
+                overflow: hidden;
             }
 
-            .anniversary-avatar {
-                width: 80px;
-                height: 80px;
-                font-size: 28px;
+            /* Estilos do carrossel */
+            .carousel-container {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                overflow: hidden;
             }
 
-            .anniversary-name {
-                font-size: 26px;
+            .carousel-slide {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                transition: opacity 1.5s ease-in-out;
+                display: flex;
+                justify-content: center;
+                padding: 0 20px;
             }
 
-            .anniversary-date {
-                font-size: 22px;
+            .carousel-slide.active {
+                opacity: 1;
+                z-index: 2;
             }
 
-            .anniversary-badge {
-                font-size: 22px;
-                padding: 8px 20px;
+            .carousel-indicators {
+                position: absolute;
+                bottom: 15px;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                z-index: 10;
             }
 
-            .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
-                font-size: 28px;
+            .carousel-indicator {
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border: 2px solid rgba(1, 98, 126, 0.4);
             }
 
-            .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
-                font-size: 28px;
+            .carousel-indicator.active {
+                background: #FFA500;
+                transform: scale(1.2);
+                border-color: white;
             }
+        }
 
-            .anniversary-item {
-                padding: 30px 0;
-                font-size: 26px;
-            }
+        /* Ajuste para garantir que a disposição continue em linha na TV */
+        .tv-view {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 25px;
+            /* Reduz espaçamento entre cartões */
+            justify-content: space-between;
+        }
 
-            .anniversary-avatar {
-                width: 90px;
-                height: 90px;
-                font-size: 36px;
-                border: 3px solid #FFA500;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            }
+        /* Reduz o tamanho da seção de eventos */
+        .event-container {
+            margin-top: 0;
+            /* Remove espaço superior */
+            height: 25vh;
+            /* Define altura fixa */
+        }
 
-            .anniversary-name {
-                font-size: 32px;
-                margin-bottom: 12px;
-                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            }
+        .today-highlight {
+            max-width: 1900px;
+            margin: 0 auto 50px;
+            padding: 35px 70px;
+            border-radius: 20px;
+            border-radius: 15px;
+        }
 
-            .anniversary-date {
-                font-size: 28px;
-                color: #01627E;
-                font-weight: 600;
-            }
+        .today-date {
+            font-size: 42px;
+            font-weight: 800;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
 
-            .news-item {
-                padding-bottom: 45px;
-                margin-bottom: 45px;
-                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-            }
+        .today-date .weekday {
+            font-size: 48px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
+        }
 
-            /* Thumbnails removidas das notícias */
+        .today-events {
+            font-size: 32px;
+            font-weight: 700;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
 
-            .news-title {
-                font-size: 34px;
-                margin-bottom: 20px;
-                line-height: 1.3;
-                color: #01627E;
-                font-weight: 700;
-            }
+        .holiday-badge {
+            font-size: 24px;
+            padding: 10px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
 
-            .news-excerpt {
-                font-size: 26px;
-                margin-bottom: 20px;
-                line-height: 1.8;
-                color: #333;
-            }
+        .clock {
+            font-size: 36px;
+            padding: 12px 35px;
+            border-radius: 30px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.25);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
 
-            .news-meta {
-                font-size: 22px;
-                color: #666;
-                font-weight: 600;
-            }
+        .today-event-item {
+            padding: 12px 25px;
+            border-radius: 20px;
+        }
 
-            .card-title {
-                font-size: 34px;
-                letter-spacing: 1px;
-            }
+        .today-event-item i {
+            font-size: 32px;
+            margin-right: 15px;
+        }
 
-            .card-title i {
-                font-size: 34px;
-                color: #FFA500;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            }
+        .company-name {
+            font-size: 40px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 1px;
+        }
 
-            .footer {
-                font-size: 24px;
-                padding: 35px;
-                border-top: 3px solid rgba(255, 255, 255, 0.2);
-            }
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-width: 4px;
+        }
 
-            .clock-header {
-                font-size: 30px;
-                padding: 10px 30px;
-                font-weight: 700;
-                border-radius: 30px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            }
+        .nav-item {
+            font-size: 24px;
+            padding: 12px 25px;
+        }
+
+        .card-body {
+            padding: 50px;
+        }
+
+        .dashboard-card {
+            min-height: 650px;
+            border-radius: 18px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Melhorias para textos de aniversários na TV */
+        .anniversary-item {
+            padding: 25px 15px;
+            margin-bottom: 20px;
+        }
+
+        .anniversary-avatar {
+            width: 80px;
+            height: 80px;
+            font-size: 28px;
+        }
+
+        .anniversary-name {
+            font-size: 26px;
+        }
+
+        .anniversary-date {
+            font-size: 22px;
+        }
+
+        .anniversary-badge {
+            font-size: 22px;
+            padding: 8px 20px;
+        }
+
+        .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
+            font-size: 28px;
+        }
+
+        .dashboard-col:nth-of-type(2) .anniversary-item:has(.anniversary-badge) .anniversary-name::after {
+            font-size: 28px;
+        }
+
+        .anniversary-item {
+            padding: 30px 0;
+            font-size: 26px;
+        }
+
+        .anniversary-avatar {
+            width: 90px;
+            height: 90px;
+            font-size: 36px;
+            border: 3px solid #FFA500;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .anniversary-name {
+            font-size: 32px;
+            margin-bottom: 12px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .anniversary-date {
+            font-size: 28px;
+            color: #01627E;
+            font-weight: 600;
+        }
+
+        .news-item {
+            padding-bottom: 45px;
+            margin-bottom: 45px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Thumbnails removidas das notícias */
+
+        .news-title {
+            font-size: 34px;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            color: #01627E;
+            font-weight: 700;
+        }
+
+        .news-excerpt {
+            font-size: 26px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .news-meta {
+            font-size: 22px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .card-title {
+            font-size: 34px;
+            letter-spacing: 1px;
+        }
+
+        .card-title i {
+            font-size: 34px;
+            color: #FFA500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            font-size: 24px;
+            padding: 35px;
+            border-top: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .clock-header {
+            font-size: 30px;
+            padding: 10px 30px;
+            font-weight: 700;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Fim da media query para grandes telas */
+
+        /* Nova regra para resetar estilos */
+        .style-reset {
+            display: block;
         }
 
         /* Estilos para melhor visualização em TV */
@@ -2177,7 +2536,7 @@
         .admin-toggle:hover i {
             transform: scale(1.1);
         }
-        
+
         /* Overlay de carregamento */
         .loading-overlay {
             position: fixed;
@@ -2192,12 +2551,12 @@
             z-index: 9999;
             transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
         }
-        
+
         .loading-overlay.hidden {
             opacity: 0;
             visibility: hidden;
         }
-        
+
         .loading-spinner {
             text-align: center;
             color: white;
@@ -2207,7 +2566,7 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-        
+
         .loading-spinner i {
             font-size: 50px;
             margin-bottom: 15px;
@@ -2215,24 +2574,29 @@
             text-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
             animation: spin 1.2s linear infinite;
         }
-        
+
         .loading-spinner p {
             font-size: 18px;
             font-weight: 500;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
+
         /* Tooltip de informação */
         .tooltip {
             position: relative;
             display: inline-block;
             cursor: help;
         }
-        
+
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 200px;
@@ -2253,7 +2617,7 @@
             font-size: 14px;
             font-weight: normal;
         }
-        
+
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
@@ -2278,22 +2642,22 @@
             transform: translateY(150%);
             opacity: 0;
         }
-        
+
         .update-notification.show {
             transform: translateY(0);
             opacity: 1;
         }
-        
+
         .update-notification i {
             font-size: 24px;
             color: #FFA500;
         }
-        
+
         .update-notification-text {
             font-weight: 500;
             font-size: 15px;
         }
-        
+
         .update-notification-close {
             background: none;
             border: none;
@@ -2303,7 +2667,7 @@
             margin-left: 10px;
             transition: color 0.2s;
         }
-        
+
         .update-notification-close:hover {
             color: white;
         }
@@ -2318,22 +2682,11 @@
             <p>Carregando dados...</p>
         </div>
     </div>
-    
-    <!-- Header com logo e nome da empresa -->
+
+    <!-- Header simplificado com o nome da empresa centralizado -->
     <header class="header">
         <div class="logo-container">
-            <div class="logo-brand">
-                <div class="logo">
-                    <!-- Logo da Excel Engenharia -->
-                    <img src="img/Capturar.JPG1.JPG" alt="Excel Engenharia Logo">
-                </div>
-                <div class="company-name">Intranet Excel Engenharia</div>
-            </div>
-
-            <!-- Relógio no cabeçalho com formato grande para TV -->
-            <div class="current-time-header">
-                <div class="clock-header" id="relogio-header">10:30:45</div>
-            </div>
+            <div class="company-name">Intranet Excel Engenharia</div>
         </div>
     </header>
 
@@ -2362,106 +2715,134 @@
             </div>
         </div>
 
-        <div class="dashboard tv-view">
-            <!-- Coluna 1: Aniversários Pessoais -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-birthday-cake"></i>
-                        Aniversários Pessoais
-                    </div>
-                    <div class="card-action">
-                        <i class="fas fa-user-friends"></i>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <ul class="anniversary-list" id="aniversariosPessoaisList">
-                        <!-- Aniversários pessoais serão carregados do JSON via JavaScript -->
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Coluna 2: Aniversários de Empresa -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-building"></i>
-                        Aniversários de Empresa
-                    </div>
-                    <div class="card-action">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <ul class="anniversary-list" id="aniversariosEmpresaList">
-                        <!-- Aniversários de empresa serão carregados do JSON via JavaScript -->
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Coluna 3: Notícias -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-newspaper"></i>
-                        Notícias Importantes
-                    </div>
-                    <div class="card-action">
-                        <i class="fas fa-bell"></i>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="news-container" id="noticiasContainer">
-                        <!-- Notícias serão carregadas do JSON via JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Evento com Cronômetro centralizado abaixo das colunas -->
-        <div class="event-container">
-            <div class="dashboard-card event-card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-calendar-alt"></i>
-                        Próximo Evento
-                    </div>
-                    <div class="card-action">
-                        <i class="fas fa-stopwatch"></i>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="event-countdown">
-                        <div class="countdown-event-name" id="eventName">Carregando evento...</div>
-                        <div class="countdown-timer" id="countdownTimer">
-                            <div class="countdown-block">
-                                <div class="countdown-digit" id="countdownDays">00</div>
-                                <div class="countdown-label">Dias</div>
+        <div class="dashboard">
+            <div class="carousel-container">
+                <!-- Slide 1: Aniversários Pessoais -->
+                <div class="carousel-slide active" id="slide-1">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-birthday-cake"></i>
+                                Aniversários Pessoais
                             </div>
-                            <div class="countdown-block">
-                                <div class="countdown-digit" id="countdownHours">00</div>
-                                <div class="countdown-label">Horas</div>
-                            </div>
-                            <div class="countdown-block">
-                                <div class="countdown-digit" id="countdownMinutes">00</div>
-                                <div class="countdown-label">Min</div>
-                            </div>
-                            <div class="countdown-block">
-                                <div class="countdown-digit" id="countdownSeconds">00</div>
-                                <div class="countdown-label">Seg</div>
+                            <div class="card-action">
+                                <i class="fas fa-user-friends"></i>
                             </div>
                         </div>
-                        <div class="event-details" id="eventDetails">
-                            <p class="event-description" id="eventDescription"></p>
-                            <p class="event-location" id="eventLocation"></p>
+                        <div class="card-body">
+                            <ul class="anniversary-list" id="aniversariosPessoaisList">
+                                <!-- Aniversários pessoais serão carregados do JSON via JavaScript -->
+                            </ul>
                         </div>
-                        <div class="event-info-box">
-                            <span id="evento-data">Data do evento: <span
-                                    id="eventDateDisplay">--/--/----</span></span><br>
-                            <span id="evento-info">Para adicionar ou modificar eventos, acesse o painel administrativo
-                                pela interface administrativa. Os eventos são exibidos em ordem cronológica, com o
-                                próximo evento sempre destacado neste painel.</span>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Aniversários de Empresa -->
+                <div class="carousel-slide" id="slide-2">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-building"></i>
+                                Aniversários de Empresa
+                            </div>
+                            <div class="card-action">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
                         </div>
+                        <div class="card-body">
+                            <ul class="anniversary-list" id="aniversariosEmpresaList">
+                                <!-- Aniversários de empresa serão carregados do JSON via JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Notícias -->
+                <div class="carousel-slide" id="slide-3">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-newspaper"></i>
+                                Notícias Importantes
+                            </div>
+                            <div class="card-action">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="news-container" id="noticiasContainer">
+                                <!-- Notícias serão carregadas do JSON via JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Próximo Evento -->
+                <div class="carousel-slide" id="slide-4">
+                    <div class="dashboard-card event-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-calendar-alt"></i>
+                                Próximo Evento
+                            </div>
+                            <div class="card-action">
+                                <i class="fas fa-stopwatch"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="event-countdown">
+                                <div class="countdown-event-name" id="eventName">Carregando evento...</div>
+                                <div class="countdown-timer" id="countdownTimer">
+                                    <div class="countdown-block">
+                                        <div class="countdown-digit" id="countdownDays">00</div>
+                                        <div class="countdown-label">Dias</div>
+                                    </div>
+                                    <div class="countdown-block">
+                                        <div class="countdown-digit" id="countdownHours">00</div>
+                                        <div class="countdown-label">Horas</div>
+                                    </div>
+                                    <div class="countdown-block">
+                                        <div class="countdown-digit" id="countdownMinutes">00</div>
+                                        <div class="countdown-label">Min</div>
+                                    </div>
+                                    <div class="countdown-block">
+                                        <div class="countdown-digit" id="countdownSeconds">00</div>
+                                        <div class="countdown-label">Seg</div>
+                                    </div>
+                                </div>
+                                <div class="event-details" id="eventDetails">
+                                    <p class="event-description" id="eventDescription"></p>
+                                    <p class="event-location" id="eventLocation"></p>
+                                </div>
+                                <div class="event-info-box">
+                                    <span id="evento-data">Data do evento: <span
+                                            id="eventDateDisplay">--/--/----</span></span><br>
+                                    <span id="evento-info">Para adicionar ou modificar eventos, acesse o painel
+                                        administrativo
+                                        pela interface administrativa. Os eventos são exibidos em ordem cronológica, com
+                                        o
+                                        próximo evento sempre destacado neste painel.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Indicadores do carrossel -->
+                <div class="carousel-indicators">
+                    <div class="carousel-indicator active" data-slide="1"></div>
+                    <div class="carousel-indicator" data-slide="2"></div>
+                    <div class="carousel-indicator" data-slide="3"></div>
+                    <div class="carousel-indicator" data-slide="4"></div>
+                </div>
+
+                <!-- Navegação com setas -->
+                <div class="carousel-nav">
+                    <div class="carousel-nav-button prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="carousel-nav-button next">
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
             </div>
@@ -2482,7 +2863,7 @@
             <i class="fas fa-times"></i>
         </button>
     </div>
-    
+
     <div class="admin-panel" id="adminPanel">
         <div class="admin-panel-header">
             <div class="admin-panel-title">Painel de Administração</div>
@@ -2786,7 +3167,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Inicializar o overlay de carregamento
             const loadingOverlay = document.getElementById('loading-overlay');
-            
+
             // Simular carregamento e depois esconder o overlay
             setTimeout(() => {
                 if (loadingOverlay) {
@@ -2796,7 +3177,7 @@
                     }, 500);
                 }
             }, 1000);
-            
+
             atualizarDataHoje();
             verificarFeriado();
             atualizarRelogio();
@@ -2805,18 +3186,18 @@
             // Botão para fechar notificação de atualização
             const updateNotification = document.getElementById('updateNotification');
             const closeUpdateNotification = document.getElementById('closeUpdateNotification');
-            
+
             if (closeUpdateNotification && updateNotification) {
-                closeUpdateNotification.addEventListener('click', function() {
+                closeUpdateNotification.addEventListener('click', function () {
                     updateNotification.classList.remove('show');
                 });
             }
-            
+
             // Configuração para mostrar notificação quando os dados forem atualizados
-            window.mostrarNotificacaoAtualizacao = function() {
+            window.mostrarNotificacaoAtualizacao = function () {
                 if (updateNotification) {
                     updateNotification.classList.add('show');
-                    
+
                     // Fechar automaticamente após 5 segundos
                     setTimeout(() => {
                         updateNotification.classList.remove('show');
@@ -2830,22 +3211,22 @@
                 const diaHoje = hoje.getDate();
                 const mesHoje = hoje.getMonth() + 1;
                 const dataHoje = `${diaHoje.toString().padStart(2, '0')}/${mesHoje.toString().padStart(2, '0')}`;
-                
+
                 let contAniv = 0;
                 let contAnivEmpresa = 0;
-                
+
                 // Verificar aniversários pessoais
                 document.querySelectorAll('.dashboard-col:nth-of-type(1) .anniversary-item').forEach(item => {
                     const dataTexto = item.querySelector('.anniversary-date')?.textContent || '';
                     const dataMatch = dataTexto.match(/(\d{1,2}) de (\w+)/);
-                    
+
                     if (dataMatch) {
                         const dia = parseInt(dataMatch[1]);
                         const mesNome = dataMatch[2].toLowerCase();
-                        const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 
-                                       'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+                        const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                            'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
                         const mes = meses.indexOf(mesNome) + 1;
-                        
+
                         if (dia === diaHoje && mes === mesHoje) {
                             // É aniversário hoje!
                             contAniv++;
@@ -2858,19 +3239,19 @@
                         }
                     }
                 });
-                
+
                 // Verificar aniversários de empresa
                 document.querySelectorAll('.dashboard-col:nth-of-type(2) .anniversary-item').forEach(item => {
                     const dataTexto = item.querySelector('.anniversary-date')?.textContent || '';
                     const dataMatch = dataTexto.match(/(\d{1,2}) de (\w+)/);
-                    
+
                     if (dataMatch) {
                         const dia = parseInt(dataMatch[1]);
                         const mesNome = dataMatch[2].toLowerCase();
-                        const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 
-                                       'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+                        const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                            'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
                         const mes = meses.indexOf(mesNome) + 1;
-                        
+
                         if (dia === diaHoje && mes === mesHoje) {
                             // É aniversário de empresa hoje!
                             contAnivEmpresa++;
@@ -2883,12 +3264,12 @@
                         }
                     }
                 });
-                
+
                 // Atualizar contadores
                 document.getElementById('aniversarios-contador').textContent = contAniv.toString();
                 document.getElementById('aniversarios-empresa-contador').textContent = contAnivEmpresa.toString();
             }
-            
+
             // Executar verificação inicial
             verificarAniversariosDeHoje();
 
@@ -3561,19 +3942,6 @@
                 }
             }
         });
-
-        // Atualiza o relógio no cabeçalho também
-        function atualizarRelogioHeader() {
-            const agora = new Date();
-            const hora = String(agora.getHours()).padStart(2, '0');
-            const minuto = String(agora.getMinutes()).padStart(2, '0');
-            const segundo = String(agora.getSeconds()).padStart(2, '0');
-
-            document.getElementById('relogio-header').textContent = `${hora}:${minuto}:${segundo}`;
-        }
-
-        // Atualiza o relógio header a cada segundo
-        setInterval(atualizarRelogioHeader, 1000);
 
         // Função para ordenar aniversários por data
         function ordenarAniversarios(tipo) {
@@ -4405,10 +4773,9 @@
                     <div class="anniversary-avatar">${iniciais}</div>
                     <div class="anniversary-info">
                         <div class="anniversary-name">${aniversario.nome}
-                            ${isHoje ? `<span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i>
-                                ${aniversario.data}</span>` : ''}
+                            ${isHoje ? `<span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i></span>` : ''}
                         </div>
-                        <div class="anniversary-date">${aniversario.depto}</div>
+                        <div class="anniversary-date">${aniversario.data} - ${aniversario.depto}</div>
                     </div>
                 `;
 
@@ -4576,6 +4943,239 @@
             atualizarCronometro();
             setInterval(atualizarCronometro, 1000);
         }
+
+        // Script para controlar o carrossel
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicialização do carrossel
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            let currentSlide = 0;
+            const slideInterval = 30000; // 30 segundos
+            let slideTimer;
+
+            // Função para mostrar um slide específico
+            function showSlide(index) {
+                // Remover classe active de todos os slides
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+
+                // Remover classe active de todos os indicadores
+                indicators.forEach(indicator => {
+                    indicator.classList.remove('active');
+                });
+
+                // Adicionar classe active ao slide atual
+                slides[index].classList.add('active');
+
+                // Adicionar classe active ao indicador atual
+                indicators[index].classList.add('active');
+
+                // Atualizar o índice do slide atual
+                currentSlide = index;
+            }
+
+            // Função para mostrar o slide anterior
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            // Função para avançar para o próximo slide
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            // Função para iniciar o temporizador do carrossel
+            function startSlideTimer() {
+                // Limpar temporizador existente, se houver
+                if (slideTimer) {
+                    clearInterval(slideTimer);
+                }
+
+                // Iniciar novo temporizador
+                slideTimer = setInterval(nextSlide, slideInterval);
+            }
+
+            // Exibir o primeiro slide inicialmente
+            showSlide(0);
+
+            // Iniciar o temporizador do carrossel
+            startSlideTimer();
+
+            // Adicionar evento de clique aos indicadores
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    showSlide(index);
+                    startSlideTimer(); // Reiniciar o temporizador
+                });
+            });
+
+            // Adicionar eventos para os botões de navegação
+            const carouselPrevButton = document.querySelector('.carousel-nav-button.prev');
+            const carouselNextButton = document.querySelector('.carousel-nav-button.next');
+
+            if (carouselPrevButton) {
+                carouselPrevButton.addEventListener('click', () => {
+                    prevSlide();
+                    startSlideTimer(); // Reiniciar o temporizador
+                });
+            }
+
+            if (carouselNextButton) {
+                carouselNextButton.addEventListener('click', () => {
+                    nextSlide();
+                    startSlideTimer(); // Reiniciar o temporizador
+                });
+            }
+
+            // Pausar o carrossel quando o mouse estiver sobre ele
+            const carouselContainer = document.querySelector('.carousel-container');
+            if (carouselContainer) {
+                carouselContainer.addEventListener('mouseenter', () => {
+                    if (slideTimer) {
+                        clearInterval(slideTimer);
+                    }
+                });
+
+                carouselContainer.addEventListener('mouseleave', () => {
+                    startSlideTimer();
+                });
+            }
+
+            // Animação suave para indicar progresso do tempo
+            function updateProgressAnimation() {
+                const activeIndicator = document.querySelector('.carousel-indicator.active');
+                if (activeIndicator) {
+                    activeIndicator.style.transition = 'background 30s linear';
+                    activeIndicator.style.background = 'linear-gradient(to right, #FFA500 0%, rgba(255, 255, 255, 0.3) 100%)';
+
+                    setTimeout(() => {
+                        activeIndicator.style.transition = 'none';
+                        activeIndicator.style.background = '#FFA500';
+                    }, 30000);
+                }
+            }
+
+            // Executar animação de progresso inicialmente e após cada troca de slide
+            updateProgressAnimation();
+            setInterval(updateProgressAnimation, slideInterval);
+
+            // Adicionar animações aos slides para melhorar a experiência visual
+            slides.forEach(slide => {
+                slide.addEventListener('transitionend', function () {
+                    if (this.classList.contains('active')) {
+                        // Adicionar animação de entrada
+                        const elements = this.querySelectorAll('.dashboard-card');
+                        elements.forEach(element => {
+                            element.style.animation = 'fadeInUp 0.8s ease forwards';
+                        });
+                    }
+                });
+            });
+
+            // Adicionar botões de navegação manual (opcional, para melhor controle)
+            const dashboardContainer = document.querySelector('.dashboard');
+
+            // Botão anterior
+            const prevButton = document.createElement('button');
+            prevButton.className = 'carousel-nav carousel-prev';
+            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevButton.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 20px;
+                transform: translateY(-50%);
+                background: rgba(1, 98, 126, 0.7);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                cursor: pointer;
+                z-index: 10;
+                opacity: 0.7;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            `;
+
+            // Botão próximo
+            const nextButton = document.createElement('button');
+            nextButton.className = 'carousel-nav carousel-next';
+            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextButton.style.cssText = `
+                position: absolute;
+                top: 50%;
+                right: 20px;
+                transform: translateY(-50%);
+                background: rgba(1, 98, 126, 0.7);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                cursor: pointer;
+                z-index: 10;
+                opacity: 0.7;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            `;
+
+            // Adicionar hover effects
+            prevButton.onmouseover = nextButton.onmouseover = function () {
+                this.style.opacity = '1';
+                this.style.background = '#01627E';
+                this.style.transform = 'translateY(-50%) scale(1.1)';
+                this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+            };
+
+            prevButton.onmouseout = nextButton.onmouseout = function () {
+                this.style.opacity = '0.7';
+                this.style.background = 'rgba(1, 98, 126, 0.7)';
+                this.style.transform = 'translateY(-50%) scale(1)';
+                this.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+            };
+
+            // Adicionar eventos de clique
+            prevButton.addEventListener('click', function () {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+                startSlideTimer(); // Reiniciar o temporizador
+            });
+
+            nextButton.addEventListener('click', function () {
+                nextSlide();
+                startSlideTimer(); // Reiniciar o temporizador
+            });
+
+            // Adicionar botões ao container
+            dashboardContainer.appendChild(prevButton);
+            dashboardContainer.appendChild(nextButton);
+
+            // Exibir botões somente ao passar o mouse sobre o carrossel
+            dashboardContainer.onmouseover = function () {
+                prevButton.style.opacity = '0.7';
+                nextButton.style.opacity = '0.7';
+            };
+
+            dashboardContainer.onmouseout = function () {
+                prevButton.style.opacity = '0';
+                nextButton.style.opacity = '0';
+            };
+
+            // Inicialmente esconder os botões
+            prevButton.style.opacity = '0';
+            nextButton.style.opacity = '0';
+        });
     </script>
 </body>
 
