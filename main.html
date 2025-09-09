@@ -1722,6 +1722,64 @@
             border-left: 3px solid #ff4444;
         }
 
+        /* Estilos para a tela de férias */
+        .ferias-item {
+            display: flex;
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .ferias-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-color: #01627E;
+        }
+
+        .ferias-periodo {
+            font-weight: 600;
+            color: #01627E;
+            flex: 0 0 220px;
+        }
+
+        .ferias-colaborador {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .ferias-departamento {
+            flex: 0 0 180px;
+            color: #555;
+        }
+
+        .ferias-status {
+            flex: 0 0 100px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .ferias-status.ativa {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .ferias-status.futura {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .ferias-status.concluida {
+            background: #f5f5f5;
+            color: #616161;
+        }
+
         /* Editor rápido para administradores - completamente refeito para maior compatibilidade */
         .admin-panel {
             position: fixed;
@@ -2915,12 +2973,37 @@
                     </div>
                 </div>
 
+                <!-- Slide 5: Colaboradores em Férias -->
+                <div class="carousel-slide" id="slide-5">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-umbrella-beach"></i>
+                                Colaboradores em Férias
+                            </div>
+                            <div class="card-action">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="feriasContainer" class="ferias-container">
+                                <!-- Lista de colaboradores em férias será carregada via JavaScript -->
+                                <div class="sem-ferias-msg" style="text-align: center; padding: 30px; color: #777;">
+                                    <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                                    <p>Nenhum colaborador está de férias no momento.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Indicadores do carrossel -->
                 <div class="carousel-indicators">
                     <div class="carousel-indicator active" data-slide="1"></div>
                     <div class="carousel-indicator" data-slide="2"></div>
                     <div class="carousel-indicator" data-slide="3"></div>
                     <div class="carousel-indicator" data-slide="4"></div>
+                    <div class="carousel-indicator" data-slide="5"></div>
                 </div>
 
                 <!-- Navegação com setas -->
@@ -3116,6 +3199,43 @@
                     </span>
                 </p>
             </div>
+
+            <div class="admin-control-group" id="feriasControlGroup">
+                <h4>Gerenciamento de Férias</h4>
+                <p>Controle as férias dos colaboradores da empresa.</p>
+
+                <div class="admin-field">
+                    <label>Nome do Colaborador</label>
+                    <input type="text" id="feriasFuncionario" placeholder="Nome completo">
+                </div>
+                <div class="admin-field">
+                    <label>Departamento</label>
+                    <input type="text" id="feriasDepartamento" placeholder="Departamento">
+                </div>
+                <div class="admin-field" style="display: flex; gap: 15px;">
+                    <div style="flex: 1;">
+                        <label>Data de Início</label>
+                        <input type="date" id="feriasDataInicio">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Data de Retorno</label>
+                        <input type="date" id="feriasDataFim">
+                    </div>
+                </div>
+
+                <div class="admin-actions">
+                    <div>
+                        <button class="admin-btn admin-btn-delete" id="clearFeriasBtn">Limpar Selecionados</button>
+                    </div>
+                    <div>
+                        <button class="admin-btn admin-btn-save" id="saveFeriasBtn">Adicionar</button>
+                    </div>
+                </div>
+
+                <div class="admin-list" id="adminFeriasList">
+                    <!-- Lista de férias para gerenciar -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -3137,9 +3257,48 @@
             { data: '25-12-2025', nome: 'Natal' }
         ];
 
+        // Dados de férias - inicializado vazio e preenchido depois
+        window.ferias = [];
+
+        // Função para carregar dados de férias do DataManager
+        function carregarDadosFerias() {
+            console.log('Função carregarDadosFerias executada');
+
+            if (window.dataManager && window.dataManager.data && window.dataManager.data.ferias) {
+                console.log('Dados de férias encontrados no DataManager:', window.dataManager.data.ferias);
+                window.ferias = window.dataManager.data.ferias;
+
+                // Atualizar a exibição de férias
+                if (typeof atualizarFeriasPublicas === 'function') {
+                    console.log('Chamando atualizarFeriasPublicas com os dados carregados');
+                    atualizarFeriasPublicas();
+                }
+            } else {
+                console.error('Dados de férias não encontrados no DataManager');
+            }
+        }
+
+        // Função para corrigir o formato das férias
+        function corrigirFormatoFerias() {
+            console.log('Verificando formato de férias');
+            if (window.ferias && Array.isArray(window.ferias)) {
+                // Verificar cada entrada de férias
+                window.ferias.forEach((item, index) => {
+                    // Corrigir nomes de propriedades inconsistentes
+                    if (item.depto && !item.departamento) {
+                        item.departamento = item.depto;
+                    }
+                });
+                console.log('Formatação de férias corrigida:', window.ferias);
+            }
+        }
+
         // Arrays para armazenar aniversários pessoais e de empresa
         let aniversariosPessoais = [];
         let aniversariosEmpresa = [];
+
+        // Array para armazenar os dados de férias
+        let ferias = [];
 
         // Função global para fechar o painel de administração
         function fecharAdminPainel() {
@@ -3269,6 +3428,21 @@
             verificarFeriado();
             atualizarRelogio();
             atualizarContadoresEventos();
+
+            // Carregar dados de férias do JSON e atualizar a interface
+            console.log('Chamando carregarDadosFerias...');
+            carregarDadosFerias();
+
+            // Executa uma segunda atualização após pequeno atraso
+            setTimeout(function () {
+                console.log('Verificando dados de férias após delay:', window.ferias);
+                if (!window.ferias || window.ferias.length === 0) {
+                    console.log('Dados de férias ainda não carregados, tentando novamente...');
+                    carregarDadosFerias();
+                }
+                console.log('Atualizando exibição de férias...');
+                atualizarFeriasPublicas();
+            }, 2000);
 
             // Botão para fechar notificação de atualização
             const updateNotification = document.getElementById('updateNotification');
@@ -3416,6 +3590,304 @@
             // Atualiza o relógio a cada segundo
             setInterval(atualizarRelogio, 1000);
 
+
+            // Inicializa a funcionalidade de férias
+            // Carrega dados de férias do dataManager, se disponíveis
+            if (window.dataManager && window.dataManager.data && window.dataManager.data.ferias) {
+                ferias = window.dataManager.data.ferias;
+            }
+
+            // Atualiza a lista de férias no painel administrativo
+            atualizarListaFerias();
+            // Atualiza a lista de férias no dashboard
+            atualizarFeriasPublicas();            // Adiciona um botão para navegar diretamente para a seção de férias
+            const adminControls = document.querySelector('.admin-system-actions');
+            if (adminControls) {
+                const btnFerias = document.createElement('button');
+                btnFerias.className = 'admin-btn admin-btn-primary';
+                btnFerias.innerHTML = '<i class="fas fa-umbrella-beach"></i> Ir para Férias';
+                btnFerias.style.marginRight = '10px';
+                btnFerias.style.marginBottom = '15px';
+
+                btnFerias.addEventListener('click', function () {
+                    // Rola até a seção de férias
+                    const feriasControlGroup = document.getElementById('feriasControlGroup');
+                    if (feriasControlGroup) {
+                        feriasControlGroup.scrollIntoView({ behavior: 'smooth' });
+
+                        // Destaca a seção por um momento
+                        feriasControlGroup.style.boxShadow = '0 0 15px rgba(1, 98, 126, 0.6)';
+                        setTimeout(() => {
+                            feriasControlGroup.style.boxShadow = '';
+                        }, 2000);
+                    }
+                });
+
+                adminControls.appendChild(btnFerias);
+            }
+
+            // Configura o botão de adicionar férias
+            const saveFeriasBtn = document.getElementById('saveFeriasBtn');
+            if (saveFeriasBtn) {
+                saveFeriasBtn.addEventListener('click', function () {
+                    const nome = document.getElementById('feriasFuncionario').value;
+                    const departamento = document.getElementById('feriasDepartamento').value;
+                    const dataInicio = document.getElementById('feriasDataInicio').value;
+                    const dataFim = document.getElementById('feriasDataFim').value;
+
+                    if (!nome || !departamento || !dataInicio || !dataFim) {
+                        alert('Por favor, preencha todos os campos.');
+                        return;
+                    }
+
+                    const dataInicioObj = new Date(dataInicio);
+                    const dataFimObj = new Date(dataFim);
+
+                    if (isNaN(dataInicioObj.getTime()) || isNaN(dataFimObj.getTime())) {
+                        alert('Por favor, informe datas válidas.');
+                        return;
+                    }
+
+                    if (dataInicioObj > dataFimObj) {
+                        alert('A data de início não pode ser posterior à data de retorno.');
+                        return;
+                    }
+
+                    // Cria um novo item de férias
+                    const novaFerias = {
+                        id: 'ferias-' + Date.now() + '-' + Math.random().toString(36).substring(2, 5),
+                        nome: nome,
+                        departamento: departamento,
+                        dataInicio: dataInicio,
+                        dataFim: dataFim
+                    };
+
+                    console.log('Adicionando novo item de férias:', novaFerias);
+
+                    // Inicializa o array ferias se não existir
+                    if (!window.ferias) {
+                        window.ferias = [];
+                    }
+
+                    // Adiciona ao array de férias
+                    window.ferias.push(novaFerias);
+
+                    // Se o dataManager estiver disponível, atualiza os dados
+                    if (window.dataManager) {
+                        window.dataManager.data.ferias = window.ferias;
+                        window.dataManager.salvarDados();
+
+                        // Salva os dados atualizados no JSON
+                        fetch('dashboard_data.json', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(window.dataManager.data)
+                        }).catch(error => {
+                            console.warn('Não foi possível salvar os dados no servidor:', error);
+                        });
+
+                        // Atualiza a visualização pública após salvar
+                        atualizarFeriasPublicas();
+                    }
+
+                    // Limpa os campos
+                    document.getElementById('feriasFuncionario').value = '';
+                    document.getElementById('feriasDepartamento').value = '';
+                    document.getElementById('feriasDataInicio').value = '';
+                    document.getElementById('feriasDataFim').value = '';
+
+                    // Atualiza a lista de férias
+                    atualizarListaFerias();
+                });
+            }
+
+            // Configura o botão de limpar férias selecionadas
+            const clearFeriasBtn = document.getElementById('clearFeriasBtn');
+            if (clearFeriasBtn) {
+                clearFeriasBtn.addEventListener('click', function () {
+                    // Busca todos os checkboxes marcados na lista de férias
+                    const checkboxes = document.querySelectorAll('#adminFeriasList input[type="checkbox"]:checked');
+
+                    if (checkboxes.length === 0) {
+                        alert('Selecione pelo menos um item para remover.');
+                        return;
+                    }
+
+                    if (confirm(`Tem certeza que deseja remover ${checkboxes.length} item(s) de férias?`)) {
+                        console.log(`Removendo ${checkboxes.length} item(s) de férias selecionados`);
+
+                        const idsParaRemover = [];
+
+                        checkboxes.forEach(checkbox => {
+                            const item = checkbox.closest('.admin-list-item');
+                            if (item && item.dataset.id) {
+                                idsParaRemover.push(item.dataset.id);
+                                // Remove do DOM
+                                item.remove();
+                            }
+                        });
+
+                        // Remove do array
+                        window.ferias = window.ferias.filter(f => !idsParaRemover.includes(f.id));
+                        console.log(`${idsParaRemover.length} item(s) removidos do array de férias`);
+
+                        // Atualiza no dataManager
+                        if (window.dataManager) {
+                            window.dataManager.data.ferias = window.ferias;
+                            window.dataManager.salvarDados();
+                            console.log('DataManager atualizado após remoção em massa');
+
+                            // Tenta salvar os dados atualizados no JSON
+                            fetch('dashboard_data.json', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(window.dataManager.data)
+                            }).catch(error => {
+                                console.warn('Não foi possível salvar os dados no servidor após remoção em massa:', error);
+                            });
+                        }
+
+                        // Atualiza a visualização
+                        atualizarFeriasPublicas();
+                    }
+                });
+            }
+
+            // Função para atualizar a lista de férias
+            function atualizarListaFerias() {
+                console.log('Atualizando lista de férias no painel admin:', window.ferias);
+
+                const lista = document.getElementById('adminFeriasList');
+                if (!lista) {
+                    console.error('Elemento adminFeriasList não encontrado!');
+                    return;
+                }
+
+                // Limpa a lista
+                lista.innerHTML = '';
+
+                // Verifica se há itens de férias
+                if (!window.ferias || !Array.isArray(window.ferias) || window.ferias.length === 0) {
+                    lista.innerHTML = `
+                        <div class="admin-info-message" style="padding: 15px; text-align: center; color: #666;">
+                            <i class="fas fa-info-circle"></i> Nenhum registro de férias encontrado.
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Corrigir formato das propriedades, se necessário
+                corrigirFormatoFerias();
+
+                // Adiciona cada item de férias
+                window.ferias.forEach(item => {
+                    try {
+                        // Verifica se o item tem propriedades básicas necessárias
+                        if (!item.nome || !item.dataInicio || !item.dataFim) {
+                            console.warn('Item de férias incompleto:', item);
+                            return; // Pula este item
+                        }
+
+                        // Gerar ID se necessário
+                        if (!item.id) {
+                            item.id = 'ferias-' + Date.now() + '-' + Math.random().toString(36).substring(2, 8);
+                            console.log('ID gerado para item de férias:', item.id);
+                        }
+
+                        // Usar nome e departamento corretamente, independente da propriedade usada
+                        const nome = item.nome || '';
+                        const departamento = item.departamento || item.depto || 'Sem departamento';
+
+                        // Formata as datas
+                        const dataInicio = new Date(item.dataInicio);
+                        const dataFim = new Date(item.dataFim);
+
+                        // Verifica se as datas são válidas
+                        if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
+                            console.warn('Item de férias com datas inválidas:', item);
+                            return; // Pula este item
+                        }
+
+                        const dataInicioFormatada = `${dataInicio.getDate().toString().padStart(2, '0')}/${(dataInicio.getMonth() + 1).toString().padStart(2, '0')}/${dataInicio.getFullYear()}`;
+                        const dataFimFormatada = `${dataFim.getDate().toString().padStart(2, '0')}/${(dataFim.getMonth() + 1).toString().padStart(2, '0')}/${dataFim.getFullYear()}`;
+
+                        // Cria o HTML do item
+                        const adminItem = `
+                            <div class="admin-list-item" data-id="${item.id}">
+                                <input type="checkbox" id="ferias-${item.id}" class="admin-item-checkbox">
+                                <div class="admin-list-item-content">
+                                    <div><strong>${nome}</strong></div>
+                                    <div>${departamento} • ${dataInicioFormatada} até ${dataFimFormatada}</div>
+                                </div>
+                                <div class="admin-list-item-actions">
+                                    <button class="admin-btn-item-delete" onclick="excluirItemFerias('${item.id}')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+
+                        lista.insertAdjacentHTML('beforeend', adminItem);
+                    } catch (error) {
+                        console.error('Erro ao processar item de férias para o painel admin:', error, item);
+                    }
+                });
+
+                console.log(`${window.ferias.length} item(s) de férias exibidos no painel admin.`);
+            }
+
+            // Função para excluir um item de férias específico
+            window.excluirItemFerias = function (id) {
+                if (!id) {
+                    console.error('ID não fornecido para exclusão de férias');
+                    return;
+                }
+
+                if (confirm('Tem certeza que deseja excluir este registro de férias?')) {
+                    console.log('Excluindo item de férias com ID:', id);
+
+                    // Remove do array
+                    const itemIndex = window.ferias.findIndex(f => f.id === id);
+                    if (itemIndex !== -1) {
+                        window.ferias.splice(itemIndex, 1);
+                        console.log('Item removido do array de férias');
+                    } else {
+                        console.warn('Item não encontrado no array de férias');
+                    }
+
+                    // Atualiza no dataManager
+                    if (window.dataManager) {
+                        window.dataManager.data.ferias = window.ferias;
+                        window.dataManager.salvarDados();
+                        console.log('DataManager atualizado após exclusão');
+
+                        // Tenta salvar os dados atualizados no JSON
+                        fetch('dashboard_data.json', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(window.dataManager.data)
+                        }).catch(error => {
+                            console.warn('Não foi possível salvar os dados no servidor após exclusão:', error);
+                        });
+
+                        // Atualiza a visualização pública após salvar
+                        atualizarFeriasPublicas();
+                    }
+
+                    // Atualiza a lista
+                    atualizarListaFerias();
+
+                    // Atualiza a visualização pública
+                    atualizarFeriasPublicas();
+                }
+            }
+
             // Painel Admin - Implementação simplificada sem o botão toggle
             const adminPanel = document.getElementById('adminPanel');
             const adminClose = document.getElementById('adminClose');
@@ -3452,6 +3924,24 @@
 
                     // Log de sucesso
                     console.log('✅ Painel admin ABERTO!');
+
+                    // Sincronizar dados de férias ao abrir
+                    try {
+                        if (window.dataManager) {
+                            // Garantir que dados do objeto data estão refletidos
+                            if (window.dataManager.data && Array.isArray(window.dataManager.data.ferias)) {
+                                if (!window.ferias || window.ferias.length !== window.dataManager.data.ferias.length) {
+                                    console.log('🔄 Sincronizando window.ferias com DataManager (abrir painel)...');
+                                    window.ferias = [...window.dataManager.data.ferias];
+                                }
+                            }
+                        }
+                        if (typeof atualizarListaFerias === 'function') {
+                            atualizarListaFerias();
+                        }
+                    } catch (syncErr) {
+                        console.error('Erro ao sincronizar férias ao abrir painel:', syncErr);
+                    }
 
                     // Verifica o estado do painel após aplicar mudanças
                     setTimeout(() => {
@@ -4505,6 +4995,245 @@
             return `${dia}/${mes}/${ano} às ${hora}:${minuto}`;
         }
 
+        // Função para atualizar a lista de férias no dashboard
+        function atualizarFeriasPublicas() {
+            console.log('Atualizando férias públicas, dados disponíveis:', window.ferias);
+
+            const feriasContainer = document.getElementById('feriasContainer');
+            if (!feriasContainer) {
+                console.error('Container de férias não encontrado!');
+                return;
+            }
+
+            // Limpa o container
+            feriasContainer.innerHTML = '';
+
+            // Obtém a data atual (forçando para 9 de setembro de 2025, conforme contexto)
+            const hoje = new Date('2025-09-09'); // Data fixa para 9 de setembro de 2025
+            console.log('Data atual (forçada para 9 de setembro de 2025):', hoje.toLocaleDateString('pt-BR'));
+
+            // Certifique-se de que temos dados de férias para processar
+            if (!window.ferias || !Array.isArray(window.ferias) || window.ferias.length === 0) {
+                console.error('Nenhum dado de férias disponível:', window.ferias);
+                feriasContainer.innerHTML = `
+                    <div class="sem-ferias-msg" style="text-align: center; padding: 30px; color: #777;">
+                        <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                        <p>Nenhum colaborador está de férias no momento.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Corrigir formato das propriedades, se necessário
+            corrigirFormatoFerias();
+
+            // Filtra as férias atuais, futuras e passadas recentes
+            const feriasAtuais = [];
+            const feriasFuturas = [];
+            const feriasPassadas = [];
+
+            console.log('Data de hoje para comparação:', hoje.toISOString().split('T')[0]);
+
+            window.ferias.forEach(item => {
+                try {
+                    // Verificar se as datas estão no formato correto
+                    if (!item.dataInicio || !item.dataFim) {
+                        console.error('Item de férias com datas ausentes:', item);
+                        return;
+                    }
+
+                    const dataInicio = new Date(item.dataInicio);
+                    const dataFim = new Date(item.dataFim);
+
+                    // Verificar se as datas são válidas
+                    if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
+                        console.error('Datas inválidas para item:', item);
+                        return;
+                    }
+
+                    // Usar nome e departamento corretamente, independente da propriedade usada
+                    const nome = item.nome || '';
+                    const departamento = item.departamento || item.depto || '';
+
+                    console.log(`Férias de ${nome}: Início: ${dataInicio.toISOString().split('T')[0]}, Fim: ${dataFim.toISOString().split('T')[0]}`);
+
+                    // Para comparação, use strings ISO para evitar problemas de fuso horário
+                    const hojeIso = hoje.toISOString().split('T')[0];
+                    const inicioIso = dataInicio.toISOString().split('T')[0];
+                    const fimIso = dataFim.toISOString().split('T')[0];
+
+                    console.log(`Comparação (strings ISO): hojeIso >= inicioIso? ${hojeIso >= inicioIso}, hojeIso <= fimIso? ${hojeIso <= fimIso}`);
+
+                    if (hojeIso >= inicioIso && hojeIso <= fimIso) {
+                        // Férias ativas no momento
+                        console.log(`${nome} está de férias AGORA (${inicioIso} - ${fimIso})`);
+                        feriasAtuais.push({ ...item, nome, departamento });
+                    } else if (hojeIso < inicioIso) {
+                        // Férias futuras
+                        console.log(`${nome} estará de férias NO FUTURO (${inicioIso} - ${fimIso})`);
+                        feriasFuturas.push({ ...item, nome, departamento });
+                    } else if (hojeIso > fimIso) {
+                        // Férias concluídas (passadas)
+                        feriasPassadas.push({ ...item, nome, departamento });
+                    } else {
+                        console.log(`${nome} esteve de férias NO PASSADO (${inicioIso} - ${fimIso})`);
+                    }
+                } catch (error) {
+                    console.error('Erro ao processar item de férias:', item, error);
+                }
+            });
+
+            // Ordena as férias futuras pela data de início
+            feriasFuturas.sort((a, b) => new Date(a.dataInicio) - new Date(b.dataInicio));
+
+            // Ordenar passadas por data de fim (mais recentes primeiro) e limitar a 5
+            feriasPassadas.sort((a, b) => new Date(b.dataFim) - new Date(a.dataFim));
+            const feriasPassadasLimitadas = feriasPassadas.slice(0, 5);
+
+            // Limita a 5 férias futuras para exibição
+            const feriasFuturasLimitadas = feriasFuturas.slice(0, 5);
+
+            // Se não houver férias atuais ou futuras
+            if (feriasAtuais.length === 0 && feriasFuturasLimitadas.length === 0 && feriasPassadasLimitadas.length === 0) {
+                feriasContainer.innerHTML = `
+                    <div class="sem-ferias-msg" style="text-align: center; padding: 30px; color: #777;">
+                        <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                        <p>Nenhum colaborador está de férias no momento.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Adiciona férias atuais
+            if (feriasAtuais.length > 0) {
+                const feriasAtuaisHTML = document.createElement('div');
+                feriasAtuaisHTML.className = 'ferias-section';
+
+                const titulo = document.createElement('h3');
+                titulo.textContent = 'Colaboradores em Férias Atualmente';
+                titulo.style.marginBottom = '15px';
+                titulo.style.color = '#01627E';
+                titulo.style.borderBottom = '2px solid #01627E';
+                titulo.style.paddingBottom = '8px';
+
+                feriasAtuaisHTML.appendChild(titulo);
+
+                feriasAtuais.forEach(item => {
+                    try {
+                        const dataInicio = new Date(item.dataInicio);
+                        const dataFim = new Date(item.dataFim);
+
+                        if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
+                            console.error('Datas inválidas para exibição:', item);
+                            return;
+                        }
+
+                        const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR');
+                        const dataFimFormatada = dataFim.toLocaleDateString('pt-BR');
+
+                        const feriasItem = document.createElement('div');
+                        feriasItem.className = 'ferias-item';
+                        feriasItem.innerHTML = `
+                            <div class="ferias-periodo">De ${dataInicioFormatada} até ${dataFimFormatada}</div>
+                            <div class="ferias-colaborador">${item.nome || 'Sem nome'}</div>
+                            <div class="ferias-departamento">${item.departamento || 'Sem departamento'}</div>
+                            <div class="ferias-status ativa">Em andamento</div>
+                        `;
+
+                        feriasAtuaisHTML.appendChild(feriasItem);
+                    } catch (error) {
+                        console.error('Erro ao criar item de férias atuais:', error);
+                    }
+                });
+
+                feriasContainer.appendChild(feriasAtuaisHTML);
+            }
+
+            // Adiciona férias futuras
+            if (feriasFuturasLimitadas.length > 0) {
+                const feriasFuturasHTML = document.createElement('div');
+                feriasFuturasHTML.className = 'ferias-section';
+                feriasFuturasHTML.style.marginTop = feriasAtuais.length > 0 ? '25px' : '0';
+
+                const titulo = document.createElement('h3');
+                titulo.textContent = 'Próximas Férias';
+                titulo.style.marginBottom = '15px';
+                titulo.style.color = '#01627E';
+                titulo.style.borderBottom = '2px solid #01627E';
+                titulo.style.paddingBottom = '8px';
+
+                feriasFuturasHTML.appendChild(titulo);
+
+                feriasFuturasLimitadas.forEach(item => {
+                    try {
+                        const dataInicio = new Date(item.dataInicio);
+                        const dataFim = new Date(item.dataFim);
+
+                        if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
+                            console.error('Datas inválidas para exibição (férias futuras):', item);
+                            return;
+                        }
+
+                        const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR');
+                        const dataFimFormatada = dataFim.toLocaleDateString('pt-BR');
+
+                        // Calcula dias restantes até o início das férias
+                        const diasRestantes = Math.ceil((dataInicio.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24));
+
+                        const feriasItem = document.createElement('div');
+                        feriasItem.className = 'ferias-item';
+                        feriasItem.innerHTML = `
+                            <div class="ferias-periodo">De ${dataInicioFormatada} até ${dataFimFormatada}</div>
+                            <div class="ferias-colaborador">${item.nome || 'Sem nome'}</div>
+                            <div class="ferias-departamento">${item.departamento || 'Sem departamento'}</div>
+                            <div class="ferias-status futura">Em ${diasRestantes} dias</div>
+                        `;
+
+                        feriasFuturasHTML.appendChild(feriasItem);
+                    } catch (error) {
+                        console.error('Erro ao criar item de férias futuras:', error);
+                    }
+                });
+
+                feriasContainer.appendChild(feriasFuturasHTML);
+            }
+
+            // Adiciona férias concluídas recentes
+            if (feriasPassadasLimitadas.length > 0) {
+                const feriasPassadasHTML = document.createElement('div');
+                feriasPassadasHTML.className = 'ferias-section';
+                feriasPassadasHTML.style.marginTop = (feriasAtuais.length > 0 || feriasFuturasLimitadas.length > 0) ? '25px' : '0';
+
+                const titulo = document.createElement('h3');
+                titulo.textContent = 'Férias Recentemente Concluídas';
+                titulo.style.marginBottom = '15px';
+                titulo.style.color = '#01627E';
+                titulo.style.borderBottom = '2px solid #01627E';
+                titulo.style.paddingBottom = '8px';
+                feriasPassadasHTML.appendChild(titulo);
+
+                feriasPassadasLimitadas.forEach(item => {
+                    try {
+                        const dataInicio = new Date(item.dataInicio);
+                        const dataFim = new Date(item.dataFim);
+                        if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) return;
+                        const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR');
+                        const dataFimFormatada = dataFim.toLocaleDateString('pt-BR');
+                        const feriasItem = document.createElement('div');
+                        feriasItem.className = 'ferias-item';
+                        feriasItem.innerHTML = `
+                            <div class="ferias-periodo">De ${dataInicioFormatada} até ${dataFimFormatada}</div>
+                            <div class="ferias-colaborador">${item.nome || 'Sem nome'}</div>
+                            <div class="ferias-departamento">${item.departamento || 'Sem departamento'}</div>
+                            <div class="ferias-status concluida">Concluída</div>
+                        `;
+                        feriasPassadasHTML.appendChild(feriasItem);
+                    } catch (e) { console.error('Erro ao exibir férias passadas:', e); }
+                });
+                feriasContainer.appendChild(feriasPassadasHTML);
+            }
+        }
+
         // Função para atualizar o cronômetro e detalhes do próximo evento
         function atualizarProximoEvento() {
             ordenarEventos();
@@ -4733,10 +5462,22 @@
 
         // Inicializar o gerenciador de dados e configurar eventos de salvamento automático
         document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOMContentLoaded: Inicializando DataManager...');
+
             // Verificar se o DataManager já está inicializado
             if (!window.dataManager) {
                 console.log('⚠️ DataManager não encontrado, inicializando...');
                 window.dataManager = new DataManager();
+
+                // Forçar carregamento imediato
+                setTimeout(() => {
+                    console.log('Forçando carregamento de dados...');
+                    if (window.dataManager) {
+                        window.dataManager.aplicarDados(false);
+                        carregarDadosFerias();
+                        atualizarFeriasPublicas();
+                    }
+                }, 500);
             }
 
             // Botão de limpeza de duplicações removido - não é mais necessário
@@ -5173,6 +5914,48 @@
 
             // Executar animação de progresso inicialmente
             updateProgressAnimation();
+
+            // Inicializando com dados de férias do DataManager, se disponíveis
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('DOM carregado, inicializando carregamento de dados de férias...');
+
+                // Carregar diretamente do JSON, ignorando o DataManager
+                fetch('dashboard_data.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro ao carregar dashboard_data.json: ' + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && Array.isArray(data.ferias)) {
+                            console.log('Dados de férias carregados do JSON:', data.ferias);
+
+                            // Garantir que cada item de férias tem um ID
+                            window.ferias = data.ferias.map(item => {
+                                if (!item.id) {
+                                    item.id = 'ferias-' + Date.now() + '-' + Math.random().toString(36).substring(2, 8);
+                                }
+                                return item;
+                            });
+
+                            // Atualiza as listas com os dados carregados
+                            atualizarListaFerias();
+                            atualizarFeriasPublicas();
+
+                            // Também atualiza o dataManager se existir
+                            if (window.dataManager && window.dataManager.data) {
+                                window.dataManager.data.ferias = window.ferias;
+                                console.log('DataManager atualizado com dados de férias do JSON');
+                            }
+                        } else {
+                            console.error('Nenhum dado de férias encontrado no JSON ou formato inválido.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar dados do JSON:', error);
+                    });
+            });
 
             // Atualizando a animação de progresso após cada mudança de slide
             slides.forEach(slide => {
