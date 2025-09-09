@@ -558,6 +558,196 @@
             gap: 5px;
         }
 
+        /* ================= Tabela de Aniversários ================= */
+        .anniversary-table-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .anniversary-table-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto;
+            /* permitir ajuste real das larguras */
+        }
+
+        .anniversary-table col.avatar-col {
+            width: 120px !important;
+            min-width: 120px;
+        }
+
+        .anniversary-table thead th {
+            background: linear-gradient(45deg, #01627E, #0188a9);
+            color: #fff;
+            font-weight: 600;
+            padding: 14px 12px;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        /* Ajuste: usar layout de tabela normal para manter colunas alinhadas */
+        .anniversary-table-wrapper {
+            overflow-y: auto;
+            scrollbar-width: thin;
+            flex: 1;
+        }
+
+        .anniversary-table tbody tr {
+            border-bottom: 1px solid #eef2f4;
+            background: #fff;
+            transition: background .25s, transform .25s;
+        }
+
+        .anniversary-table tbody tr:hover {
+            background: #f5fbfd;
+            transform: translateX(2px);
+        }
+
+        .anniversary-table td,
+        .anniversary-table th {
+            padding: 14px 18px;
+            font-size: 17px;
+            vertical-align: middle;
+            word-wrap: break-word;
+            line-height: 1.3;
+        }
+
+        .anniversary-table tbody td {
+            font-size: 18px;
+        }
+
+        .anniversary-table td strong {
+            font-size: 18px;
+        }
+
+        /* Coluna da foto ampliada para evitar quebra */
+        .anniversary-table th:first-child,
+        .anniversary-table td:first-child {
+            width: 80px;
+            min-width: 80px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .anniversary-table th:nth-child(2),
+        .anniversary-table td:nth-child(2) {
+            text-align: left;
+        }
+
+        .anniversary-table th:nth-child(3),
+        .anniversary-table td:nth-child(3) {
+            text-align: center;
+        }
+
+        .anniversary-table th:nth-child(4),
+        .anniversary-table td:nth-child(4) {
+            text-align: center;
+        }
+
+        .anniversary-table th:nth-child(5),
+        .anniversary-table td:nth-child(5) {
+            text-align: center;
+        }
+
+        .anniversary-table td:nth-child(1) {
+            text-align: center;
+        }
+
+        .anniversary-table .anniversary-avatar {
+            width: 34px;
+            height: 34px;
+            font-size: 13px;
+            margin: 0 auto;
+            flex-shrink: 0;
+        }
+
+        .anniversary-table .aniv-hoje-badge {
+            background: #FFA500;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(255, 165, 0, .45);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: .6px;
+        }
+
+        .anniversary-table .aniv-hoje-badge i {
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .anniversary-table tbody tr.aniv-hoje {
+            background: linear-gradient(90deg, rgba(255, 165, 0, 0.18), rgba(1, 98, 126, 0.12));
+            border-left: 4px solid #FFA500;
+            position: relative;
+        }
+
+        .anniversary-table tbody tr.aniv-hoje::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+
+        .anniversary-table td strong {
+            color: #01627E;
+            font-weight: 700;
+        }
+
+        .anniversary-table::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .anniversary-table::-webkit-scrollbar-track {
+            background: #f1f5f7;
+            border-radius: 4px;
+        }
+
+        .anniversary-table::-webkit-scrollbar-thumb {
+            background: #b6ccd2;
+            border-radius: 4px;
+        }
+
+        .anniversary-table::-webkit-scrollbar-thumb:hover {
+            background: #8aa5ad;
+        }
+
+        @media (max-width: 1200px) {
+
+            .anniversary-table thead th,
+            .anniversary-table td {
+                font-size: 16px;
+                padding: 12px 14px;
+            }
+
+            .anniversary-table tbody td {
+                font-size: 17px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .anniversary-table-wrapper {
+                font-size: 12px;
+            }
+
+            .anniversary-table thead th:nth-child(3),
+            .anniversary-table td:nth-child(3) {
+                display: none;
+            }
+        }
+
         /* Estilo para notícias */
         .news-item {
             display: flex;
@@ -2875,9 +3065,29 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <ul class="anniversary-list" id="aniversariosPessoaisList">
-                                <!-- Aniversários pessoais serão carregados do JSON via JavaScript -->
-                            </ul>
+                            <div class="anniversary-table-wrapper">
+                                <table class="anniversary-table" id="aniversariosPessoaisTable">
+                                    <colgroup>
+                                        <col class="avatar-col">
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>Foto</th>
+                                            <th>Colaborador</th>
+                                            <th>Departamento</th>
+                                            <th>Data</th>
+                                            <th>Hoje?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="aniversariosPessoaisList">
+                                        <!-- Aniversários pessoais serão carregados do JSON via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2895,9 +3105,29 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <ul class="anniversary-list" id="aniversariosEmpresaList">
-                                <!-- Aniversários de empresa serão carregados do JSON via JavaScript -->
-                            </ul>
+                            <div class="anniversary-table-wrapper">
+                                <table class="anniversary-table" id="aniversariosEmpresaTable">
+                                    <colgroup>
+                                        <col class="avatar-col">
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>Foto</th>
+                                            <th>Colaborador</th>
+                                            <th>Tempo</th>
+                                            <th>Data</th>
+                                            <th>Hoje?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="aniversariosEmpresaList">
+                                        <!-- Aniversários de empresa serão carregados do JSON via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -4143,23 +4373,21 @@
                     const itemId = 'bday-' + Date.now();
 
                     let aniversarioHTML = `
-                        <li class="anniversary-item" data-id="${itemId}">
-                            <div class="anniversary-avatar">${iniciais}</div>
-                            <div class="anniversary-info">
-                                <div class="anniversary-name">${nome}`;
+                        <tr data-id="${itemId}" ${ehHoje ? 'class="aniv-hoje"' : ''}>
+                            <td><div class="anniversary-avatar">${iniciais}</div></td>
+                            <td><strong>${nome}</strong></td>
+                            <td>${depto}</td>
+                            <td>${dataFormatada}</td>
+                            <td>`;
 
                     if (ehHoje) {
                         aniversarioHTML += `<span class="anniversary-badge"><i class="fas fa-star"></i> Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta} <i class="fas fa-star"></i></span>`;
                         // O texto "FELIZ ANIVERSÁRIO" é adicionado automaticamente pelo CSS
                     }
 
-                    aniversarioHTML += `</div>
-                                <div class="anniversary-date">${dataFormatada} • ${depto}</div>
-                            </div>
-                        </li>
-                    `;
+                    aniversarioHTML += `</td></tr>`;
 
-                    const lista = document.querySelector('.dashboard-col:nth-child(1) .anniversary-list');
+                    const lista = document.getElementById('aniversariosPessoaisList');
                     lista.insertAdjacentHTML('beforeend', aniversarioHTML);
 
                     // Adicionar ao painel administrativo para gerenciamento
@@ -4221,23 +4449,21 @@
                     const itemId = 'anniv-' + Date.now();
 
                     let novoAniversario = `
-                        <li class="anniversary-item" data-id="${itemId}">
-                            <div class="anniversary-avatar">${iniciais}</div>
-                            <div class="anniversary-info">
-                                <div class="anniversary-name">${nome}`;
+                        <tr data-id="${itemId}" ${ehHoje ? 'class="aniv-hoje"' : ''}>
+                            <td><div class="anniversary-avatar">${iniciais}</div></td>
+                            <td><strong>${nome}</strong></td>
+                            <td>${anosFormatado}</td>
+                            <td>${dataFormatada}</td>
+                            <td>`;
 
                     if (ehHoje) {
                         novoAniversario += `<span class="anniversary-badge"><i class="fas fa-star"></i> Hoje! <i class="fas fa-calendar-day"></i> ${dataCurta} <i class="fas fa-star"></i></span>`;
                         // O texto "FELIZ ANIVERSÁRIO DE EMPRESA" é adicionado automaticamente pelo CSS
                     }
 
-                    novoAniversario += `</div>
-                                <div class="anniversary-date">${anosFormatado} • ${dataFormatada}</div>
-                            </div>
-                        </li>
-                    `;
+                    novoAniversario += `</td></tr>`;
 
-                    const lista = document.querySelector('.dashboard-col:nth-child(2) .anniversary-list');
+                    const lista = document.getElementById('aniversariosEmpresaList');
                     lista.insertAdjacentHTML('beforeend', novoAniversario);
 
                     // Adicionar ao painel administrativo para gerenciamento
@@ -4273,13 +4499,16 @@
 
             // Função para atualizar contagens
             function atualizarContagens() {
-                const aniversariosHoje = document.querySelectorAll('.anniversary-badge');
+                const aniversariosHoje = document.querySelectorAll('.aniv-hoje-badge, .anniversary-badge');
                 const eventosCount = document.querySelectorAll('.news-item').length;
                 const proximosEventos = document.querySelectorAll('.event-item').length || 1; // Ao menos 1 para o cronômetro
 
-                document.querySelector('.today-event-item:first-child b').textContent = aniversariosHoje.length;
-                document.querySelector('.today-event-item:nth-child(2) b').textContent = eventosCount + proximosEventos;
-            }            // Inicializar contagens ao carregar
+                const primeiroContador = document.querySelector('.today-event-item:first-child b');
+                if (primeiroContador) primeiroContador.textContent = aniversariosHoje.length;
+                const segundoContador = document.querySelector('.today-event-item:nth-child(2) b');
+                if (segundoContador) segundoContador.textContent = eventosCount + proximosEventos;
+            }
+            // Inicializar contagens ao carregar
             atualizarContagens();
 
             // Função para adicionar notícia
@@ -4531,11 +4760,11 @@
                 let container;
 
                 if (tipo === 'bday') {
-                    container = document.querySelector('.dashboard-col:nth-of-type(1) .anniversary-list');
-                    console.log('Seletor para aniversários:', '.dashboard-col:nth-of-type(1) .anniversary-list');
+                    container = document.getElementById('aniversariosPessoaisList');
+                    console.log('Seletor para aniversários: #aniversariosPessoaisList (tbody)');
                 } else if (tipo === 'anniv') {
-                    container = document.querySelector('.dashboard-col:nth-of-type(2) .anniversary-list');
-                    console.log('Seletor para tempo de empresa:', '.dashboard-col:nth-of-type(2) .anniversary-list');
+                    container = document.getElementById('aniversariosEmpresaList');
+                    console.log('Seletor para tempo de empresa: #aniversariosEmpresaList (tbody)');
                 }
 
                 // Verifica se o container existe antes de prosseguir
@@ -4545,7 +4774,7 @@
                 }
 
                 // Coleta todos os itens
-                const items = Array.from(container.querySelectorAll('.anniversary-item'));
+                const items = Array.from(container.querySelectorAll('tr'));
 
                 // Verifica se há itens antes de tentar reordenar
                 if (items.length === 0) {
@@ -4593,20 +4822,11 @@
                 items.sort((a, b) => {
                     let dataA, dataB;
 
-                    if (tipo === 'bday') {
-                        const textoDataA = a.querySelector('.anniversary-date').textContent;
-                        const textoDataB = b.querySelector('.anniversary-date').textContent;
-
-                        dataA = extrairDataDeTexto(textoDataA);
-                        dataB = extrairDataDeTexto(textoDataB);
-                    } else {
-                        // Para aniversários de empresa, extrair a data após o "anos •"
-                        const textoDataA = a.querySelector('.anniversary-date').textContent;
-                        const textoDataB = b.querySelector('.anniversary-date').textContent;
-
-                        dataA = extrairDataDeTexto(textoDataA);
-                        dataB = extrairDataDeTexto(textoDataB);
-                    }
+                    // Coluna de data agora é a 4ª coluna (td:nth-child(4)) em ambas tabelas
+                    const textoDataA = a.querySelector('td:nth-child(4)')?.textContent || '';
+                    const textoDataB = b.querySelector('td:nth-child(4)')?.textContent || '';
+                    dataA = extrairDataDeTexto(textoDataA);
+                    dataB = extrairDataDeTexto(textoDataB);
 
                     // Primeiro compara mês, depois dia
                     if (dataA.mes === dataB.mes) {
@@ -4625,7 +4845,7 @@
                 const itemsFuturos = [];
 
                 items.forEach(item => {
-                    const badgeHoje = item.querySelector('.anniversary-badge');
+                    const badgeHoje = item.classList.contains('aniv-hoje') || item.querySelector('.aniv-hoje-badge');
                     if (badgeHoje) {
                         itemsDeHoje.push(item);
                     } else {
@@ -5581,65 +5801,55 @@
 
         // Função para renderizar aniversários pessoais
         function renderizarAniversariosPessoais(aniversarios) {
-            const lista = document.getElementById('aniversariosPessoaisList');
-            if (!lista) return;
-
-            lista.innerHTML = '';
-
+            const corpo = document.getElementById('aniversariosPessoaisList');
+            if (!corpo) return;
+            corpo.innerHTML = '';
             aniversarios.forEach(aniversario => {
-                const hoje = new Date();
-                const dataAniv = extrairDataAniversario(aniversario.data);
-                const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
-
-                // Obter iniciais para o avatar
-                const iniciais = obterIniciais(aniversario.nome);
-
-                const li = document.createElement('li');
-                li.className = 'anniversary-item';
-
-                li.innerHTML = `
-                    <div class="anniversary-avatar">${iniciais}</div>
-                    <div class="anniversary-info">
-                        <div class="anniversary-name">${aniversario.nome}
-                            ${isHoje ? `<span class="anniversary-badge">Hoje! <i class="fas fa-calendar-day"></i></span>` : ''}
-                        </div>
-                        <div class="anniversary-date">${aniversario.data} - ${aniversario.depto}</div>
-                    </div>
-                `;
-
-                lista.appendChild(li);
+                try {
+                    const hoje = new Date();
+                    const dataAniv = extrairDataAniversario(aniversario.data);
+                    const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
+                    const iniciais = obterIniciais(aniversario.nome);
+                    const tr = document.createElement('tr');
+                    if (isHoje) tr.classList.add('aniv-hoje');
+                    tr.innerHTML = `
+                        <td><div class="anniversary-avatar">${iniciais}</div></td>
+                        <td><strong>${aniversario.nome}</strong></td>
+                        <td>${aniversario.depto || '-'}</td>
+                        <td>${aniversario.data}</td>
+                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-star"></i> Hoje</span>' : ''}</td>
+                    `;
+                    corpo.appendChild(tr);
+                } catch (e) {
+                    console.error('Erro ao renderizar aniversário pessoal em tabela:', e, aniversario);
+                }
             });
         }
 
         // Função para renderizar aniversários de empresa
         function renderizarAniversariosEmpresa(aniversarios) {
-            const lista = document.getElementById('aniversariosEmpresaList');
-            if (!lista) return;
-
-            lista.innerHTML = '';
-
+            const corpo = document.getElementById('aniversariosEmpresaList');
+            if (!corpo) return;
+            corpo.innerHTML = '';
             aniversarios.forEach(aniversario => {
-                const hoje = new Date();
-                const dataAniv = extrairDataAniversario(aniversario.data);
-                const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
-
-                // Obter iniciais para o avatar
-                const iniciais = obterIniciais(aniversario.nome);
-
-                const li = document.createElement('li');
-                li.className = 'anniversary-item';
-
-                li.innerHTML = `
-                    <div class="anniversary-avatar">${iniciais}</div>
-                    <div class="anniversary-info">
-                        <div class="anniversary-name">${aniversario.nome}
-                            ${isHoje ? `<span class="anniversary-badge">Hoje! <i class="fas fa-trophy"></i></span>` : ''}
-                        </div>
-                        <div class="anniversary-date">${aniversario.anos} anos • ${aniversario.data}</div>
-                    </div>
-                `;
-
-                lista.appendChild(li);
+                try {
+                    const hoje = new Date();
+                    const dataAniv = extrairDataAniversario(aniversario.data);
+                    const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
+                    const iniciais = obterIniciais(aniversario.nome);
+                    const tr = document.createElement('tr');
+                    if (isHoje) tr.classList.add('aniv-hoje');
+                    tr.innerHTML = `
+                        <td><div class="anniversary-avatar">${iniciais}</div></td>
+                        <td><strong>${aniversario.nome}</strong></td>
+                        <td>${aniversario.anos} ${aniversario.anos == 1 ? 'ano' : 'anos'}</td>
+                        <td>${aniversario.data}</td>
+                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-trophy"></i> Hoje</span>' : ''}</td>
+                    `;
+                    corpo.appendChild(tr);
+                } catch (e) {
+                    console.error('Erro ao renderizar aniversário de empresa em tabela:', e, aniversario);
+                }
             });
         }
 
