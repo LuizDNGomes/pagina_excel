@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #fff;
+      background: #343657;
       margin: 40px;
     }
     .progress-container {
@@ -73,13 +73,106 @@
       font-weight: bold;
       margin-right: 10px;
     }
+    
+    /* Estilos para o novo sistema de pesquisa por ID */
+    .project-search-container {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f8f8f8;
+      max-width: 600px;
+    }
+    
+    .project-search-container h3 {
+      margin-top: 0;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .project-data {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: monospace;
+      margin-bottom: 10px;
+      resize: vertical;
+    }
+    
+    .project-search-row {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+    
+    .project-id-input {
+      width: 100px;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+      font-size: 1rem;
+    }
+    
+    .search-button {
+      padding: 6px 12px;
+      background-color: #f99d18;
+      color: #343657;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    
+    .search-button:hover {
+      background-color: #e88c00;
+    }
+    
+    .search-result {
+      margin-top: 10px;
+      padding: 10px;
+      border-left: 4px solid #f99d18;
+      background-color: #fff;
+      display: none;
+    }
+    
+    .search-result.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
-  <div class="input-area">
+  <!-- Campo de entrada oculto para controle interno - Não será visível para o usuário -->
+  <div class="input-area" style="display: none;">
     <label for="arrowNumber">Seta preenchida até:</label>
     <input type="number" id="arrowNumber" min="1" max="10" value="1">
   </div>
+  
+  <!-- Nova seção para pesquisa de projetos por ID -->
+  <div class="project-search-container">
+    <h3>Pesquisa de Projetos por ID</h3>
+    
+    <div class="project-search-row">
+      <input type="text" class="project-id-input" id="searchProjectId" placeholder="ID do Projeto">
+      <button class="search-button" id="searchButton">Pesquisar</button>
+    </div>
+    
+    <!-- Resultado da pesquisa oculto - apenas para controle interno -->
+    <div class="search-result" id="searchResult" style="display: none;">
+      <p><strong id="searchResultPhase">-</strong></p>
+    </div>
+  </div>
+  
+  <!-- Área para exibir o nome do projeto -->
+  <div class="project-name-display" id="projectNameDisplay" style="display: none; margin-bottom: 20px; padding: 15px; background-color: #f0f8ff; border-left: 5px solid #007bff; border-radius: 5px; font-size: 18px; font-weight: bold; text-align: center;">
+    Nome do projeto será exibido aqui
+  </div>
+  
   <div class="progress-container" id="progressBar">
     <!-- Setas serão geradas pelo JS -->
   </div>
@@ -107,7 +200,7 @@
         const arrow = document.createElement('div');
         arrow.classList.add('arrow');
         // Quebra de linha para textos longos
-  arrow.innerHTML = arrowTexts[i-1];
+        arrow.innerHTML = arrowTexts[i-1];
         if (i < selected) arrow.classList.add('filled');
         if (i === selected) arrow.classList.add('active');
         progressBar.appendChild(arrow);
@@ -122,6 +215,91 @@
     });
 
     renderArrows(parseInt(input.value));
+    
+    // Nova funcionalidade: Sistema de pesquisa de projetos por ID
+    const searchProjectId = document.getElementById('searchProjectId');
+    const searchButton = document.getElementById('searchButton');
+    const searchResult = document.getElementById('searchResult');
+    const searchResultPhase = document.getElementById('searchResultPhase');
+    const projectNameDisplay = document.getElementById('projectNameDisplay');
+    
+    // DADOS DOS PROJETOS - EDITE AQUI PARA ADICIONAR/MODIFICAR PROJETOS
+    // Formato: "ID_do_projeto": { name: "Nome_do_Projeto", phase: "fase_correspondente" }
+    // Exemplo: "1030": { name: "Parque Camboriú", phase: "3" } significa que o projeto 1030 com nome "Parque Camboriú" está na fase 3
+    const projectsData = {
+      // Adicione ou modifique os projetos abaixo:
+      "1030": { name: "Parque Camboriú", phase: "3" },
+      "1031": { name: "ST Pierre", phase: "4" },
+      "1032": { name: "Residencial Vista Mar", phase: "2" },
+      "1033": { name: "Edifício Solar", phase: "3" },
+      "1034": { name: "Comercial Plaza", phase: "4" },
+      "1035": { name: "Residencial Montanha", phase: "5" },
+      "1036": { name: "Condomínio Jardins", phase: "6" },
+      "1037": { name: "Torres Empresariais", phase: "7" },
+      "1038": { name: "Edifício Central", phase: "8" },
+      "1039": { name: "Villa Moderna", phase: "9" },
+      "1040": { name: "Residencial Horizonte", phase: "10" }
+      // Não se esqueça de adicionar vírgulas entre os itens
+      // O último item não precisa de vírgula
+    };
+    
+    // Função para pesquisar o ID do projeto nos dados definidos
+    function searchProjectById() {
+      const idToSearch = searchProjectId.value.trim();
+      if (!idToSearch) {
+        alert('Por favor, insira um ID de projeto para pesquisar.');
+        return;
+      }
+      
+      if (projectsData.hasOwnProperty(idToSearch)) {
+        // Obter dados do projeto
+        const projectInfo = projectsData[idToSearch];
+        const phase = projectInfo.phase;
+        const projectName = projectInfo.name;
+        
+        // Atualizar automaticamente a fase mostrada no gráfico
+        input.value = phase;
+        let event = new Event('input');
+        input.dispatchEvent(event);
+        
+        // Adicionar efeito visual discreto no botão de pesquisa para indicar sucesso
+        searchButton.style.backgroundColor = "#4caf50";
+        searchButton.textContent = "Encontrado";
+        
+        // Mostrar o nome do projeto na área dedicada
+        projectNameDisplay.textContent = projectName + " - Fase " + phase;
+        projectNameDisplay.style.display = "block";
+        
+        // Restaurar aparência do botão após um breve período
+        setTimeout(() => {
+          searchButton.style.backgroundColor = "#f99d18";
+          searchButton.textContent = "Pesquisar";
+        }, 1000);
+        
+        // Limpar o campo de pesquisa após encontrar
+        searchProjectId.value = '';
+        
+        // Dar foco de volta ao campo de pesquisa para facilitar nova consulta
+        searchProjectId.focus();
+      } else {
+        // Projeto não encontrado - mostrar alerta discreto
+        alert('Projeto não encontrado');
+        
+        // Limpar o campo de pesquisa
+        searchProjectId.value = '';
+        searchProjectId.focus();
+      }
+    }
+    
+    // Adicionar event listener ao botão de pesquisa
+    searchButton.addEventListener('click', searchProjectById);
+    
+    // Permitir pesquisa ao pressionar Enter no campo de ID
+    searchProjectId.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchProjectById();
+      }
+    });
   </script>
 </body>
 </html>
