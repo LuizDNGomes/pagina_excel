@@ -18,6 +18,7 @@ class DataManager {
             aniversariosEmpresa: [],
             noticias: [],
             eventos: [],
+            ferias: [],
             lastUpdated: new Date().toISOString()
         };
         
@@ -99,6 +100,10 @@ class DataManager {
         } else if (dadosCarregados) {
             // Aplicar dados carregados sem notificação
             this.aplicarDados(false);
+            // Caso férias não tenham vindo do localStorage, tentar buscar do JSON
+            if (!this.data.ferias || this.data.ferias.length === 0) {
+                this._fallbackCarregarFerias();
+            }
         }
         
         // 3. Configurar observadores para salvamento automático
@@ -634,17 +639,32 @@ class DataManager {
         this._atualizarPainelAdministracao();
         
         try {
-            // Verificar se os elementos necessários existem
+            // 1. Aplicar férias primeiro (independente de outros elementos estarem prontos)
+            try {
+                console.log('Aplicando dados de férias do JSON...', this.data.ferias);
+                if (this.data.ferias && Array.isArray(this.data.ferias)) {
+                    window.ferias = this.data.ferias;
+                    if (typeof window.corrigirFormatoFerias === 'function') window.corrigirFormatoFerias();
+                    if (typeof window.atualizarFeriasPublicas === 'function') window.atualizarFeriasPublicas();
+                    if (typeof window.atualizarListaFerias === 'function') window.atualizarListaFerias();
+                } else {
+                    console.warn('⚠️ Dados de férias ausentes ou inválidos em this.data');
+                }
+            } catch(eFerias) {
+                console.error('Erro ao aplicar férias:', eFerias);
+            }
+
+            // 2. Verificar elementos necessários para demais módulos
             const listaBdayEl = document.querySelector('.dashboard-col:nth-of-type(1) .anniversary-list');
             const listaAnnivEl = document.querySelector('.dashboard-col:nth-of-type(2) .anniversary-list');
             const containerNoticiasEl = document.querySelector('.news-container');
-            
+
             if (!listaBdayEl || !listaAnnivEl || !containerNoticiasEl) {
-                console.error('Elementos necessários não encontrados no DOM');
-                return false;
+                console.warn('Elementos de aniversários/notícias ainda não disponíveis. Aplicação parcial concluída.');
+                return true; // Não falhar — férias já foram aplicadas
             }
-            
-            // Limpar dados existentes
+
+            // Limpar dados existentes (apenas desses módulos)
             listaBdayEl.innerHTML = '';
             listaAnnivEl.innerHTML = '';
             containerNoticiasEl.innerHTML = '';
@@ -930,6 +950,17 @@ class DataManager {
                 ultimaAtualizacao.textContent = this.formatarData(new Date(this.data.lastUpdated));
             }
             
+            // Atualizar férias
+            if (this.data.ferias && Array.isArray(this.data.ferias)) {
+                // Disponibiliza os dados de férias globalmente
+                window.ferias = this.data.ferias;
+                
+                // Se a função de atualização de férias existir, chama-a
+                if (typeof window.atualizarListaFerias === 'function') {
+                    window.atualizarListaFerias();
+                }
+            }
+            
             console.log('✅ Painel de administração atualizado com sucesso!');
         } catch (error) {
             console.error('❌ Erro ao atualizar painel de administração:', error);
@@ -1003,6 +1034,12 @@ class DataManager {
                     feedbackEl.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 8px;"></i> Alterações salvas!';
                     feedbackEl.style.opacity = '1';
                     feedbackEl.style.transform = 'translateY(0)';
+                    // Garantir férias aplicadas se ainda não presentes globalmente
+                    if ((!window.ferias || window.ferias.length === 0) && this.data.ferias && this.data.ferias.length > 0) {
+                        window.ferias = this.data.ferias;
+                        if (typeof window.atualizarFeriasPublicas === 'function') window.atualizarFeriasPublicas();
+                        if (typeof window.atualizarListaFerias === 'function') window.atualizarListaFerias();
+                    }
                     
                     setTimeout(() => {
                         feedbackEl.style.opacity = '0';
@@ -1011,6 +1048,31 @@ class DataManager {
                 }
             }, 300);
         }, 2000);
+    }
+
+    // Fallback: carregar apenas férias se não presentes
+    _fallbackCarregarFerias() {
+        console.log('🔍 Executando fallback para carregar apenas férias...');
+        try {
+            fetch(this.dataFilePath)
+                .then(r => { if (!r.ok) throw new Error('Falha ao buscar JSON (fallback férias)'); return r.json(); })
+                .then(dados => {
+                    if (dados.ferias && Array.isArray(dados.ferias) && dados.ferias.length > 0) {
+                        this.data.ferias = dados.ferias;
+                        window.ferias = dados.ferias;
+                        console.log('✅ Férias carregadas via fallback:', dados.ferias);
+                        if (typeof window.corrigirFormatoFerias === 'function') window.corrigirFormatoFerias();
+                        if (typeof window.atualizarFeriasPublicas === 'function') window.atualizarFeriasPublicas();
+                        if (typeof window.atualizarListaFerias === 'function') window.atualizarListaFerias();
+                        try { this.salvarNoLocalStorage(true); } catch(_) {}
+                    } else {
+                        console.warn('⚠️ Férias não encontradas no JSON durante fallback.');
+                    }
+                })
+                .catch(err => console.error('❌ Erro no fallback de férias:', err));
+        } catch(e) {
+            console.error('❌ Exceção no fallback de férias:', e);
+        }
     }
     
     /**
@@ -1231,6 +1293,60 @@ class DataManager {
                 adminEventDateTime.value = '';
                 if (adminEventDescription) adminEventDescription.value = '';
                 if (adminEventLocation) adminEventLocation.value = '';
+            }
+        }
+        
+        // Férias
+        const adminFeriasList = document.getElementById('adminFeriasList');
+        if (adminFeriasList) {
+            // Manter os IDs existentes e apenas atualizar os dados
+            const feriasSalvas = Array.isArray(this.data.ferias) ? this.data.ferias : [];
+            
+            // Filtrar férias baseado nos itens marcados para exclusão
+            adminFeriasList.querySelectorAll('.admin-list-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (checkbox && checkbox.checked) {
+                    const itemId = item.getAttribute('data-id');
+                    if (itemId) {
+                        // Remover este item da lista de férias
+                        const index = feriasSalvas.findIndex(f => f.id === itemId);
+                        if (index !== -1) {
+                            feriasSalvas.splice(index, 1);
+                        }
+                    }
+                }
+            });
+            
+            // Atualizar array de férias
+            this.data.ferias = feriasSalvas;
+            
+            // Verificar se há um novo item para adicionar
+            const feriasFuncionario = document.getElementById('feriasFuncionario');
+            const feriasDepartamento = document.getElementById('feriasDepartamento');
+            const feriasDataInicio = document.getElementById('feriasDataInicio');
+            const feriasDataFim = document.getElementById('feriasDataFim');
+            
+            if (feriasFuncionario && feriasFuncionario.value && 
+                feriasDataInicio && feriasDataInicio.value &&
+                feriasDataFim && feriasDataFim.value) {
+                
+                // Criar novo item de férias
+                const novaFerias = {
+                    id: 'ferias-' + Date.now(),
+                    nome: feriasFuncionario.value,
+                    departamento: feriasDepartamento ? feriasDepartamento.value : '',
+                    dataInicio: feriasDataInicio.value,
+                    dataFim: feriasDataFim.value
+                };
+                
+                // Adicionar ao array
+                this.data.ferias.push(novaFerias);
+                
+                // Limpar campos
+                feriasFuncionario.value = '';
+                if (feriasDepartamento) feriasDepartamento.value = '';
+                feriasDataInicio.value = '';
+                feriasDataFim.value = '';
             }
         }
         

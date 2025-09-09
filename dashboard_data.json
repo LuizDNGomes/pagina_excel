@@ -1,4 +1,34 @@
 {
+  "ferias": [
+    {
+      "id": "ferias-1",
+      "nome": "Maria Oliveira",
+      "depto": "Engenharia",
+      "dataInicio": "2025-08-15",
+      "dataFim": "2025-08-30"
+    },
+    {
+      "id": "ferias-2",
+      "nome": "João Pereira",
+      "depto": "Projetos",
+      "dataInicio": "2025-09-01",
+      "dataFim": "2025-09-15"
+    },
+    {
+      "id": "ferias-3",
+      "nome": "Carla Santos",
+      "depto": "Administração",
+      "dataInicio": "2025-08-20",
+      "dataFim": "2025-09-05"
+    },
+    {
+      "id": "ferias-4",
+      "nome": "Paulo Mendes",
+      "depto": "Financeiro",
+      "dataInicio": "2025-10-10",
+      "dataFim": "2025-10-25"
+    }
+  ],
   "aniversariosPessoais": [
     {
       "nome": "Ana Silva",
