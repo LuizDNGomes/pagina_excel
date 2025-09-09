@@ -169,7 +169,7 @@
   </div>
   
   <!-- Área para exibir o nome do projeto -->
-  <div class="project-name-display" id="projectNameDisplay" style="display: none; margin-bottom: 20px; padding: 15px; background-color: #f0f8ff; border-left: 5px solid #007bff; border-radius: 5px; font-size: 18px; font-weight: bold; text-align: center;">
+  <div class="project-name-display" id="projectNameDisplay" style="display: none; margin-bottom: 20px; padding: 15px; background-color: #f0f8ff; border-left: 5px solid #f99d18; border-radius: 5px; font-size: 18px; font-weight: bold; text-align: center;">
     Nome do projeto será exibido aqui
   </div>
   
@@ -227,21 +227,63 @@
     // Formato: "ID_do_projeto": { name: "Nome_do_Projeto", phase: "fase_correspondente" }
     // Exemplo: "1030": { name: "Parque Camboriú", phase: "3" } significa que o projeto 1030 com nome "Parque Camboriú" está na fase 3
     const projectsData = {
-      // Adicione ou modifique os projetos abaixo:
-      "1030": { name: "Parque Camboriú", phase: "9" }, 
-      "1111": { name: "STUDIO EDELWEISS", phase: "1" },
-      "1031": { name: "ST Pierre", phase: "4" },
-      "1032": { name: "Residencial Vista Mar", phase: "2" },
-      "1033": { name: "Edifício Solar", phase: "3" },
-      "1034": { name: "Comercial Plaza", phase: "4" },
-      "1035": { name: "Residencial Montanha", phase: "5" },
-      "1036": { name: "Condomínio Jardins", phase: "6" },
-      "1037": { name: "Torres Empresariais", phase: "7" },
-      "1038": { name: "Edifício Central", phase: "8" },
-      "1039": { name: "Villa Moderna", phase: "9" },
-      "1040": { name: "Residencial Horizonte", phase: "10" }
-      // Não se esqueça de adicionar vírgulas entre os itens
-      // O último item não precisa de vírgula
+      // Lista completa de projetos
+      "893": { name: "SPOT 148", phase: "10" },
+      "930": { name: "AÇU 88", phase: "2" },
+      "962": { name: "ALAMEDA SKY", phase: "8" },
+      "963": { name: "QUEST", phase: "3" },
+      "972": { name: "HAUSE 416", phase: "1" },
+      "978": { name: "BRIS", phase: "9" },
+      "981": { name: "PANORAMA", phase: "6" },
+      "984": { name: "VERTIKAL", phase: "1" },
+      "985": { name: "LINEA", phase: "1" },
+      "986": { name: "SERENA", phase: "2" },
+      "989": { name: "BOSSA", phase: "9" },
+      "995": { name: "FOR YOU MORRETES", phase: "2" },
+      "996": { name: "ESCOLA BARÃO", phase: "4" },
+      "1007": { name: "COMERCIAL PROMA", phase: "1" },
+      "1029": { name: "BOTHANIC", phase: "5" },
+      "1030": { name: "PARQUE CAMBORIU", phase: "9" },
+      "1031": { name: "ANTÔNIO MARIA", phase: "1" },
+      "1032": { name: "SUNSET MARINE", phase: "4" },
+      "1034": { name: "EDIFÍCIO VEGA", phase: "3" },
+      "1041": { name: "ED ZION TOWER", phase: "5" },
+      "1043": { name: "PIXEL", phase: "5" },
+      "1045": { name: "LA VIE", phase: "4" },
+      "1047": { name: "THE LINE", phase: "7" },
+      "1052": { name: "ALTANA", phase: "4" },
+      "1053": { name: "EDGE", phase: "9" },
+      "1056": { name: "RESIDENCIAL CASA GIARDINO", phase: "4" },
+      "1057": { name: "BAKERS BAY", phase: "8" },
+      "1067": { name: "PARQUE SINOP", phase: "3" },
+      "1072": { name: "BRICKELL", phase: "4" },
+      "1073": { name: "URBAN RESIDENCE", phase: "6" },
+      "1075": { name: "CRIATTO", phase: "3" },
+      "1078": { name: "EDIFÍCIO LUMINÁ", phase: "8" },
+      "1080": { name: "PRIMMO ODEZA", phase: "4" },
+      "1082": { name: "ED MARROCOS", phase: "3" },
+      "1083": { name: "ALAMEDA PEREQUÊ", phase: "8" },
+      "1087": { name: "HOPETOWN", phase: "5" },
+      "1088": { name: "IBIS JARAGUÁ DO SUL", phase: "5" },
+      "1089": { name: "MARÉ", phase: "9" },
+      "1090": { name: "PZ OFFICES SINOP", phase: "6" },
+      "1091": { name: "CATARINA-STEIN", phase: "2" },
+      "1092": { name: "ED SEA HOME", phase: "7" },
+      "1094": { name: "ED COMERCIAL VESSEL-BLOCO 04", phase: "2" },
+      "1095": { name: "ED VICE-PREFEITO JOSE PATROCINIO DE OLIVEIRA E JUCEMAR COSCONETTO", phase: "6" },
+      "1097": { name: "EDEN - ESTUDO", phase: "1" },
+      "1099": { name: "CAMPING FRENTE MAR", phase: "4" },
+      "1100": { name: "GALPÕES LOGISTICOS - PRÉDIO 00 - IMPLANTAÇÃO", phase: "8" },
+      "1102": { name: "CASA ROYAL - TORRESANI", phase: "7" },
+      "1108": { name: "HYDE", phase: "8" },
+      "1109": { name: "EDIFICIO LEGATTO", phase: "9" },
+      "1110": { name: "USINA DE ETANOL COAMO", phase: "7" },
+      "1111": { name: "STUDIO EDELWEISS", phase: "6" },
+      "1113": { name: "VIVENCE", phase: "7" },
+      "1115": { name: "ESTUDO EXPANSÃO CROWN PONTA GROSSA", phase: "7" },
+      "1116": { name: "ED BOREAS", phase: "1" },
+      "1117": { name: "ATHENE GARDEN", phase: "7" }
+      // Para adicionar novos projetos, siga o formato acima
     };
     
     // Função para pesquisar o ID do projeto nos dados definidos
@@ -267,8 +309,8 @@
         searchButton.style.backgroundColor = "#4caf50";
         searchButton.textContent = "Encontrado";
         
-        // Mostrar o nome do projeto na área dedicada
-        projectNameDisplay.textContent = projectName + " - Fase " + phase;
+        // Mostrar o ID e o nome do projeto na área dedicada
+        projectNameDisplay.textContent = idToSearch + " - " + projectName;
         projectNameDisplay.style.display = "block";
         
         // Restaurar aparência do botão após um breve período
