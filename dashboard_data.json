@@ -2,137 +2,64 @@
   "ferias": [
     {
       "id": "ferias-1",
-      "nome": "Maria Oliveira",
+      "nome": "Marina Naatz",
       "depto": "Engenharia",
-      "dataInicio": "2025-08-15",
-      "dataFim": "2025-08-30"
+      "dataInicio": "2025-09-08",
+      "dataFim": "2025-09-12"
     },
     {
       "id": "ferias-2",
-      "nome": "João Pereira",
+      "nome": "Leticia Hirt",
       "depto": "Projetos",
-      "dataInicio": "2025-09-01",
-      "dataFim": "2025-09-15"
+      "dataInicio": "2025-09-15",
+      "dataFim": "2025-09-30"
     },
     {
       "id": "ferias-3",
-      "nome": "Carla Santos",
+      "nome": "Leonardo Jung",
       "depto": "Administração",
-      "dataInicio": "2025-08-20",
-      "dataFim": "2025-09-05"
-    },
-    {
-      "id": "ferias-4",
-      "nome": "Paulo Mendes",
-      "depto": "Financeiro",
-      "dataInicio": "2025-10-10",
-      "dataFim": "2025-10-25"
+      "dataInicio": "2025-09-22",
+      "dataFim": "2025-09-26"
     }
   ],
   "aniversariosPessoais": [
     {
-      "nome": "Ana Silva",
-      "depto": "Projetos",
-      "data": "23/07"
-    },
-    {
-      "nome": "Carlos Mendes",
-      "depto": "Administração",
-      "data": "15/08"
-    },
-    {
-      "nome": "Marcos Oliveira",
+      "nome": "Jean Júnior",
       "depto": "Engenharia",
-      "data": "10/09"
+      "data": "03/10"
     },
     {
-      "nome": "Gabriela Santos",
-      "depto": "RH",
-      "data": "06/08"
-    },
-    {
-      "nome": "Roberto Almeida",
-      "depto": "Financeiro",
-      "data": "29/08"
+      "nome": "Marcelle Jehle",
+      "depto": "Administração",
+      "data": "01/11"
     }
   ],
   "aniversariosEmpresa": [
     {
-      "nome": "Juliana Costa",
-      "anos": 5,
-      "data": "23/07"
+      "nome": "Kamile Halate",
+      "anos": 15,
+      "data": "25/10"
     },
     {
-      "nome": "Roberto Santos",
-      "anos": 10,
-      "data": "05/08"
-    },
-    {
-      "nome": "Patricia Almeida",
+      "nome": "Leonardo Jung",
       "anos": 3,
-      "data": "22/09"
-    },
-    {
-      "nome": "Fernando Gomes",
-      "anos": 7,
-      "data": "06/08"
-    },
-    {
-      "nome": "Luciana Pereira",
-      "anos": 2,
-      "data": "18/08"
+      "data": "14/11"
     }
   ],
   "noticias": [
     {
-      "titulo": "Nova parceria estratégica",
-      "conteudo": "Excel Engenharia firma parceria com grande empresa do setor de construção, expandindo nossa atuação para o mercado internacional.",
-      "autor": "Departamento de Marketing",
-      "data": "01/08/2025"
-    },
-    {
-      "titulo": "Treinamento de equipe",
-      "conteudo": "Próximo mês teremos treinamento técnico para todos os colaboradores, focando em novas tecnologias e metodologias de trabalho.",
-      "autor": "RH",
-      "data": "20/07/2025"
-    },
-    {
-      "titulo": "Projeto premiado",
-      "conteudo": "Nosso projeto no Centro Empresarial foi premiado pela associação de arquitetos como melhor solução estrutural do ano.",
-      "autor": "Diretoria",
-      "data": "05/08/2025"
-    },
-    {
-      "titulo": "Novos equipamentos",
-      "conteudo": "Acabamos de adquirir novos equipamentos para o setor de projetos, melhorando nossa capacidade produtiva em 30%.",
-      "autor": "TI",
-      "data": "03/08/2025"
+      "titulo": "Nova versão do Gerenciador de DXF (v.1.7.9)",
+      "conteudo": "Prezados,\nTemos o prazer de anunciar o lançamento da nova versão do Gerenciador de DXF (v.1.7.9), que traz avanços significativos em agilidade e performance de processamento.\n\nPrincipais melhorias:\n- Janela de atualização integrada no submenu, permitindo acesso direto ao servidor para manter o gerenciador sempre atualizado.\n- Ferramenta de renomeação automática, que possibilita renomear arquivos e pastas de forma prática, removendo a palavra _tratado de maneira rápida e eficiente.\n- Métricas de utilização, que oferecem à equipe de desenvolvimento uma visão clara sobre as funcionalidades mais utilizadas no programa, bem como registro de eventuais erros para aprimorar continuamente a ferramenta.",
+      "autor": "Departamento de TI",
+      "data": "06/08/2025"
     }
   ],
   "eventos": [
     {
-      "nome": "Reunião Geral",
-      "descricao": "Apresentação dos resultados trimestrais e novas metas para o próximo trimestre",
-      "local": "Auditório Principal",
-      "data": "2025-08-10T14:00:00"
-    },
-    {
-      "nome": "Workshop de Inovação",
-      "descricao": "Desenvolvimento de novas ideias para projetos e melhorias nos processos internos",
-      "local": "Sala de Treinamento 2",
-      "data": "2025-08-15T09:00:00"
-    },
-    {
-      "nome": "Confraternização de Aniversariantes",
-      "descricao": "Celebração dos aniversariantes do mês de agosto",
-      "local": "Área de Convivência",
-      "data": "2025-08-30T16:30:00"
-    },
-    {
-      "nome": "Treinamento BIM",
-      "descricao": "Capacitação em modelagem de informação da construção para toda equipe técnica",
-      "local": "Laboratório de Tecnologia",
-      "data": "2025-08-20T08:30:00"
+      "nome": "Almoço Especial e Happy Hour - Mailde",
+      "descricao": "A Excel Engenharia Estrutural vai oferecer um almoço especial no Mailde 🎉. Este será o nosso happy hour do meio-dia 🍻😄, um momento para relaxar e aproveitarmos juntos! Responda por favor o Forms para que possamos organizar tudo com o restaurante.",
+      "local": "Mailde",
+      "data": "2025-09-03T12:00:00"
     }
   ],
   "lastUpdated": "2025-08-06T10:00:00.000Z"
