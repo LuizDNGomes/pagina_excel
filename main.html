@@ -5455,9 +5455,29 @@
             // Limpa o container
             feriasContainer.innerHTML = '';
 
-            // Obtém a data atual (forçando para 9 de setembro de 2025, conforme contexto)
-            const hoje = new Date('2025-09-09'); // Data fixa para 9 de setembro de 2025
-            console.log('Data atual (forçada para 9 de setembro de 2025):', hoje.toLocaleDateString('pt-BR'));
+            // Obtém a data atual (agora real, sem forçar) e normaliza para início do dia
+            const hoje = new Date();
+            console.log('Data atual:', hoje.toLocaleDateString('pt-BR'));
+
+            // Helpers para tratar datas de forma consistente no fuso local
+            const MS_DIA = 1000 * 60 * 60 * 24;
+            const inicioDoDia = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+            const meioDiaLocal = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0, 0);
+            const parseDataLocal = (str) => {
+                if (typeof str === 'string') {
+                    // Esperado: 'YYYY-MM-DD' do input[type=date]
+                    const partes = str.split('-').map(Number);
+                    if (partes.length === 3 && !partes.some(isNaN)) {
+                        const [ano, mes, dia] = partes;
+                        // Usar meio-dia para evitar problemas de DST
+                        return new Date(ano, mes - 1, dia, 12, 0, 0, 0);
+                    }
+                }
+                // Fallback: tentar construir e normalizar para meio-dia local
+                const d = new Date(str);
+                return meioDiaLocal(d);
+            };
+            const hojeBase = inicioDoDia(hoje);
 
             // Certifique-se de que temos dados de férias para processar
             if (!window.ferias || !Array.isArray(window.ferias) || window.ferias.length === 0) {
@@ -5479,7 +5499,7 @@
             const feriasFuturas = [];
             const feriasPassadas = [];
 
-            console.log('Data de hoje para comparação:', hoje.toISOString().split('T')[0]);
+            console.log('Data de hoje para comparação (local):', hojeBase.toLocaleDateString('pt-BR'));
 
             window.ferias.forEach(item => {
                 try {
@@ -5489,8 +5509,8 @@
                         return;
                     }
 
-                    const dataInicio = new Date(item.dataInicio);
-                    const dataFim = new Date(item.dataFim);
+                    const dataInicio = parseDataLocal(item.dataInicio);
+                    const dataFim = parseDataLocal(item.dataFim);
 
                     // Verificar se as datas são válidas
                     if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
@@ -5504,37 +5524,34 @@
 
                     console.log(`Férias de ${nome}: Início: ${dataInicio.toISOString().split('T')[0]}, Fim: ${dataFim.toISOString().split('T')[0]}`);
 
-                    // Para comparação, use strings ISO para evitar problemas de fuso horário
-                    const hojeIso = hoje.toISOString().split('T')[0];
-                    const inicioIso = dataInicio.toISOString().split('T')[0];
-                    const fimIso = dataFim.toISOString().split('T')[0];
+                    // Normalizar para início do dia (comparação em datas locais)
+                    const inicioBase = inicioDoDia(dataInicio);
+                    const fimBase = inicioDoDia(dataFim);
 
-                    console.log(`Comparação (strings ISO): hojeIso >= inicioIso? ${hojeIso >= inicioIso}, hojeIso <= fimIso? ${hojeIso <= fimIso}`);
-
-                    if (hojeIso >= inicioIso && hojeIso <= fimIso) {
+                    if (hojeBase >= inicioBase && hojeBase <= fimBase) {
                         // Férias ativas no momento
-                        console.log(`${nome} está de férias AGORA (${inicioIso} - ${fimIso})`);
+                        console.log(`${nome} está de férias AGORA (${inicioBase.toLocaleDateString('pt-BR')} - ${fimBase.toLocaleDateString('pt-BR')})`);
                         feriasAtuais.push({ ...item, nome, departamento });
-                    } else if (hojeIso < inicioIso) {
+                    } else if (hojeBase < inicioBase) {
                         // Férias futuras
-                        console.log(`${nome} estará de férias NO FUTURO (${inicioIso} - ${fimIso})`);
+                        console.log(`${nome} estará de férias NO FUTURO (${inicioBase.toLocaleDateString('pt-BR')} - ${fimBase.toLocaleDateString('pt-BR')})`);
                         feriasFuturas.push({ ...item, nome, departamento });
-                    } else if (hojeIso > fimIso) {
+                    } else if (hojeBase > fimBase) {
                         // Férias concluídas (passadas)
                         feriasPassadas.push({ ...item, nome, departamento });
                     } else {
-                        console.log(`${nome} esteve de férias NO PASSADO (${inicioIso} - ${fimIso})`);
+                        console.log(`${nome} esteve de férias NO PASSADO (${inicioBase.toLocaleDateString('pt-BR')} - ${fimBase.toLocaleDateString('pt-BR')})`);
                     }
                 } catch (error) {
                     console.error('Erro ao processar item de férias:', item, error);
                 }
             });
 
-            // Ordena as férias futuras pela data de início
-            feriasFuturas.sort((a, b) => new Date(a.dataInicio) - new Date(b.dataInicio));
+            // Ordena as férias futuras pela data de início (uso de parser local)
+            feriasFuturas.sort((a, b) => parseDataLocal(a.dataInicio) - parseDataLocal(b.dataInicio));
 
-            // Ordenar passadas por data de fim (mais recentes primeiro) e limitar a 5
-            feriasPassadas.sort((a, b) => new Date(b.dataFim) - new Date(a.dataFim));
+            // Ordenar passadas por data de fim (mais recentes primeiro) usando parser local e limitar a 5
+            feriasPassadas.sort((a, b) => parseDataLocal(b.dataFim) - parseDataLocal(a.dataFim));
             const feriasPassadasLimitadas = feriasPassadas.slice(0, 5);
 
             // Limita a 5 férias futuras para exibição
@@ -5567,8 +5584,8 @@
 
                 feriasAtuais.forEach(item => {
                     try {
-                        const dataInicio = new Date(item.dataInicio);
-                        const dataFim = new Date(item.dataFim);
+                        const dataInicio = parseDataLocal(item.dataInicio);
+                        const dataFim = parseDataLocal(item.dataFim);
 
                         if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
                             console.error('Datas inválidas para exibição:', item);
@@ -5613,8 +5630,8 @@
 
                 feriasFuturasLimitadas.forEach(item => {
                     try {
-                        const dataInicio = new Date(item.dataInicio);
-                        const dataFim = new Date(item.dataFim);
+                        const dataInicio = parseDataLocal(item.dataInicio);
+                        const dataFim = parseDataLocal(item.dataFim);
 
                         if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
                             console.error('Datas inválidas para exibição (férias futuras):', item);
@@ -5624,8 +5641,10 @@
                         const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR');
                         const dataFimFormatada = dataFim.toLocaleDateString('pt-BR');
 
-                        // Calcula dias restantes até o início das férias
-                        const diasRestantes = Math.ceil((dataInicio.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24));
+                        // Calcula dias restantes até o início das férias (base local, evitando DST)
+                        const diasRestantesCalc = Math.ceil((inicioDoDia(dataInicio).getTime() - inicioDoDia(hoje).getTime()) / MS_DIA);
+                        const diasRestantes = Math.max(1, diasRestantesCalc);
+                        const sufixoDia = diasRestantes === 1 ? 'dia' : 'dias';
 
                         const feriasItem = document.createElement('div');
                         feriasItem.className = 'ferias-item';
@@ -5633,7 +5652,7 @@
                             <div class="ferias-periodo">De ${dataInicioFormatada} até ${dataFimFormatada}</div>
                             <div class="ferias-colaborador">${item.nome || 'Sem nome'}</div>
                             <div class="ferias-departamento">${item.departamento || 'Sem departamento'}</div>
-                            <div class="ferias-status futura">Em ${diasRestantes} dias</div>
+                            <div class="ferias-status futura">Em ${diasRestantes} ${sufixoDia}</div>
                         `;
 
                         feriasFuturasHTML.appendChild(feriasItem);
