@@ -1780,14 +1780,21 @@
             font-size: 42px;
             font-weight: 800;
             text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             line-height: 1.4;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .today-date .weekday {
             font-size: 48px;
             letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
+            color: #01627E;
+            /* azul solicitado */
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            text-transform: capitalize;
         }
 
         .today-events {
@@ -1806,15 +1813,16 @@
         }
 
         .clock {
-            font-size: 36px;
+            font-size: 48px;
             padding: 12px 35px;
-            border-radius: 30px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
-            background: rgba(0, 0, 0, 0.25);
-            border: 3px solid rgba(255, 255, 255, 0.4);
-            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-            letter-spacing: 2px;
-            font-weight: 800;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin-left: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            letter-spacing: 1px;
         }
 
         .today-event-item {
@@ -3159,18 +3167,6 @@
                 <div id="holiday-info"></div>
             </div>
             <div class="today-events">
-                <div class="today-event-item">
-                    <i class="fas fa-birthday-cake fa-lg"></i>
-                    Aniversários: <b id="aniversarios-contador">0</b>
-                </div>
-                <div class="today-event-item">
-                    <i class="fas fa-building fa-lg"></i>
-                    Aniv. Empresa: <b id="aniversarios-empresa-contador">0</b>
-                </div>
-                <div class="today-event-item">
-                    <i class="fas fa-calendar-check fa-lg"></i>
-                    Eventos: <b id="eventos-contador">1</b>
-                </div>
                 <div class="clock" id="relogio">16:42:56</div>
             </div>
         </div>
@@ -3205,7 +3201,7 @@
                                             <th>Colaborador</th>
                                             <th>Departamento</th>
                                             <th>Data</th>
-                                            <th>Hoje?</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody id="aniversariosPessoaisList">
@@ -3243,9 +3239,9 @@
                                         <tr>
                                             <th>Foto</th>
                                             <th>Colaborador</th>
-                                            <th>Tempo</th>
+                                            <th>Completará</th>
                                             <th>Data</th>
-                                            <th>Hoje?</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody id="aniversariosEmpresaList">
@@ -3317,11 +3313,7 @@
                                 <div class="event-info-box">
                                     <span id="evento-data">Data do evento: <span
                                             id="eventDateDisplay">--/--/----</span></span><br>
-                                    <span id="evento-info">Para adicionar ou modificar eventos, acesse o painel
-                                        administrativo
-                                        pela interface administrativa. Os eventos são exibidos em ordem cronológica, com
-                                        o
-                                        próximo evento sempre destacado neste painel.</span>
+                                    <span id="evento-info"></span>
                                 </div>
                             </div>
                         </div>
@@ -3377,7 +3369,7 @@
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | Intranet Interno v1.0</p>
-        <button id="adminBtn" class="admin-button" onclick="abrirPainelAdmin()"><i class="fas fa-cog"></i>
+        <button id="adminBtn" class="admin-button"><i class="fas fa-cog"></i>
             Administrador</button>
     </footer>
 
@@ -3756,13 +3748,14 @@
 
         // Função para atualizar os contadores de eventos do dia
         function atualizarContadoresEventos() {
-            // Esta função deve ser chamada sempre que os dados de aniversários e eventos forem carregados
-            // Por enquanto, vamos apenas inicializar com valores estáticos
-            document.getElementById('aniversarios-contador').textContent = '0';
-            document.getElementById('aniversarios-empresa-contador').textContent = '0';
-            document.getElementById('eventos-contador').textContent = '1';
+            // Safe-guards: elementos podem não existir no header simplificado
+            const elAniv = document.getElementById('aniversarios-contador');
+            const elAnivEmp = document.getElementById('aniversarios-empresa-contador');
+            const elEventos = document.getElementById('eventos-contador');
 
-            // No futuro, estes valores serão atualizados dinamicamente com base nos dados carregados
+            if (elAniv) elAniv.textContent = '0';
+            if (elAnivEmp) elAnivEmp.textContent = '0';
+            if (elEventos) elEventos.textContent = '1';
         }
 
         // Inicializa a página
@@ -3900,9 +3893,11 @@
                     }
                 });
 
-                // Atualizar contadores
-                document.getElementById('aniversarios-contador').textContent = contAniv.toString();
-                document.getElementById('aniversarios-empresa-contador').textContent = contAnivEmpresa.toString();
+                // Atualizar contadores (opcional, podem não existir no header simplificado)
+                const elAnivHoje = document.getElementById('aniversarios-contador');
+                const elAnivEmpHoje = document.getElementById('aniversarios-empresa-contador');
+                if (elAnivHoje) elAnivHoje.textContent = contAniv.toString();
+                if (elAnivEmpHoje) elAnivEmpHoje.textContent = contAnivEmpresa.toString();
             }
 
             // Executar verificação inicial
@@ -4498,12 +4493,17 @@
                         painelAdmin.style.opacity = '1';
                         painelAdmin.style.visibility = 'visible';
                         painelAdmin.style.pointerEvents = 'auto';
+                        painelAdmin.style.display = 'block';
+                        painelAdmin.style.zIndex = '9999';
 
                         console.log('✅ Painel aberto com sucesso pelo botão de administrador');
                         mostrarNotificacao("Painel administrativo aberto");
                     } else {
-                        console.error('❌ Painel admin não encontrado!');
-                        alert('Erro ao abrir o painel. Atualize a página e tente novamente.');
+                        console.error('❌ Painel admin não encontrado! Tentando função abrirPainelAdmin()...');
+                        try { abrirPainelAdmin(); } catch (err) {
+                            console.error('Falha ao chamar abrirPainelAdmin():', err);
+                            alert('Erro ao abrir o painel. Atualize a página e tente novamente.');
+                        }
                     }
                 });
 
@@ -5451,9 +5451,29 @@
             // Limpa o container
             feriasContainer.innerHTML = '';
 
-            // Obtém a data atual (forçando para 9 de setembro de 2025, conforme contexto)
-            const hoje = new Date('2025-09-09'); // Data fixa para 9 de setembro de 2025
-            console.log('Data atual (forçada para 9 de setembro de 2025):', hoje.toLocaleDateString('pt-BR'));
+            // Obtém a data atual (agora real, sem forçar) e normaliza para início do dia
+            const hoje = new Date();
+            console.log('Data atual:', hoje.toLocaleDateString('pt-BR'));
+
+            // Helpers para tratar datas de forma consistente no fuso local
+            const MS_DIA = 1000 * 60 * 60 * 24;
+            const inicioDoDia = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+            const meioDiaLocal = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0, 0);
+            const parseDataLocal = (str) => {
+                if (typeof str === 'string') {
+                    // Esperado: 'YYYY-MM-DD' do input[type=date]
+                    const partes = str.split('-').map(Number);
+                    if (partes.length === 3 && !partes.some(isNaN)) {
+                        const [ano, mes, dia] = partes;
+                        // Usar meio-dia para evitar problemas de DST
+                        return new Date(ano, mes - 1, dia, 12, 0, 0, 0);
+                    }
+                }
+                // Fallback: tentar construir e normalizar para meio-dia local
+                const d = new Date(str);
+                return meioDiaLocal(d);
+            };
+            const hojeBase = inicioDoDia(hoje);
 
             // Certifique-se de que temos dados de férias para processar
             if (!window.ferias || !Array.isArray(window.ferias) || window.ferias.length === 0) {
@@ -5475,7 +5495,7 @@
             const feriasFuturas = [];
             const feriasPassadas = [];
 
-            console.log('Data de hoje para comparação:', hoje.toISOString().split('T')[0]);
+            console.log('Data de hoje para comparação (local):', hojeBase.toLocaleDateString('pt-BR'));
 
             window.ferias.forEach(item => {
                 try {
@@ -5485,8 +5505,8 @@
                         return;
                     }
 
-                    const dataInicio = new Date(item.dataInicio);
-                    const dataFim = new Date(item.dataFim);
+                    const dataInicio = parseDataLocal(item.dataInicio);
+                    const dataFim = parseDataLocal(item.dataFim);
 
                     // Verificar se as datas são válidas
                     if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
@@ -5500,37 +5520,34 @@
 
                     console.log(`Férias de ${nome}: Início: ${dataInicio.toISOString().split('T')[0]}, Fim: ${dataFim.toISOString().split('T')[0]}`);
 
-                    // Para comparação, use strings ISO para evitar problemas de fuso horário
-                    const hojeIso = hoje.toISOString().split('T')[0];
-                    const inicioIso = dataInicio.toISOString().split('T')[0];
-                    const fimIso = dataFim.toISOString().split('T')[0];
+                    // Normalizar para início do dia (comparação em datas locais)
+                    const inicioBase = inicioDoDia(dataInicio);
+                    const fimBase = inicioDoDia(dataFim);
 
-                    console.log(`Comparação (strings ISO): hojeIso >= inicioIso? ${hojeIso >= inicioIso}, hojeIso <= fimIso? ${hojeIso <= fimIso}`);
-
-                    if (hojeIso >= inicioIso && hojeIso <= fimIso) {
+                    if (hojeBase >= inicioBase && hojeBase <= fimBase) {
                         // Férias ativas no momento
-                        console.log(`${nome} está de férias AGORA (${inicioIso} - ${fimIso})`);
+                        console.log(`${nome} está de férias AGORA (${inicioBase.toLocaleDateString('pt-BR')} - ${fimBase.toLocaleDateString('pt-BR')})`);
                         feriasAtuais.push({ ...item, nome, departamento });
-                    } else if (hojeIso < inicioIso) {
+                    } else if (hojeBase < inicioBase) {
                         // Férias futuras
-                        console.log(`${nome} estará de férias NO FUTURO (${inicioIso} - ${fimIso})`);
+                        console.log(`${nome} estará de férias NO FUTURO (${inicioBase.toLocaleDateString('pt-BR')} - ${fimBase.toLocaleDateString('pt-BR')})`);
                         feriasFuturas.push({ ...item, nome, departamento });
-                    } else if (hojeIso > fimIso) {
+                    } else if (hojeBase > fimBase) {
                         // Férias concluídas (passadas)
                         feriasPassadas.push({ ...item, nome, departamento });
                     } else {
-                        console.log(`${nome} esteve de férias NO PASSADO (${inicioIso} - ${fimIso})`);
+                        console.log(`${nome} esteve de férias NO PASSADO (${inicioBase.toLocaleDateString('pt-BR')} - ${fimBase.toLocaleDateString('pt-BR')})`);
                     }
                 } catch (error) {
                     console.error('Erro ao processar item de férias:', item, error);
                 }
             });
 
-            // Ordena as férias futuras pela data de início
-            feriasFuturas.sort((a, b) => new Date(a.dataInicio) - new Date(b.dataInicio));
+            // Ordena as férias futuras pela data de início (uso de parser local)
+            feriasFuturas.sort((a, b) => parseDataLocal(a.dataInicio) - parseDataLocal(b.dataInicio));
 
-            // Ordenar passadas por data de fim (mais recentes primeiro) e limitar a 5
-            feriasPassadas.sort((a, b) => new Date(b.dataFim) - new Date(a.dataFim));
+            // Ordenar passadas por data de fim (mais recentes primeiro) usando parser local e limitar a 5
+            feriasPassadas.sort((a, b) => parseDataLocal(b.dataFim) - parseDataLocal(a.dataFim));
             const feriasPassadasLimitadas = feriasPassadas.slice(0, 5);
 
             // Limita a 5 férias futuras para exibição
@@ -5563,8 +5580,8 @@
 
                 feriasAtuais.forEach(item => {
                     try {
-                        const dataInicio = new Date(item.dataInicio);
-                        const dataFim = new Date(item.dataFim);
+                        const dataInicio = parseDataLocal(item.dataInicio);
+                        const dataFim = parseDataLocal(item.dataFim);
 
                         if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
                             console.error('Datas inválidas para exibição:', item);
@@ -5609,8 +5626,8 @@
 
                 feriasFuturasLimitadas.forEach(item => {
                     try {
-                        const dataInicio = new Date(item.dataInicio);
-                        const dataFim = new Date(item.dataFim);
+                        const dataInicio = parseDataLocal(item.dataInicio);
+                        const dataFim = parseDataLocal(item.dataFim);
 
                         if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
                             console.error('Datas inválidas para exibição (férias futuras):', item);
@@ -5620,8 +5637,10 @@
                         const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR');
                         const dataFimFormatada = dataFim.toLocaleDateString('pt-BR');
 
-                        // Calcula dias restantes até o início das férias
-                        const diasRestantes = Math.ceil((dataInicio.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24));
+                        // Calcula dias restantes até o início das férias (base local, evitando DST)
+                        const diasRestantesCalc = Math.ceil((inicioDoDia(dataInicio).getTime() - inicioDoDia(hoje).getTime()) / MS_DIA);
+                        const diasRestantes = Math.max(1, diasRestantesCalc);
+                        const sufixoDia = diasRestantes === 1 ? 'dia' : 'dias';
 
                         const feriasItem = document.createElement('div');
                         feriasItem.className = 'ferias-item';
@@ -5629,7 +5648,7 @@
                             <div class="ferias-periodo">De ${dataInicioFormatada} até ${dataFimFormatada}</div>
                             <div class="ferias-colaborador">${item.nome || 'Sem nome'}</div>
                             <div class="ferias-departamento">${item.departamento || 'Sem departamento'}</div>
-                            <div class="ferias-status futura">Em ${diasRestantes} dias</div>
+                            <div class="ferias-status futura">Em ${diasRestantes} ${sufixoDia}</div>
                         `;
 
                         feriasFuturasHTML.appendChild(feriasItem);
@@ -5715,7 +5734,7 @@
 
                 // Formatar e exibir a data do evento
                 if (elementoData) {
-                    const dataFormatada = formatarData(dataEvento);
+                    const dataFormatada = formatarDataEvento(proximoEvento.data);
                     elementoData.textContent = dataFormatada;
                 }
 
@@ -5761,13 +5780,18 @@
             // Calcular a diferença em milissegundos
             let diferenca = dataEvento - agora;
 
-            // Se o evento já passou, mostrar o próximo
+            // Se o evento já passou
             if (diferenca < 0) {
-                // Remover o evento que já passou
-                eventos.shift();
-                salvarEventos();
-                atualizarProximoEvento();
-                atualizarListaEventosAdmin();
+                if (eventos.length > 1) {
+                    // há próximos: remove o passado e segue
+                    eventos.shift();
+                    salvarEventos();
+                    atualizarProximoEvento();
+                    atualizarListaEventosAdmin();
+                } else {
+                    // só existe este evento: mantém e zera cronômetro para exibir info
+                    zerarCronometro();
+                }
                 return;
             }
 
@@ -6001,22 +6025,10 @@
 
         // Função para carregar dados do arquivo JSON
         function carregarDadosJSON() {
-            console.log('🔄 Iniciando carregamento de dados do JSON...');
+            console.log('🔄 Carregando dados do JSON (GET direto, sem HEAD)...');
 
-            // Verificar se o arquivo JSON existe antes de carregar
-            fetch('dashboard_data.json', {
-                method: 'HEAD',
-                cache: 'no-store' // Evitar cache
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Arquivo JSON não encontrado: ${response.status}`);
-                    }
-                    console.log('📄 Arquivo JSON encontrado, carregando conteúdo...');
-
-                    // Agora carregamos o conteúdo
-                    return fetch('dashboard_data.json', { cache: 'no-store' });
-                })
+            // Carrega diretamente o conteúdo (HEAD pode falhar em file://)
+            fetch('dashboard_data.json', { cache: 'no-store' })
                 .then(response => {
                     console.log('📡 Resposta recebida:', response.status);
                     if (!response.ok) {
@@ -6101,6 +6113,18 @@
                                 console.error('❌ Elemento eventLocation não encontrado!');
                             }
 
+                            // Atualizar a data exibida do evento
+                            const elementoData = document.getElementById('eventDateDisplay');
+                            if (elementoData) {
+                                try {
+                                    elementoData.textContent = formatarDataEvento(proximoEvento.data);
+                                } catch (e) {
+                                    console.warn('Falha ao formatar data do evento:', e);
+                                    const d = new Date(proximoEvento.data);
+                                    elementoData.textContent = d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                                }
+                            }
+
                             // Iniciar cronômetro para o evento
                             iniciarCronometroEvento(proximoEvento.data);
 
@@ -6121,6 +6145,13 @@
                 })
                 .catch(error => {
                     console.error('Erro ao carregar dados do JSON:', error);
+                    // Fallback: tentar localStorage para eventos
+                    if (carregarEventosDoLocalStorage()) {
+                        console.log('✅ Carregado evento do localStorage após falha no JSON');
+                        atualizarProximoEvento();
+                        const e0 = eventos[0];
+                        if (e0 && e0.data) iniciarCronometroEvento(e0.data);
+                    }
                 });
         }
 
@@ -6129,11 +6160,56 @@
             const corpo = document.getElementById('aniversariosPessoaisList');
             if (!corpo) return;
             corpo.innerHTML = '';
-            aniversarios.forEach(aniversario => {
+
+            // Ordenar aniversários
+            const hoje = new Date();
+            const diaAtual = hoje.getDate();
+            const mesAtual = hoje.getMonth() + 1;
+
+            // Clone a lista para não modificar o original
+            const aniversariosOrdenados = [...aniversarios];
+
+            // Função para calcular quantos dias faltam para o aniversário
+            function diasAteAniversario(data) {
+                const dataAniv = extrairDataAniversario(data);
+                const dataHoje = new Date();
+                const anoAtual = dataHoje.getFullYear();
+
+                // Criar data do aniversário no ano atual
+                let dataAniversario = new Date(anoAtual, dataAniv.mes - 1, dataAniv.dia);
+
+                // Se o aniversário já passou este ano, considerar para o próximo ano
+                if (dataAniversario < dataHoje) {
+                    dataAniversario = new Date(anoAtual + 1, dataAniv.mes - 1, dataAniv.dia);
+                }
+
+                // Calcular diferença em dias
+                const diffTempo = dataAniversario.getTime() - dataHoje.getTime();
+                return Math.ceil(diffTempo / (1000 * 3600 * 24));
+            }
+
+            // Ordenar: primeiro os de hoje, depois os mais próximos
+            aniversariosOrdenados.sort((a, b) => {
+                const dataA = extrairDataAniversario(a.data);
+                const dataB = extrairDataAniversario(b.data);
+
+                // Verificar se é hoje
+                const aHoje = dataA.dia === diaAtual && dataA.mes === mesAtual;
+                const bHoje = dataB.dia === diaAtual && dataB.mes === mesAtual;
+
+                if (aHoje && !bHoje) return -1;
+                if (!aHoje && bHoje) return 1;
+                if (aHoje && bHoje) return 0;
+
+                // Se nenhum é hoje, ordenar pelo mais próximo
+                return diasAteAniversario(a.data) - diasAteAniversario(b.data);
+            });
+
+            // Renderizar aniversários ordenados
+            aniversariosOrdenados.forEach(aniversario => {
                 try {
-                    const hoje = new Date();
                     const dataAniv = extrairDataAniversario(aniversario.data);
-                    const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
+                    const isHoje = dataAniv.dia === diaAtual && dataAniv.mes === mesAtual;
                     const iniciais = obterIniciais(aniversario.nome);
                     const tr = document.createElement('tr');
                     if (isHoje) tr.classList.add('aniv-hoje');
@@ -6142,7 +6218,7 @@
                         <td><strong>${aniversario.nome}</strong></td>
                         <td>${aniversario.depto || '-'}</td>
                         <td>${aniversario.data}</td>
-                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-star"></i> Hoje</span>' : ''}</td>
+                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-star"></i> Atual</span>' : ''}</td>
                     `;
                     corpo.appendChild(tr);
                 } catch (e) {
@@ -6156,11 +6232,56 @@
             const corpo = document.getElementById('aniversariosEmpresaList');
             if (!corpo) return;
             corpo.innerHTML = '';
-            aniversarios.forEach(aniversario => {
+
+            // Ordenar aniversários
+            const hoje = new Date();
+            const diaAtual = hoje.getDate();
+            const mesAtual = hoje.getMonth() + 1;
+
+            // Clone a lista para não modificar o original
+            const aniversariosOrdenados = [...aniversarios];
+
+            // Função para calcular quantos dias faltam para o aniversário
+            function diasAteAniversario(data) {
+                const dataAniv = extrairDataAniversario(data);
+                const dataHoje = new Date();
+                const anoAtual = dataHoje.getFullYear();
+
+                // Criar data do aniversário no ano atual
+                let dataAniversario = new Date(anoAtual, dataAniv.mes - 1, dataAniv.dia);
+
+                // Se o aniversário já passou este ano, considerar para o próximo ano
+                if (dataAniversario < dataHoje) {
+                    dataAniversario = new Date(anoAtual + 1, dataAniv.mes - 1, dataAniv.dia);
+                }
+
+                // Calcular diferença em dias
+                const diffTempo = dataAniversario.getTime() - dataHoje.getTime();
+                return Math.ceil(diffTempo / (1000 * 3600 * 24));
+            }
+
+            // Ordenar: primeiro os de hoje, depois os mais próximos
+            aniversariosOrdenados.sort((a, b) => {
+                const dataA = extrairDataAniversario(a.data);
+                const dataB = extrairDataAniversario(b.data);
+
+                // Verificar se é hoje
+                const aHoje = dataA.dia === diaAtual && dataA.mes === mesAtual;
+                const bHoje = dataB.dia === diaAtual && dataB.mes === mesAtual;
+
+                if (aHoje && !bHoje) return -1;
+                if (!aHoje && bHoje) return 1;
+                if (aHoje && bHoje) return 0;
+
+                // Se nenhum é hoje, ordenar pelo mais próximo
+                return diasAteAniversario(a.data) - diasAteAniversario(b.data);
+            });
+
+            // Renderizar aniversários ordenados
+            aniversariosOrdenados.forEach(aniversario => {
                 try {
-                    const hoje = new Date();
                     const dataAniv = extrairDataAniversario(aniversario.data);
-                    const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
+                    const isHoje = dataAniv.dia === diaAtual && dataAniv.mes === mesAtual;
                     const iniciais = obterIniciais(aniversario.nome);
                     const tr = document.createElement('tr');
                     if (isHoje) tr.classList.add('aniv-hoje');
@@ -6169,7 +6290,7 @@
                         <td><strong>${aniversario.nome}</strong></td>
                         <td>${aniversario.anos} ${aniversario.anos == 1 ? 'ano' : 'anos'}</td>
                         <td>${aniversario.data}</td>
-                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-trophy"></i> Hoje</span>' : ''}</td>
+                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-trophy"></i> Atual</span>' : ''}</td>
                     `;
                     corpo.appendChild(tr);
                 } catch (e) {
@@ -6452,7 +6573,18 @@
             // Iniciar o temporizador do carrossel
             startSlideTimer();
 
-            // Iniciar um monitoramento de segurança para garantir que o carrossel está alternando
+            // Adicionar monitoramento para garantir que o carrossel está funcionando
+            let ultimoSlide = currentSlide;
+            let monitorTimer = setInterval(function () {
+                if (ultimoSlide === currentSlide) {
+                    console.log('⚠️ Carrossel parado! Reiniciando timer...');
+                    clearInterval(slideTimer);
+                    startSlideTimer();
+                    // Forçar avanço para o próximo slide
+                    nextSlide();
+                }
+                ultimoSlide = currentSlide;
+            }, 15000); // Verificar a cada 15 segundos
             setInterval(() => {
                 console.log(`Verificação de saúde do carrossel: Slide atual = ${currentSlide + 1}/${slides.length}`);
             }, 10000); // Verificar a cada 10 segundos
