@@ -5765,13 +5765,18 @@
             // Calcular a diferença em milissegundos
             let diferenca = dataEvento - agora;
 
-            // Se o evento já passou, mostrar o próximo
+            // Se o evento já passou
             if (diferenca < 0) {
-                // Remover o evento que já passou
-                eventos.shift();
-                salvarEventos();
-                atualizarProximoEvento();
-                atualizarListaEventosAdmin();
+                if (eventos.length > 1) {
+                    // há próximos: remove o passado e segue
+                    eventos.shift();
+                    salvarEventos();
+                    atualizarProximoEvento();
+                    atualizarListaEventosAdmin();
+                } else {
+                    // só existe este evento: mantém e zera cronômetro para exibir info
+                    zerarCronometro();
+                }
                 return;
             }
 
@@ -6005,22 +6010,10 @@
 
         // Função para carregar dados do arquivo JSON
         function carregarDadosJSON() {
-            console.log('🔄 Iniciando carregamento de dados do JSON...');
+            console.log('🔄 Carregando dados do JSON (GET direto, sem HEAD)...');
 
-            // Verificar se o arquivo JSON existe antes de carregar
-            fetch('dashboard_data.json', {
-                method: 'HEAD',
-                cache: 'no-store' // Evitar cache
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Arquivo JSON não encontrado: ${response.status}`);
-                    }
-                    console.log('📄 Arquivo JSON encontrado, carregando conteúdo...');
-
-                    // Agora carregamos o conteúdo
-                    return fetch('dashboard_data.json', { cache: 'no-store' });
-                })
+            // Carrega diretamente o conteúdo (HEAD pode falhar em file://)
+            fetch('dashboard_data.json', { cache: 'no-store' })
                 .then(response => {
                     console.log('📡 Resposta recebida:', response.status);
                     if (!response.ok) {
@@ -6137,6 +6130,13 @@
                 })
                 .catch(error => {
                     console.error('Erro ao carregar dados do JSON:', error);
+                    // Fallback: tentar localStorage para eventos
+                    if (carregarEventosDoLocalStorage()) {
+                        console.log('✅ Carregado evento do localStorage após falha no JSON');
+                        atualizarProximoEvento();
+                        const e0 = eventos[0];
+                        if (e0 && e0.data) iniciarCronometroEvento(e0.data);
+                    }
                 });
         }
 
