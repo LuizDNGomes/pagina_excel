@@ -33,7 +33,7 @@
       "nome": "Kamile Halate",
       "depto": "Coordenação",
       "dataInicio": "2025-10-10",
-      "dataFim": "2025-10-11"
+      "dataFim": "2025-10-10"
     }
   ],
   "aniversariosPessoais": [
@@ -78,6 +78,16 @@
       "nome": "Felipe Karmann",
       "anos": 3,
       "data": "24/11"
+    },
+    {
+      "nome": "Denis Peters",
+      "anos": 11,
+      "data": "15/01"
+    },
+    {
+      "nome": "Natan Czyz Durda",
+      "anos": 1,
+      "data": "15/01"
     }
   ],
   "noticias": [
