@@ -3201,7 +3201,7 @@
                                             <th>Colaborador</th>
                                             <th>Departamento</th>
                                             <th>Data</th>
-                                            <th>Hoje?</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody id="aniversariosPessoaisList">
@@ -3241,7 +3241,7 @@
                                             <th>Colaborador</th>
                                             <th>Tempo</th>
                                             <th>Data</th>
-                                            <th>Hoje?</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody id="aniversariosEmpresaList">
@@ -3313,11 +3313,7 @@
                                 <div class="event-info-box">
                                     <span id="evento-data">Data do evento: <span
                                             id="eventDateDisplay">--/--/----</span></span><br>
-                                    <span id="evento-info">Para adicionar ou modificar eventos, acesse o painel
-                                        administrativo
-                                        pela interface administrativa. Os eventos são exibidos em ordem cronológica, com
-                                        o
-                                        próximo evento sempre destacado neste painel.</span>
+                                    <span id="evento-info"></span>
                                 </div>
                             </div>
                         </div>
@@ -6222,7 +6218,7 @@
                         <td><strong>${aniversario.nome}</strong></td>
                         <td>${aniversario.depto || '-'}</td>
                         <td>${aniversario.data}</td>
-                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-star"></i> Hoje</span>' : ''}</td>
+                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-star"></i> Atual</span>' : ''}</td>
                     `;
                     corpo.appendChild(tr);
                 } catch (e) {
@@ -6294,7 +6290,7 @@
                         <td><strong>${aniversario.nome}</strong></td>
                         <td>${aniversario.anos} ${aniversario.anos == 1 ? 'ano' : 'anos'}</td>
                         <td>${aniversario.data}</td>
-                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-trophy"></i> Hoje</span>' : ''}</td>
+                        <td>${isHoje ? '<span class="aniv-hoje-badge"><i class="fas fa-trophy"></i> Atual</span>' : ''}</td>
                     `;
                     corpo.appendChild(tr);
                 } catch (e) {
