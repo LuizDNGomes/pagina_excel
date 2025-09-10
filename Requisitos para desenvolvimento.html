@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Requisitos para desenvolvimento</title>
+  <title>Pesquise seus Projetos por ID</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -74,7 +74,6 @@
       margin-right: 10px;
     }
     
-    /* Estilos para o novo sistema de pesquisa por ID */
     .project-search-container {
       margin-bottom: 30px;
       padding: 15px;
@@ -147,34 +146,29 @@
   </style>
 </head>
 <body>
-  <!-- Campo de entrada oculto para controle interno - Não será visível para o usuário -->
   <div class="input-area" style="display: none;">
     <label for="arrowNumber">Seta preenchida até:</label>
     <input type="number" id="arrowNumber" min="1" max="10" value="1">
   </div>
   
-  <!-- Nova seção para pesquisa de projetos por ID -->
   <div class="project-search-container">
-    <h3>Pesquisa de Projetos por ID</h3>
+    <h3>Pesquise seus Projetos por ID</h3>
     
     <div class="project-search-row">
       <input type="text" class="project-id-input" id="searchProjectId" placeholder="ID do Projeto">
       <button class="search-button" id="searchButton">Pesquisar</button>
     </div>
     
-    <!-- Resultado da pesquisa oculto - apenas para controle interno -->
     <div class="search-result" id="searchResult" style="display: none;">
-      <p><strong id="searchResultPhase">-</strong></p>
+      <p><strong id="searchResultfase">-</strong></p>
     </div>
   </div>
   
-  <!-- Área para exibir o nome do projeto -->
   <div class="project-name-display" id="projectNameDisplay" style="display: none; margin-bottom: 20px; padding: 15px; background-color: #f0f8ff; border-left: 5px solid #f99d18; border-radius: 5px; font-size: 18px; font-weight: bold; text-align: center;">
     Nome do projeto será exibido aqui
   </div>
   
   <div class="progress-container" id="progressBar">
-    <!-- Setas serão geradas pelo JS -->
   </div>
   <script>
     const progressBar = document.getElementById('progressBar');
@@ -182,16 +176,16 @@
     const totalArrows = 10;
 
     const arrowTexts = [
-      '1. <br>Pré <br>Requisitos',
+      '1.<br>Pré <br>Requisitos',
       '2.1<br>Revisão <br>Conceitual',
       '2.2<br>Revisão <br>Conceitual (2ª)',
       '3.1<br>Revisão<br> Básico',
       '3.2<br>Revisão<br> Básico (2ª)',
       '4.<br>Pré <br>Executivo',
-      '5.1 <br>Executivo<br>BLOCOS',
-      '5.2 <br>Executivo<br>EMBASAMENTO',
-      '5.3 <br>Executivo<br>TIPOS',
-      '5.4 <br>Executivo<br>ATICO'
+      '5.1<br>Executivo<br>BLOCOS',
+      '5.2<br>Executivo<br>EMBASAMENTO',
+      '5.3<br>Executivo<br>TIPOS',
+      '5.4<br>Executivo<br>ATICO'
     ];
 
     function renderArrows(selected) {
@@ -216,128 +210,113 @@
 
     renderArrows(parseInt(input.value));
     
-    // Nova funcionalidade: Sistema de pesquisa de projetos por ID
     const searchProjectId = document.getElementById('searchProjectId');
     const searchButton = document.getElementById('searchButton');
     const searchResult = document.getElementById('searchResult');
-    const searchResultPhase = document.getElementById('searchResultPhase');
+    const searchResultfase = document.getElementById('searchResultfase');
     const projectNameDisplay = document.getElementById('projectNameDisplay');
     
     // DADOS DOS PROJETOS - EDITE AQUI PARA ADICIONAR/MODIFICAR PROJETOS
-    // Formato: "ID_do_projeto": { name: "Nome_do_Projeto", phase: "fase_correspondente" }
-    // Exemplo: "1030": { name: "Parque Camboriú", phase: "3" } significa que o projeto 1030 com nome "Parque Camboriú" está na fase 3
+    // Formato: "ID_do_projeto": { name: "Nome_do_Projeto", fase: "fase_correspondente" }
+    // Exemplo: "1030": { name: "Parque Camboriú", fase: "3" } significa que o projeto 1030 com nome "Parque Camboriú" está na fase 3
     const projectsData = {
       // Lista completa de projetos
-      "893": { name: "SPOT 148", phase: "10" },
-      "930": { name: "AÇU 88", phase: "2" },
-      "962": { name: "ALAMEDA SKY", phase: "8" },
-      "963": { name: "QUEST", phase: "3" },
-      "972": { name: "HAUSE 416", phase: "1" },
-      "978": { name: "BRIS", phase: "9" },
-      "981": { name: "PANORAMA", phase: "6" },
-      "984": { name: "VERTIKAL", phase: "1" },
-      "985": { name: "LINEA", phase: "1" },
-      "986": { name: "SERENA", phase: "2" },
-      "989": { name: "BOSSA", phase: "9" },
-      "995": { name: "FOR YOU MORRETES", phase: "2" },
-      "996": { name: "ESCOLA BARÃO", phase: "4" },
-      "1007": { name: "COMERCIAL PROMA", phase: "1" },
-      "1029": { name: "BOTHANIC", phase: "5" },
-      "1030": { name: "PARQUE CAMBORIU", phase: "9" },
-      "1031": { name: "ANTÔNIO MARIA", phase: "1" },
-      "1032": { name: "SUNSET MARINE", phase: "4" },
-      "1034": { name: "EDIFÍCIO VEGA", phase: "3" },
-      "1041": { name: "ED ZION TOWER", phase: "5" },
-      "1043": { name: "PIXEL", phase: "5" },
-      "1045": { name: "LA VIE", phase: "4" },
-      "1047": { name: "THE LINE", phase: "7" },
-      "1052": { name: "ALTANA", phase: "4" },
-      "1053": { name: "EDGE", phase: "9" },
-      "1056": { name: "RESIDENCIAL CASA GIARDINO", phase: "4" },
-      "1057": { name: "BAKERS BAY", phase: "8" },
-      "1067": { name: "PARQUE SINOP", phase: "3" },
-      "1072": { name: "BRICKELL", phase: "4" },
-      "1073": { name: "URBAN RESIDENCE", phase: "6" },
-      "1075": { name: "CRIATTO", phase: "3" },
-      "1078": { name: "EDIFÍCIO LUMINÁ", phase: "8" },
-      "1080": { name: "PRIMMO ODEZA", phase: "4" },
-      "1082": { name: "ED MARROCOS", phase: "3" },
-      "1083": { name: "ALAMEDA PEREQUÊ", phase: "8" },
-      "1087": { name: "HOPETOWN", phase: "5" },
-      "1088": { name: "IBIS JARAGUÁ DO SUL", phase: "5" },
-      "1089": { name: "MARÉ", phase: "9" },
-      "1090": { name: "PZ OFFICES SINOP", phase: "6" },
-      "1091": { name: "CATARINA-STEIN", phase: "2" },
-      "1092": { name: "ED SEA HOME", phase: "7" },
-      "1094": { name: "ED COMERCIAL VESSEL-BLOCO 04", phase: "2" },
-      "1095": { name: "ED VICE-PREFEITO JOSE PATROCINIO DE OLIVEIRA E JUCEMAR COSCONETTO", phase: "6" },
-      "1097": { name: "EDEN - ESTUDO", phase: "1" },
-      "1099": { name: "CAMPING FRENTE MAR", phase: "4" },
-      "1100": { name: "GALPÕES LOGISTICOS - PRÉDIO 00 - IMPLANTAÇÃO", phase: "8" },
-      "1102": { name: "CASA ROYAL - TORRESANI", phase: "7" },
-      "1108": { name: "HYDE", phase: "8" },
-      "1109": { name: "EDIFICIO LEGATTO", phase: "9" },
-      "1110": { name: "USINA DE ETANOL COAMO", phase: "7" },
-      "1111": { name: "STUDIO EDELWEISS", phase: "6" },
-      "1113": { name: "VIVENCE", phase: "7" },
-      "1115": { name: "ESTUDO EXPANSÃO CROWN PONTA GROSSA", phase: "7" },
-      "1116": { name: "ED BOREAS", phase: "1" },
-      "1117": { name: "ATHENE GARDEN", phase: "7" }
-      // Para adicionar novos projetos, siga o formato acima
+      "893": { name: "SPOT 148", fase: "10" },
+      "930": { name: "AÇU 88", fase: "2" },
+      "962": { name: "ALAMEDA SKY", fase: "8" },
+      "963": { name: "QUEST", fase: "3" },
+      "972": { name: "HAUSE 416", fase: "1" },
+      "978": { name: "BRIS", fase: "9" },
+      "981": { name: "PANORAMA", fase: "6" },
+      "984": { name: "VERTIKAL", fase: "1" },
+      "985": { name: "LINEA", fase: "1" },
+      "986": { name: "SERENA", fase: "2" },
+      "989": { name: "BOSSA", fase: "9" },
+      "995": { name: "FOR YOU MORRETES", fase: "2" },
+      "996": { name: "ESCOLA BARÃO", fase: "4" },
+      "1007": { name: "COMERCIAL PROMA", fase: "1" },
+      "1029": { name: "BOTHANIC", fase: "5" },
+      "1030": { name: "PARQUE CAMBORIU", fase: "9" },
+      "1031": { name: "ANTÔNIO MARIA", fase: "1" },
+      "1032": { name: "SUNSET MARINE", fase: "4" },
+      "1034": { name: "EDIFÍCIO VEGA", fase: "3" },
+      "1041": { name: "ED ZION TOWER", fase: "5" },
+      "1043": { name: "PIXEL", fase: "5" },
+      "1045": { name: "LA VIE", fase: "4" },
+      "1047": { name: "THE LINE", fase: "7" },
+      "1052": { name: "ALTANA", fase: "4" },
+      "1053": { name: "EDGE", fase: "9" },
+      "1056": { name: "RESIDENCIAL CASA GIARDINO", fase: "4" },
+      "1057": { name: "BAKERS BAY", fase: "8" },
+      "1067": { name: "PARQUE SINOP", fase: "3" },
+      "1072": { name: "BRICKELL", fase: "4" },
+      "1073": { name: "URBAN RESIDENCE", fase: "6" },
+      "1075": { name: "CRIATTO", fase: "3" },
+      "1078": { name: "EDIFÍCIO LUMINÁ", fase: "8" },
+      "1080": { name: "PRIMMO ODEZA", fase: "4" },
+      "1082": { name: "ED MARROCOS", fase: "3" },
+      "1083": { name: "ALAMEDA PEREQUÊ", fase: "8" },
+      "1087": { name: "HOPETOWN", fase: "5" },
+      "1088": { name: "IBIS JARAGUÁ DO SUL", fase: "5" },
+      "1089": { name: "MARÉ", fase: "9" },
+      "1090": { name: "PZ OFFICES SINOP", fase: "6" },
+      "1091": { name: "CATARINA-STEIN", fase: "2" },
+      "1092": { name: "ED SEA HOME", fase: "7" },
+      "1094": { name: "ED COMERCIAL VESSEL-BLOCO 04", fase: "2" },
+      "1095": { name: "ED VICE-PREFEITO JOSE PATROCINIO DE OLIVEIRA E JUCEMAR COSCONETTO", fase: "6" },
+      "1097": { name: "EDEN - ESTUDO", fase: "1" },
+      "1099": { name: "CAMPING FRENTE MAR", fase: "4" },
+      "1100": { name: "GALPÕES LOGISTICOS - PRÉDIO 00 - IMPLANTAÇÃO", fase: "8" },
+      "1102": { name: "CASA ROYAL - TORRESANI", fase: "7" },
+      "1108": { name: "HYDE", fase: "8" },
+      "1109": { name: "EDIFICIO LEGATTO", fase: "9" },
+      "1110": { name: "USINA DE ETANOL COAMO", fase: "7" },
+      "1111": { name: "STUDIO EDELWEISS", fase: "6" },
+      "1113": { name: "VIVENCE", fase: "7" },
+      "1115": { name: "ESTUDO EXPANSÃO CROWN PONTA GROSSA", fase: "7" },
+      "1116": { name: "ED BOREAS", fase: "1" },
+      "1117": { name: "ATHENE GARDEN", fase: "7" }
     };
     
-    // Função para pesquisar o ID do projeto nos dados definidos
     function searchProjectById() {
       const idToSearch = searchProjectId.value.trim();
-      if (!idToSearch) {
-        alert('Por favor, insira um ID de projeto para pesquisar.');
-        return;
-      }
-      
-      if (projectsData.hasOwnProperty(idToSearch)) {
-        // Obter dados do projeto
-        const projectInfo = projectsData[idToSearch];
-        const phase = projectInfo.phase;
-        const projectName = projectInfo.name;
-        
-        // Atualizar automaticamente a fase mostrada no gráfico
-        input.value = phase;
-        let event = new Event('input');
-        input.dispatchEvent(event);
-        
-        // Adicionar efeito visual discreto no botão de pesquisa para indicar sucesso
-        searchButton.style.backgroundColor = "#4caf50";
-        searchButton.textContent = "Encontrado";
-        
-        // Mostrar o ID e o nome do projeto na área dedicada
-        projectNameDisplay.textContent = idToSearch + " - " + projectName;
-        projectNameDisplay.style.display = "block";
-        
-        // Restaurar aparência do botão após um breve período
-        setTimeout(() => {
-          searchButton.style.backgroundColor = "#f99d18";
-          searchButton.textContent = "Pesquisar";
-        }, 1000);
-        
-        // Limpar o campo de pesquisa após encontrar
-        searchProjectId.value = '';
-        
-        // Dar foco de volta ao campo de pesquisa para facilitar nova consulta
-        searchProjectId.focus();
-      } else {
-        // Projeto não encontrado - mostrar alerta discreto
-        alert('Projeto não encontrado');
-        
-        // Limpar o campo de pesquisa
-        searchProjectId.value = '';
-        searchProjectId.focus();
-      }
+        if (!idToSearch) {
+          alert('Por favor, insira um ID de projeto para pesquisar.');
+          return;
+        }
+        // Se o usuário digitar "Excel", abre o site em nova aba
+        if (idToSearch.toLowerCase() === "excel") {
+          window.open("https://www.exceleng.eng.br/", "_blank");
+          searchProjectId.value = '';
+          searchProjectId.focus();
+          return;
+        }
+        if (projectsData.hasOwnProperty(idToSearch)) {
+          const projectInfo = projectsData[idToSearch];
+          const fase = projectInfo.fase;
+          const projectName = projectInfo.name;
+          input.value = fase;
+          let event = new Event('input');
+          input.dispatchEvent(event);
+          searchButton.style.backgroundColor = "#4caf50";
+          searchButton.textContent = "Encontrado";
+          projectNameDisplay.textContent = idToSearch + " - " + projectName;
+          projectNameDisplay.style.display = "block";
+          setTimeout(() => {
+            searchButton.style.backgroundColor = "#f99d18";
+            searchButton.textContent = "Pesquisar";
+          }, 1000);
+          searchProjectId.value = '';
+          searchProjectId.focus();
+        } else {
+          alert(`📁 Ops. O projeto "${idToSearch}" digitado não foi encontrado.`);
+          searchProjectId.value = '';
+          searchProjectId.focus();
+        }
     }
     
-    // Adicionar event listener ao botão de pesquisa
     searchButton.addEventListener('click', searchProjectById);
     
-    // Permitir pesquisa ao pressionar Enter no campo de ID
     searchProjectId.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         searchProjectById();
