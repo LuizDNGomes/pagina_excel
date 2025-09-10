@@ -10,14 +10,14 @@
     {
       "id": "ferias-2",
       "nome": "Leticia Hirt",
-      "depto": "Projetos",
+      "depto": "Engenharia",
       "dataInicio": "2025-09-15",
       "dataFim": "2025-09-30"
     },
     {
       "id": "ferias-3",
       "nome": "Leonardo Jung",
-      "depto": "Administração",
+      "depto": "Engenharia",
       "dataInicio": "2025-09-22",
       "dataFim": "2025-09-26"
     }
@@ -30,7 +30,7 @@
     },
     {
       "nome": "Marcelle Jehle",
-      "depto": "Administração",
+      "depto": "Engenharia",
       "data": "01/11"
     }
   ],
