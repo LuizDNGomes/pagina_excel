@@ -20,6 +20,20 @@
       "depto": "Engenharia",
       "dataInicio": "2025-09-22",
       "dataFim": "2025-09-26"
+    },
+    {
+      "id": "ferias-4",
+      "nome": "Denis Peters",
+      "depto": "Diretoria",
+      "dataInicio": "2025-10-07",
+      "dataFim": "2025-10-28"
+    },
+    {
+      "id": "ferias-5",
+      "nome": "Kamile Halate",
+      "depto": "Coordenação",
+      "dataInicio": "2025-10-10",
+      "dataFim": "2025-10-11"
     }
   ],
   "aniversariosPessoais": [
@@ -32,6 +46,21 @@
       "nome": "Marcelle Jehle",
       "depto": "Engenharia",
       "data": "01/11"
+    },
+    {
+      "nome": "Rafael Krieck",
+      "depto": "Diretoria",
+      "data": "05/11"
+    },
+    {
+      "nome": "Fred Freygang",
+      "depto": "Diretoria",
+      "data": "12/11"
+    },
+    {
+      "nome": "Leticia Hirt",
+      "depto": "Engenharia",
+      "data": "30/11"
     }
   ],
   "aniversariosEmpresa": [
@@ -44,6 +73,11 @@
       "nome": "Leonardo Jung",
       "anos": 3,
       "data": "14/11"
+    },
+    {
+      "nome": "Felipe Karmann",
+      "anos": 3,
+      "data": "24/11"
     }
   ],
   "noticias": [
