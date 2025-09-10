@@ -6145,11 +6145,56 @@
             const corpo = document.getElementById('aniversariosPessoaisList');
             if (!corpo) return;
             corpo.innerHTML = '';
-            aniversarios.forEach(aniversario => {
+
+            // Ordenar aniversários
+            const hoje = new Date();
+            const diaAtual = hoje.getDate();
+            const mesAtual = hoje.getMonth() + 1;
+
+            // Clone a lista para não modificar o original
+            const aniversariosOrdenados = [...aniversarios];
+
+            // Função para calcular quantos dias faltam para o aniversário
+            function diasAteAniversario(data) {
+                const dataAniv = extrairDataAniversario(data);
+                const dataHoje = new Date();
+                const anoAtual = dataHoje.getFullYear();
+
+                // Criar data do aniversário no ano atual
+                let dataAniversario = new Date(anoAtual, dataAniv.mes - 1, dataAniv.dia);
+
+                // Se o aniversário já passou este ano, considerar para o próximo ano
+                if (dataAniversario < dataHoje) {
+                    dataAniversario = new Date(anoAtual + 1, dataAniv.mes - 1, dataAniv.dia);
+                }
+
+                // Calcular diferença em dias
+                const diffTempo = dataAniversario.getTime() - dataHoje.getTime();
+                return Math.ceil(diffTempo / (1000 * 3600 * 24));
+            }
+
+            // Ordenar: primeiro os de hoje, depois os mais próximos
+            aniversariosOrdenados.sort((a, b) => {
+                const dataA = extrairDataAniversario(a.data);
+                const dataB = extrairDataAniversario(b.data);
+
+                // Verificar se é hoje
+                const aHoje = dataA.dia === diaAtual && dataA.mes === mesAtual;
+                const bHoje = dataB.dia === diaAtual && dataB.mes === mesAtual;
+
+                if (aHoje && !bHoje) return -1;
+                if (!aHoje && bHoje) return 1;
+                if (aHoje && bHoje) return 0;
+
+                // Se nenhum é hoje, ordenar pelo mais próximo
+                return diasAteAniversario(a.data) - diasAteAniversario(b.data);
+            });
+
+            // Renderizar aniversários ordenados
+            aniversariosOrdenados.forEach(aniversario => {
                 try {
-                    const hoje = new Date();
                     const dataAniv = extrairDataAniversario(aniversario.data);
-                    const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
+                    const isHoje = dataAniv.dia === diaAtual && dataAniv.mes === mesAtual;
                     const iniciais = obterIniciais(aniversario.nome);
                     const tr = document.createElement('tr');
                     if (isHoje) tr.classList.add('aniv-hoje');
@@ -6172,11 +6217,56 @@
             const corpo = document.getElementById('aniversariosEmpresaList');
             if (!corpo) return;
             corpo.innerHTML = '';
-            aniversarios.forEach(aniversario => {
+
+            // Ordenar aniversários
+            const hoje = new Date();
+            const diaAtual = hoje.getDate();
+            const mesAtual = hoje.getMonth() + 1;
+
+            // Clone a lista para não modificar o original
+            const aniversariosOrdenados = [...aniversarios];
+
+            // Função para calcular quantos dias faltam para o aniversário
+            function diasAteAniversario(data) {
+                const dataAniv = extrairDataAniversario(data);
+                const dataHoje = new Date();
+                const anoAtual = dataHoje.getFullYear();
+
+                // Criar data do aniversário no ano atual
+                let dataAniversario = new Date(anoAtual, dataAniv.mes - 1, dataAniv.dia);
+
+                // Se o aniversário já passou este ano, considerar para o próximo ano
+                if (dataAniversario < dataHoje) {
+                    dataAniversario = new Date(anoAtual + 1, dataAniv.mes - 1, dataAniv.dia);
+                }
+
+                // Calcular diferença em dias
+                const diffTempo = dataAniversario.getTime() - dataHoje.getTime();
+                return Math.ceil(diffTempo / (1000 * 3600 * 24));
+            }
+
+            // Ordenar: primeiro os de hoje, depois os mais próximos
+            aniversariosOrdenados.sort((a, b) => {
+                const dataA = extrairDataAniversario(a.data);
+                const dataB = extrairDataAniversario(b.data);
+
+                // Verificar se é hoje
+                const aHoje = dataA.dia === diaAtual && dataA.mes === mesAtual;
+                const bHoje = dataB.dia === diaAtual && dataB.mes === mesAtual;
+
+                if (aHoje && !bHoje) return -1;
+                if (!aHoje && bHoje) return 1;
+                if (aHoje && bHoje) return 0;
+
+                // Se nenhum é hoje, ordenar pelo mais próximo
+                return diasAteAniversario(a.data) - diasAteAniversario(b.data);
+            });
+
+            // Renderizar aniversários ordenados
+            aniversariosOrdenados.forEach(aniversario => {
                 try {
-                    const hoje = new Date();
                     const dataAniv = extrairDataAniversario(aniversario.data);
-                    const isHoje = dataAniv.dia === hoje.getDate() && dataAniv.mes === hoje.getMonth() + 1;
+                    const isHoje = dataAniv.dia === diaAtual && dataAniv.mes === mesAtual;
                     const iniciais = obterIniciais(aniversario.nome);
                     const tr = document.createElement('tr');
                     if (isHoje) tr.classList.add('aniv-hoje');
