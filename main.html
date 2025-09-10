@@ -327,14 +327,13 @@
         .card-body {
             padding: 18px 25px;
             flex: 1;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
-            min-height: 0;
             background: linear-gradient(to bottom,
                     rgba(255, 255, 255, 1) 0%,
                     rgba(248, 250, 252, 1) 100%);
             position: relative;
+            overflow: visible;
         }
 
         .card-footer {
@@ -764,13 +763,15 @@
             padding-bottom: 0;
         }
 
-        /* Contentor para scrolling em notícias se necessário */
+        /* Contentor de notícias sem scroll, com ajuste automático */
         .news-container {
-            overflow-y: auto;
             flex: 1;
-            min-height: 0;
-            max-height: 100%;
-            padding-right: 5px;
+            width: 100%;
+            position: relative;
+            padding: 0;
+            height: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .news-content {
@@ -793,6 +794,129 @@
             font-weight: 600;
             display: block;
             overflow: visible;
+        }
+
+        /* Estilos para tabela de notícias com visualização completa */
+        .news-table {
+            width: 100%;
+            height: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            overflow: visible;
+            margin-bottom: 0;
+            border: 1px solid rgba(1, 98, 126, 0.3);
+            table-layout: fixed;
+        }
+
+        .news-table thead {
+            background-color: #01627E;
+            color: white;
+        }
+
+        .news-table th {
+            padding: 12px 15px;
+            text-align: center;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(255, 165, 0, 0.3);
+            font-size: 18px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .news-full-display tbody tr {
+            border-bottom: 1px solid rgba(1, 98, 126, 0.2);
+        }
+
+        .news-full-display tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .news-full-display tbody tr:nth-child(odd) {
+            background-color: rgba(1, 98, 126, 0.03);
+        }
+
+        .news-full-cell {
+            padding: 0;
+            vertical-align: top;
+        }
+
+        .news-header {
+            padding: 12px 15px;
+            border-bottom: 2px solid rgba(1, 98, 126, 0.2);
+            background-color: rgba(1, 98, 126, 0.08);
+        }
+
+        .news-full-title {
+            font-weight: 700;
+            color: #01627E;
+            margin: 0 0 8px 0;
+            font-size: var(--news-title-font-size, 16px);
+        }
+
+        .news-full-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .news-full-date,
+        .news-full-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .news-full-date i,
+        .news-full-author i {
+            margin-right: 5px;
+            color: #FFA500;
+        }
+
+        .news-full-content {
+            padding: 15px;
+            font-size: var(--news-content-font-size, 14px);
+            color: #000;
+            line-height: 1.6;
+            text-align: justify;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            height: auto;
+            overflow: visible;
+        }
+
+        .news-full-content p {
+            margin: 0 0 10px 0;
+        }
+
+        .news-full-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bold-text {
+            font-weight: 700 !important;
+            letter-spacing: 0.01em;
+            line-height: 1.8;
+            text-shadow: 0 0.2px 0.3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos responsivos para a tabela de notícias completa */
+        @media (max-width: 768px) {
+            .news-full-title {
+                font-size: 14px;
+            }
+
+            .news-full-content {
+                font-size: 12px;
+                padding: 12px;
+            }
+
+            .news-header {
+                padding: 10px;
+            }
         }
 
         .news-meta {
@@ -1111,16 +1235,14 @@
             scrollbar-color: rgba(1, 98, 126, 0.5) rgba(255, 255, 255, 0.1);
         }
 
-        /* Adaptação das notícias para o carrossel */
+        /* Adaptação das notícias para o carrossel - sem scroll */
         #slide-3 .news-container {
-            max-height: 70vh;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            grid-gap: 15px;
+            height: auto;
+            max-height: none;
+            display: flex;
+            flex-direction: column;
             padding: 5px 10px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(1, 98, 126, 0.5) rgba(255, 255, 255, 0.1);
+            overflow-y: hidden;
         }
 
         /* Estilo para as transições de slide */
@@ -1539,8 +1661,11 @@
             }
 
             #slide-3 .news-container {
-                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-                max-height: 72vh;
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                max-height: none;
+                overflow-y: hidden;
             }
 
             .dashboard {
@@ -3252,7 +3377,8 @@
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Excel Engenharia. Todos os direitos reservados. | Intranet Interno v1.0</p>
-        <button id="adminBtn" class="admin-button"><i class="fas fa-cog"></i> Administrador</button>
+        <button id="adminBtn" class="admin-button" onclick="abrirPainelAdmin()"><i class="fas fa-cog"></i>
+            Administrador</button>
     </footer>
 
     <!-- Notificação de atualização -->
@@ -3696,6 +3822,24 @@
                 }
             };
 
+            // Função mais flexível para mostrar notificações com texto personalizado
+            function mostrarNotificacao(texto) {
+                const notificacao = document.getElementById('updateNotification');
+                const textoNotificacao = document.querySelector('.update-notification-text');
+
+                if (notificacao && textoNotificacao) {
+                    textoNotificacao.textContent = texto;
+                    notificacao.classList.add('show');
+
+                    // Fechar automaticamente após 5 segundos
+                    setTimeout(() => {
+                        notificacao.classList.remove('show');
+                    }, 5000);
+
+                    console.log('📢 Notificação exibida:', texto);
+                }
+            }
+
             // Inicialização da página de acordo com a data atual
             function verificarAniversariosDeHoje() {
                 const hoje = new Date();
@@ -3816,6 +3960,12 @@
 
             // Inicializar o cronômetro do próximo evento
             inicializarEventos();
+
+            // Garantir que o evento do JSON seja carregado depois da inicialização
+            setTimeout(function () {
+                console.log('🔄 Recarregando dados do JSON para garantir eventos atualizados...');
+                carregarDadosJSON();
+            }, 1500);
 
             // Atualiza o relógio a cada segundo
             setInterval(atualizarRelogio, 1000);
@@ -4325,11 +4475,38 @@
             // Configurar o botão de administrador no footer
             const adminBtn = document.getElementById('adminBtn');
             if (adminBtn) {
-                adminBtn.addEventListener('click', function (e) {
+                // Remover qualquer onclick anterior para evitar duplicação
+                adminBtn.removeAttribute('onclick');
+
+                // Clonar e substituir para remover qualquer evento antigo
+                const adminBtnClone = adminBtn.cloneNode(true);
+                if (adminBtn.parentNode) {
+                    adminBtn.parentNode.replaceChild(adminBtnClone, adminBtn);
+                }
+
+                // Adicionar novo event listener
+                adminBtnClone.addEventListener('click', function (e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     console.log('🔘 Botão de administrador no footer clicado');
-                    abrirPainelAdmin();
+
+                    // Abrir painel diretamente manipulando o DOM
+                    const painelAdmin = document.getElementById('adminPanel');
+                    if (painelAdmin) {
+                        painelAdmin.className = 'admin-panel active';
+                        painelAdmin.style.transform = 'translateY(0)';
+                        painelAdmin.style.opacity = '1';
+                        painelAdmin.style.visibility = 'visible';
+                        painelAdmin.style.pointerEvents = 'auto';
+
+                        console.log('✅ Painel aberto com sucesso pelo botão de administrador');
+                        mostrarNotificacao("Painel administrativo aberto");
+                    } else {
+                        console.error('❌ Painel admin não encontrado!');
+                        alert('Erro ao abrir o painel. Atualize a página e tente novamente.');
+                    }
                 });
+
                 console.log('✅ Botão de administrador no footer configurado');
             } else {
                 console.error('❌ Botão de administrador no footer não encontrado');
@@ -5131,35 +5308,81 @@
         // Funções para gerenciar eventos com cronômetro
         let eventos = [];
 
+        // Função para carregar eventos do localStorage
+        function carregarEventosDoLocalStorage() {
+            const eventosArmazenados = localStorage.getItem('excelEventos');
+
+            if (eventosArmazenados) {
+                try {
+                    const eventosCarregados = JSON.parse(eventosArmazenados);
+                    if (eventosCarregados && eventosCarregados.length > 0) {
+                        eventos = [eventosCarregados[0]];
+                        console.log('Evento carregado do localStorage:', eventos[0]);
+                        return true;
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar eventos do localStorage:', e);
+                }
+            }
+            return false;
+        }
+
         // Função para inicializar eventos e cronômetro
         function inicializarEventos() {
-            // Verificar se já existem eventos salvos no localStorage
-            const eventosArmazenados = localStorage.getItem('excelEventos');
-            if (eventosArmazenados) {
-                eventos = JSON.parse(eventosArmazenados);
-            }
+            console.log('🚀 Inicializando sistema de eventos...');
 
-            // Se não houver eventos, criar um evento padrão
-            if (eventos.length === 0) {
-                const eventoDemo = {
-                    id: 'evento-demo',
-                    nome: 'Confraternização Excel Engenharia',
-                    data: '2025-08-15T18:00:00',
-                    descricao: 'Confraternização semestral da empresa com diversas atividades e sorteios para os colaboradores.',
-                    local: 'Espaço Green Garden'
-                };
-                eventos.push(eventoDemo);
-                salvarEventos();
-            }
+            // Primeiro vamos tentar carregar do JSON, que tem prioridade
+            fetch('dashboard_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('🔍 Verificando eventos no JSON durante inicialização...');
+                    if (data.eventos && data.eventos.length > 0) {
+                        console.log('✨ Evento encontrado no JSON durante inicialização:', data.eventos[0]);
+                        eventos = [data.eventos[0]];
+                        salvarEventos();
+                        atualizarProximoEvento();
+                        iniciarCronometroEvento(eventos[0].data);
+                        console.log('✅ Inicialização completada com evento do JSON');
+                        return;
+                    }
 
-            // Adicionar eventos ao painel administrativo
-            atualizarListaEventosAdmin();
+                    // Se não encontrar no JSON, tenta do localStorage
+                    if (!carregarEventosDoLocalStorage()) {
+                        // Se não tiver no localStorage, cria um demo
+                        console.log('Criando evento de demonstração');
+                        const eventoDemo = {
+                            id: 'evento-demo',
+                            nome: 'Confraternização Excel Engenharia',
+                            data: '2025-08-15T18:00:00',
+                            descricao: 'Confraternização semestral da empresa com diversas atividades e sorteios para os colaboradores.',
+                            local: 'Espaço Green Garden'
+                        };
+                        eventos = [eventoDemo];
+                        salvarEventos();
+                        atualizarProximoEvento();
+                        iniciarCronometroEvento(eventoDemo.data);
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Erro ao carregar JSON durante inicialização:', error);
 
-            // Atualizar o cronômetro com o próximo evento
-            atualizarProximoEvento();
-
-            // Iniciar o cronômetro que atualiza a cada segundo
-            setInterval(atualizarCronometro, 1000);
+                    // Em caso de erro, tenta do localStorage
+                    if (!carregarEventosDoLocalStorage()) {
+                        // Se não tiver no localStorage, cria um demo
+                        console.log('Criando evento de demonstração');
+                        const eventoDemo = {
+                            id: 'evento-demo',
+                            nome: 'Confraternização Excel Engenharia',
+                            data: '2025-08-15T18:00:00',
+                            descricao: 'Confraternização semestral da empresa com diversas atividades e sorteios para os colaboradores.',
+                            local: 'Espaço Green Garden'
+                        };
+                        eventos = [eventoDemo];
+                        salvarEventos();
+                        atualizarProximoEvento();
+                        iniciarCronometroEvento(eventoDemo.data);
+                    }
+                });
         }
 
         // Função para ordenar eventos por data (mais próximo primeiro)
@@ -5461,6 +5684,8 @@
             // Obter o evento mais próximo (primeiro na lista ordenada)
             if (eventos.length > 0) {
                 const proximoEvento = eventos[0];
+                console.log('Atualizando próximo evento na interface:', proximoEvento);
+
                 const elementoNome = document.getElementById('eventName');
                 const elementoDesc = document.getElementById('eventDescription');
                 const elementoLocal = document.getElementById('eventLocation');
@@ -5776,22 +6001,122 @@
 
         // Função para carregar dados do arquivo JSON
         function carregarDadosJSON() {
-            fetch('dashboard_data.json')
-                .then(response => response.json())
+            console.log('🔄 Iniciando carregamento de dados do JSON...');
+
+            // Verificar se o arquivo JSON existe antes de carregar
+            fetch('dashboard_data.json', {
+                method: 'HEAD',
+                cache: 'no-store' // Evitar cache
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Arquivo JSON não encontrado: ${response.status}`);
+                    }
+                    console.log('📄 Arquivo JSON encontrado, carregando conteúdo...');
+
+                    // Agora carregamos o conteúdo
+                    return fetch('dashboard_data.json', { cache: 'no-store' });
+                })
+                .then(response => {
+                    console.log('📡 Resposta recebida:', response.status);
+                    if (!response.ok) {
+                        throw new Error(`Erro HTTP: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    // Renderizar aniversários pessoais
-                    renderizarAniversariosPessoais(data.aniversariosPessoais);
+                    console.log('📊 Dados carregados do JSON:', data);
 
-                    // Renderizar aniversários de empresa
-                    renderizarAniversariosEmpresa(data.aniversariosEmpresa);
+                    // Verificar estrutura do JSON
+                    if (!data) {
+                        console.error('❌ Dados JSON inválidos (undefined ou null)');
+                        return;
+                    }
 
-                    // Renderizar notícias
-                    renderizarNoticias(data.noticias);
+                    // Verificar cada seção esperada
+                    console.log('📋 Verificando seções do JSON:');
+                    console.log(' - aniversariosPessoais:', data.aniversariosPessoais ? `${data.aniversariosPessoais.length} itens` : 'não encontrado');
+                    console.log(' - aniversariosEmpresa:', data.aniversariosEmpresa ? `${data.aniversariosEmpresa.length} itens` : 'não encontrado');
+                    console.log(' - noticias:', data.noticias ? `${data.noticias.length} itens` : 'não encontrado');
+                    console.log(' - eventos:', data.eventos ? `${data.eventos.length} itens` : 'não encontrado');
 
-                    // Inicializar eventos (já está sendo tratado pelo código existente)
-                    // Atualizar com dados do JSON se necessário
+                    // Renderizar dados quando disponíveis
+                    if (data.aniversariosPessoais) {
+                        renderizarAniversariosPessoais(data.aniversariosPessoais);
+                    }
+
+                    if (data.aniversariosEmpresa) {
+                        renderizarAniversariosEmpresa(data.aniversariosEmpresa);
+                    }
+
+                    if (data.noticias) {
+                        renderizarNoticias(data.noticias);
+                    }
+
+                    // Tratar evento único do JSON
                     if (data.eventos && data.eventos.length > 0) {
-                        atualizarProximoEvento(data.eventos);
+                        console.log('🎯 Evento encontrado no JSON:', JSON.stringify(data.eventos[0], null, 2));
+
+                        try {
+                            // Validar o formato do evento
+                            const eventoJSON = data.eventos[0];
+                            if (!eventoJSON.nome || !eventoJSON.data || !eventoJSON.descricao || !eventoJSON.local) {
+                                console.error('❌ Evento do JSON tem formato inválido (faltam campos obrigatórios)');
+                                console.log('Campos esperados: nome, data, descricao, local');
+                                console.log('Campos encontrados:', Object.keys(eventoJSON).join(', '));
+                                mostrarNotificacao("Erro no formato do evento no JSON");
+                                return;
+                            }
+
+                            // Substituir todos os eventos existentes pelo único evento do JSON
+                            eventos = [eventoJSON];
+                            salvarEventos(); // Salva no localStorage
+
+                            // Forçar atualização dos elementos na interface
+                            const proximoEvento = eventos[0];
+
+                            // Atualizar elementos diretamente
+                            const elementoNome = document.getElementById('eventName');
+                            const elementoDesc = document.getElementById('eventDescription');
+                            const elementoLocal = document.getElementById('eventLocation');
+
+                            if (elementoNome) {
+                                console.log('✏️ Atualizando nome do evento:', proximoEvento.nome);
+                                elementoNome.textContent = proximoEvento.nome;
+                            } else {
+                                console.error('❌ Elemento eventName não encontrado!');
+                            }
+
+                            if (elementoDesc) {
+                                console.log('✏️ Atualizando descrição do evento:', proximoEvento.descricao.substring(0, 30) + '...');
+                                elementoDesc.textContent = proximoEvento.descricao;
+                            } else {
+                                console.error('❌ Elemento eventDescription não encontrado!');
+                            }
+
+                            if (elementoLocal) {
+                                console.log('✏️ Atualizando local do evento:', proximoEvento.local);
+                                elementoLocal.innerHTML = '<i class="fas fa-map-marker-alt"></i> ' + proximoEvento.local;
+                            } else {
+                                console.error('❌ Elemento eventLocation não encontrado!');
+                            }
+
+                            // Iniciar cronômetro para o evento
+                            iniciarCronometroEvento(proximoEvento.data);
+
+                            // Atualizar a lista de eventos no painel administrativo
+                            atualizarListaEventosAdmin();
+
+                            console.log('✅ Evento do JSON processado com sucesso!');
+
+                            // Mostrar notificação de sucesso
+                            mostrarNotificacao("Evento atualizado com sucesso!");
+                        } catch (error) {
+                            console.error('❌ Erro ao processar evento do JSON:', error);
+                            mostrarNotificacao("Erro ao processar evento do JSON");
+                        }
+                    } else {
+                        console.warn('⚠️ Nenhum evento encontrado no JSON');
                     }
                 })
                 .catch(error => {
@@ -5853,58 +6178,119 @@
             });
         }
 
-        // Função para renderizar notícias
+        // Função para renderizar notícias em formato de tabela com todo conteúdo já visível
         function renderizarNoticias(noticias) {
             const container = document.getElementById('noticiasContainer');
             if (!container) return;
 
+            // Limpar o container
             container.innerHTML = '';
 
-            noticias.forEach(noticia => {
-                const div = document.createElement('div');
-                div.className = 'news-item';
+            // Criar a tabela
+            const table = document.createElement('table');
+            table.className = 'news-table news-full-display';
+            table.style.height = '100%';
 
-                div.innerHTML = `
-                    <div class="news-content">
-                        <h3 class="news-title">${noticia.titulo}</h3>
-                        <p class="news-excerpt">${noticia.conteudo}</p>
-                        <div class="news-meta">
-                            <div class="news-date">
-                                <i class="far fa-calendar"></i>
-                                ${noticia.data}
-                            </div>
-                            <div class="news-author">
-                                <i class="far fa-user"></i>
-                                ${noticia.autor}
+            // Adicionar cabeçalho da tabela
+            const thead = document.createElement('thead');
+            thead.innerHTML = `
+                <tr>
+                    <th class="news-title-header">Notícias Importantes</th>
+                </tr>
+            `;
+            table.appendChild(thead);
+
+            // Adicionar corpo da tabela
+            const tbody = document.createElement('tbody');
+
+            // Verificar quantas notícias temos para ajustar tamanho
+            const totalNoticias = noticias.length;
+
+            noticias.forEach((noticia, index) => {
+                // Limitar o tamanho do conteúdo com base no número de notícias
+                let conteudoParaExibir = noticia.conteudo;
+
+                // Limitar o conteúdo dependendo do número total de notícias
+                const limites = {
+                    1: 2000,  // Uma notícia - mostrar até 2000 caracteres
+                    2: 800,   // Duas notícias - mostrar até 800 caracteres cada
+                    3: 500,   // Três notícias - mostrar até 500 caracteres cada
+                    default: 300  // Mais de três notícias - limitar a 300 caracteres
+                };
+
+                const limite = limites[totalNoticias] || limites.default;
+
+                if (conteudoParaExibir.length > limite) {
+                    conteudoParaExibir = conteudoParaExibir.substring(0, limite - 3) + '...';
+                }
+
+                // Formatar o conteúdo para exibição adequada
+                const conteudoFormatado = conteudoParaExibir
+                    .replace(/\n\n/g, '</p><p>')
+                    .replace(/\n/g, '<br>');
+
+                // Criar a linha principal da tabela
+                const tr = document.createElement('tr');
+                tr.className = 'news-full-row';
+
+                // Calcular altura com base no número total de notícias
+                const rowHeight = 100 / totalNoticias;
+                tr.style.height = rowHeight + '%';
+
+                tr.innerHTML = `
+                    <td class="news-full-cell">
+                        <div class="news-header">
+                            <h3 class="news-full-title">${noticia.titulo}</h3>
+                            <div class="news-full-meta">
+                                <span class="news-full-date"><i class="far fa-calendar"></i> ${noticia.data}</span>
+                                <span class="news-full-author"><i class="far fa-user"></i> ${noticia.autor}</span>
                             </div>
                         </div>
-                    </div>
+                        <div class="news-full-content">
+                            <p class="bold-text">${conteudoFormatado}</p>
+                        </div>
+                    </td>
                 `;
 
-                container.appendChild(div);
+                // Adicionar a linha à tabela
+                tbody.appendChild(tr);
             });
+
+            table.appendChild(tbody);
+            container.appendChild(table);
+
+            // Ajustar tamanho do texto conforme espaço disponível
+            ajustarTamanhoTextoNoticias();
         }
 
+
         // Função para atualizar o próximo evento com dados do JSON
-        // Função para atualizar o próximo evento com dados do JSON
-        function atualizarProximoEvento(eventosDoJSON) {
-            // Se receber eventos do JSON, usar esses eventos
-            if (eventosDoJSON && eventosDoJSON.length > 0) {
-                eventos = eventosDoJSON; // Atualiza a variável global
+        // Função removida para evitar duplicação com a versão anterior de atualizarProximoEvento
+        function inicializarEventoDoJSON(eventoJSON) {
+            if (eventoJSON) {
+                console.log('🔄 Inicializando evento do JSON:', eventoJSON);
+
+                // Usar o evento do JSON
+                eventos = [eventoJSON];
                 salvarEventos(); // Salva no localStorage
-            }
 
-            // Se não houver eventos, não fazer nada
-            if (!eventos || eventos.length === 0) return;
+                // Força a atualização da interface usando a ordenação de eventos
+                ordenarEventos();
+                // O resto será tratado pela função atualizarProximoEvento original
+                atualizarProximoEvento();
+                if (eventDateEl) {
+                    const dataEvento = new Date(proximoEvento.data);
+                    eventDateEl.textContent = dataEvento.toLocaleDateString('pt-BR');
+                }
 
-            // Ordenar eventos por data
-            eventos.sort((a, b) => new Date(a.data) - new Date(b.data));
-
-            // Filtrar apenas eventos futuros
-            const eventosFuturos = eventos.filter(evento => new Date(evento.data) > new Date());
-
-            if (eventosFuturos.length > 0) {
-                const proximoEvento = eventosFuturos[0];
+                // Iniciar cronômetro para este evento
+                if (proximoEvento.data) {
+                    dataAlvoEvento = new Date(proximoEvento.data);
+                    iniciarCronometroEvento(proximoEvento.data);
+                }
+            } else if (eventos && eventos.length > 0) {
+                // Se não recebeu eventos do JSON, mas há eventos na variável global
+                const proximoEvento = eventos[0];
 
                 // Atualizar nome do evento
                 const eventNameEl = document.getElementById('eventName');
@@ -5952,7 +6338,9 @@
 
         // Função para iniciar o cronômetro para um evento
         function iniciarCronometroEvento(dataEvento) {
+            console.log('Iniciando cronômetro para o evento na data:', dataEvento);
             const dataAlvo = new Date(dataEvento);
+            console.log('Data alvo convertida:', dataAlvo);
 
             function atualizarCronometro() {
                 const agora = new Date();
@@ -5988,7 +6376,7 @@
             const slides = document.querySelectorAll('.carousel-slide');
             const indicators = document.querySelectorAll('.carousel-indicator');
             let currentSlide = 0;
-            const slideInterval = 30000; // 30 segundos
+            const slideInterval = 10000; // 10 segundos
             let slideTimer;
 
             // Função para mostrar um slide específico
@@ -6045,13 +6433,20 @@
 
                 // Iniciar novo temporizador com verificação de segurança
                 slideTimer = setInterval(function () {
-                    console.log('Tentando avançar para o próximo slide - Timer de 30s');
+                    console.log('Avançando para o próximo slide - Timer de 10s');
                     nextSlide();
+
+                    // Verificar se estamos no slide de notícias e ajustar o layout
+                    if (currentSlide === 2) { // O slide-3 é o de notícias
+                        setTimeout(ajustarTamanhoTextoNoticias, 100);
+                    }
                 }, slideInterval);
 
                 // Registrar início do temporizador no console
                 console.log('Timer do carrossel iniciado: ' + new Date().toLocaleTimeString());
-            }            // Exibir o primeiro slide inicialmente
+            }
+
+            // Exibir o primeiro slide inicialmente
             showSlide(0);
 
             // Iniciar o temporizador do carrossel
@@ -6173,8 +6568,90 @@
                     // Apenas atualizar quando a transição de opacidade terminar
                     if (e.propertyName === 'opacity' && this.classList.contains('active')) {
                         updateProgressAnimation();
+
+                        // Verificar se o slide contém a tabela de notícias e ajustar
+                        if (this.querySelector('.news-table')) {
+                            adjustNewsTableResponsiveness();
+                            ajustarTamanhoTextoNoticias();
+                        }
                     }
                 });
+            });
+
+            // Função para ajustar a responsividade da tabela de notícias
+            function adjustNewsTableResponsiveness() {
+                const container = document.getElementById('noticiasContainer');
+                if (!container) return;
+
+                // Garantir que o container se ajuste ao conteúdo
+                container.style.height = 'auto';
+
+                // Após ajustar o tamanho, também ajustar o texto
+                ajustarTamanhoTextoNoticias();
+            }
+
+            // Função para ajustar o tamanho do texto conforme o espaço disponível
+            function ajustarTamanhoTextoNoticias() {
+                const container = document.getElementById('noticiasContainer');
+                if (!container) return;
+
+                const dashboardCard = container.closest('.dashboard-card');
+                const cardBody = dashboardCard?.querySelector('.card-body');
+
+                if (!cardBody) return;
+
+                // Remover qualquer estilo de height ou max-height que possa estar causando scroll
+                cardBody.style.height = 'auto';
+                cardBody.style.maxHeight = 'none';
+                cardBody.style.overflow = 'visible';
+                container.style.height = 'auto';
+                container.style.maxHeight = 'none';
+                container.style.overflow = 'visible';
+
+                const rows = container.querySelectorAll('.news-full-row');
+                if (!rows.length) return;
+
+                // Ajustar tamanho do texto com base no número de notícias
+                const totalNoticias = rows.length;
+
+                if (totalNoticias === 1) {
+                    // Uma única notícia - texto maior
+                    document.documentElement.style.setProperty('--news-content-font-size', '18px');
+                    document.documentElement.style.setProperty('--news-title-font-size', '22px');
+                } else if (totalNoticias === 2) {
+                    // Duas notícias - texto médio
+                    document.documentElement.style.setProperty('--news-content-font-size', '16px');
+                    document.documentElement.style.setProperty('--news-title-font-size', '20px');
+                } else {
+                    // Três ou mais notícias - texto menor
+                    document.documentElement.style.setProperty('--news-content-font-size', '14px');
+                    document.documentElement.style.setProperty('--news-title-font-size', '18px');
+                }
+
+                // Garantir que cada linha de notícia tenha altura adequada
+                const cardHeight = cardBody.clientHeight;
+                const rowHeight = Math.floor(cardHeight / totalNoticias);
+
+                rows.forEach(row => {
+                    row.style.maxHeight = rowHeight + 'px';
+                });
+
+                console.log('Ajuste de tamanho de notícias aplicado:', {
+                    totalNoticias,
+                    cardHeight,
+                    rowHeight
+                });
+            }
+
+            // Adicionar listener para redimensionamento de janela
+            window.addEventListener('resize', function () {
+                adjustNewsTableResponsiveness();
+                ajustarTamanhoTextoNoticias();
+            });
+
+            // Configurar ajuste de texto quando o slide for carregado
+            document.addEventListener('DOMContentLoaded', function () {
+                setTimeout(ajustarTamanhoTextoNoticias, 500);
             });
 
             // Adicionar animações aos slides para melhorar a experiência visual
