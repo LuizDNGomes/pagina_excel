@@ -179,7 +179,8 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 80px 25px 25px;
+            /* Aumenta o espaço sob o header fixo para não cortar títulos */
+            padding: 90px 25px 25px;
             height: 100vh;
             overflow: hidden;
             max-width: 100%;
@@ -192,6 +193,8 @@
             width: 100%;
             max-width: 100%;
             margin: 0 auto;
+            /* Afastar o topo do carrossel do header fixo para não cortar títulos */
+            margin-top: 18px;
             flex-wrap: nowrap;
             height: calc(100vh - 100px);
             overflow: visible;
@@ -1137,6 +1140,8 @@
             backdrop-filter: blur(10px);
             margin: 0 auto;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Reserva espaço acima para os títulos dos cards ficarem visíveis */
+            padding-top: 14px;
         }
 
         .carousel-slide {
@@ -1165,7 +1170,8 @@
 
         .carousel-indicators {
             position: absolute;
-            bottom: 20px;
+            bottom: 28px;
+            /* um pouco mais alto para não colidir com conteúdos baixos */
             left: 0;
             right: 0;
             display: flex;
@@ -1335,6 +1341,12 @@
             text-align: center;
             font-weight: 800;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Garante espaço livre acima dos indicadores para a data do evento */
+        #slide-4 .card-body {
+            padding-bottom: 120px;
+            /* afasta a data das bolinhas do carrossel */
         }
 
         #slide-4 .countdown-timer {
@@ -1639,7 +1651,8 @@
             }
 
             .main-content {
-                padding: 65px 30px 20px;
+                /* Garante espaço suficiente abaixo do header fixo para não cortar títulos */
+                padding: 100px 30px 20px;
                 /* Ajustado para o novo tamanho do cabeçalho */
                 height: calc(100vh - 15px);
                 /* Garante que o conteúdo não ultrapasse a altura da tela */
@@ -1677,10 +1690,10 @@
             }
 
             .today-highlight {
-                margin: 10px auto 20px;
-                /* Reduz margem para ocupar menos espaço vertical */
-                padding: 20px 50px;
-                /* Reduz padding interno */
+                margin: 6px auto 8px;
+                /* Reduz ainda mais a margem inferior para abrir espaço ao carrossel */
+                padding: 18px 40px;
+                /* Padding um pouco menor para diminuir a altura total */
                 max-width: 98%;
                 /* Ocupa quase toda a largura disponível */
             }
@@ -1688,7 +1701,11 @@
             /* Dashboard como carrossel */
             .dashboard {
                 max-width: 100%;
-                height: calc(75vh - 160px);
+                /* Dá um pouco mais de altura ao carrossel em telas grandes
+                             para evitar cortar o cabeçalho dos cards */
+                height: calc(80vh - 140px);
+                /* Aumenta o espaço superior para afastar do header */
+                margin-top: 26px;
                 /* Ajusta altura para caber na tela */
                 padding: 0;
                 margin: 0 auto;
@@ -1724,7 +1741,8 @@
 
             .carousel-indicators {
                 position: absolute;
-                bottom: 15px;
+                bottom: 24px;
+                /* sobe um pouco nas TVs */
                 left: 0;
                 right: 0;
                 display: flex;
@@ -1961,9 +1979,10 @@
         }
 
         .footer {
-            font-size: 24px;
-            padding: 35px;
-            border-top: 3px solid rgba(255, 255, 255, 0.2);
+            /* Rodapé ainda mais compacto em telas grandes para abrir espaço ao carrossel */
+            font-size: 14px;
+            padding: 8px 16px;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .clock-header {
@@ -3258,8 +3277,8 @@
                     <div class="dashboard-card">
                         <div class="card-header">
                             <div class="card-title">
-                                <i class="fas fa-newspaper"></i>
-                                Notícias Importantes
+                                <i class="fas fa-exclamation-circle"></i>
+                                Aviso Importante
                             </div>
                             <div class="card-action">
                                 <i class="fas fa-bell"></i>
@@ -3480,14 +3499,14 @@
             </div>
 
             <div class="admin-control-group">
-                <h4>Notícias</h4>
+                <h4>Aviso Importante</h4>
                 <div class="admin-field">
-                    <label>Título</label>
+                    <label>Título do Aviso</label>
                     <input type="text" id="adminNewsTitle" placeholder="Título da notícia">
                 </div>
                 <div class="admin-field">
-                    <label>Conteúdo</label>
-                    <textarea id="adminNewsContent" placeholder="Texto da notícia"></textarea>
+                    <label>Aviso</label>
+                    <textarea id="adminNewsContent" placeholder="Texto do aviso"></textarea>
                 </div>
                 <div class="admin-field">
                     <label>Autor/Setor</label>
@@ -3505,10 +3524,10 @@
                 </div>
                 <div class="admin-actions">
                     <div>
-                        <button class="admin-btn admin-btn-delete" id="clearNewsBtn">Limpar Selecionados</button>
+                        <button class="admin-btn admin-btn-delete" id="clearNewsBtn">Limpar Avisos</button>
                     </div>
                     <div>
-                        <button class="admin-btn admin-btn-save" id="saveNewsBtn">Publicar</button>
+                        <button class="admin-btn admin-btn-save" id="saveNewsBtn">Publicar Aviso</button>
                     </div>
                 </div>
             </div>
@@ -6307,6 +6326,9 @@
             // Limpar o container
             container.innerHTML = '';
 
+            // Limitar a apenas um aviso
+            const avisos = Array.isArray(noticias) ? noticias.slice(0, 1) : [];
+
             // Criar a tabela
             const table = document.createElement('table');
             table.className = 'news-table news-full-display';
@@ -6316,7 +6338,7 @@
             const thead = document.createElement('thead');
             thead.innerHTML = `
                 <tr>
-                    <th class="news-title-header">Notícias Importantes</th>
+            <th class="news-title-header">Aviso Importante</th>
                 </tr>
             `;
             table.appendChild(thead);
@@ -6324,10 +6346,10 @@
             // Adicionar corpo da tabela
             const tbody = document.createElement('tbody');
 
-            // Verificar quantas notícias temos para ajustar tamanho
-            const totalNoticias = noticias.length;
+            // Verificar quantos avisos temos para ajustar tamanho (máx. 1)
+            const totalNoticias = avisos.length;
 
-            noticias.forEach((noticia, index) => {
+            avisos.forEach((noticia, index) => {
                 // Limitar o tamanho do conteúdo com base no número de notícias
                 let conteudoParaExibir = noticia.conteudo;
 
