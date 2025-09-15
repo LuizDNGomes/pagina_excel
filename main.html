@@ -7609,8 +7609,8 @@
                     f.global && f.types.includes('Public')
                 );
 
-                // Ordenar por data
-                feriadosPublicos.sort((a, b) => new Date(a.date) - new Date(b.date));
+                // Ordenar por data (usando parsing local para evitar deslocamentos de fuso)
+                feriadosPublicos.sort((a, b) => this.parseIsoDateToLocal(a.date) - this.parseIsoDateToLocal(b.date));
 
                 // Salvar feriados atuais
                 this.feriadosAtuais = feriadosPublicos;
@@ -7625,12 +7625,12 @@
                 hoje.setHours(0, 0, 0, 0);
 
                 const proximoFeriado = feriados.find(f => {
-                    const dataFeriado = new Date(f.date);
+                    const dataFeriado = this.parseIsoDateToLocal(f.date);
                     return dataFeriado >= hoje;
                 });
 
                 if (proximoFeriado && this.proximoFeriadoNome) {
-                    const dataFeriado = new Date(proximoFeriado.date);
+                    const dataFeriado = this.parseIsoDateToLocal(proximoFeriado.date);
                     const diffTime = dataFeriado - hoje;
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -7661,7 +7661,10 @@
             renderizarCalendario(feriados = []) {
                 if (!this.calendarioGrid) return;
 
-                const feriadosSet = new Set(feriados.map(f => f.date));
+                // Normalizar datas de feriados para chave local YYYY-MM-DD (evita UTC → dia anterior)
+                const feriadosSet = new Set(
+                    feriados.map(f => this.formatDateKey(this.parseIsoDateToLocal(f.date)))
+                );
                 const primeiroDiaDoMes = new Date(this.anoAtual, this.mesAtual, 1);
                 const ultimoDiaDoMes = new Date(this.anoAtual, this.mesAtual + 1, 0);
                 const primeiroDiaSemana = primeiroDiaDoMes.getDay();
@@ -7688,7 +7691,7 @@
                 const hoje = new Date();
                 for (let dia = 1; dia <= ultimoDia; dia++) {
                     const dataAtual = new Date(this.anoAtual, this.mesAtual, dia);
-                    const dataString = dataAtual.toISOString().split('T')[0];
+                    const dataString = this.formatDateKey(dataAtual);
 
                     let classes = 'calendario-dia';
 
@@ -7714,6 +7717,21 @@
                 }
 
                 this.calendarioGrid.innerHTML = html;
+            }
+
+            // Converte string ISO "YYYY-MM-DD" para Date local (meia-noite local)
+            parseIsoDateToLocal(dateStr) {
+                if (!dateStr || typeof dateStr !== 'string') return new Date(NaN);
+                const [y, m, d] = dateStr.split('-').map(Number);
+                return new Date(y, (m || 1) - 1, d || 1);
+            }
+
+            // Formata Date para chave YYYY-MM-DD em horário local
+            formatDateKey(date) {
+                const y = date.getFullYear();
+                const m = String(date.getMonth() + 1).padStart(2, '0');
+                const d = String(date.getDate()).padStart(2, '0');
+                return `${y}-${m}-${d}`;
             }
 
             formatarData(data) {
