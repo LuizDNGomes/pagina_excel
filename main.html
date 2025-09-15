@@ -273,6 +273,8 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
+            z-index: 2;
+            /* Garante que o título fique visível acima de overlays internos */
         }
 
         /* Adiciona um efeito de brilho no cabeçalho do cartão */
@@ -299,7 +301,7 @@
             text-transform: uppercase;
             letter-spacing: 0.8px;
             position: relative;
-            z-index: 2;
+            z-index: 3;
         }
 
         .card-title i {
@@ -1528,13 +1530,32 @@
                 padding: 15px;
             }
 
-            .logo {
-                width: 50px;
-                height: 50px;
+            .logo-container {
+                padding: 0 15px;
             }
 
             .company-name {
                 font-size: 18px;
+            }
+
+            .nav-quick-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+                gap: 6px;
+            }
+
+            .nav-quick-btn i {
+                font-size: 14px;
+            }
+
+            .nav-quick-btn span {
+                display: none;
+                /* Esconder texto no mobile */
+            }
+
+            .logo {
+                width: 50px;
+                height: 50px;
             }
 
             .nav-menu {
@@ -1686,7 +1707,11 @@
             }
 
             .card-body {
-                padding: 20px 25px;
+                padding: 16px 20px;
+                min-height: 0;
+                /* permite que conteúdo interno encolha */
+                display: flex;
+                flex-direction: column;
             }
 
             .today-highlight {
@@ -1719,6 +1744,8 @@
                 height: 100%;
                 position: relative;
                 overflow: hidden;
+                /* Reserva espaço superior para não cortar o título dos cards na TV */
+                padding-top: 28px;
             }
 
             .carousel-slide {
@@ -1731,7 +1758,10 @@
                 transition: opacity 1.5s ease-in-out;
                 display: flex;
                 justify-content: center;
-                padding: 0 20px;
+                align-items: flex-start;
+                /* evita encostar no topo */
+                padding: 28px 20px 0 20px;
+                /* espaço para o cabeçalho do card */
             }
 
             .carousel-slide.active {
@@ -2003,8 +2033,10 @@
         /* Estilos para melhor visualização em TV */
         .tv-mode .dashboard-card {
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            border: 5px solid rgba(1, 98, 126, 0.5);
-            transform: scale(1.03);
+            border: 3px solid rgba(1, 98, 126, 0.5);
+            /* reduzido para liberar espaço vertical */
+            /* Evita corte do cabeçalho no modo TV */
+            transform: none;
             transition: transform 0.6s ease, box-shadow 0.6s ease;
             border-radius: 20px;
             overflow: hidden;
@@ -2014,7 +2046,8 @@
 
         .tv-mode .dashboard-card:hover {
             box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
-            transform: translateY(-5px) scale(1.04);
+            /* Remove o scale para não cortar no container com overflow */
+            transform: translateY(-5px);
         }
 
         .tv-mode .card-header {
@@ -3002,7 +3035,7 @@
         .admin-toggle:hover {
             transform: rotate(30deg) scale(1.1);
             background: linear-gradient(135deg, #FFA500, #ff8c00);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            margin: 0 auto 30px;
         }
 
         .admin-toggle.active {
@@ -3157,6 +3190,424 @@
 
         .update-notification-close:hover {
             color: white;
+        }
+
+        /* ===============================
+           ESTILOS PARA FERIADOS NACIONAIS
+           =============================== */
+
+        .feriados-nacionais-container {
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            /* permite o conteúdo interno encolher dentro do card */
+        }
+
+        /* Loading State */
+        .feriados-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .feriados-loading i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #01627E;
+            animation: spin 1s linear infinite;
+        }
+
+        .feriados-loading p {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Error State */
+        .feriados-erro {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+            color: #e74c3c;
+        }
+
+        .feriados-erro i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #e74c3c;
+        }
+
+        .feriados-erro h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feriados-erro p {
+            margin-bottom: 25px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .retry-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Controls */
+        .feriados-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .refresh-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: rotate(180deg);
+        }
+
+        /* Próximo Feriado em Destaque */
+        .proximo-feriado-destaque {
+            background: linear-gradient(135deg, #01627E, #0179a1);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 25px rgba(1, 98, 126, 0.3);
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proximo-feriado-destaque::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 165, 0, 0.1) 0%, transparent 70%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .feriado-destaque-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feriado-destaque-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFA500, #ff7700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+            flex-shrink: 0;
+        }
+
+        .feriado-destaque-icon i {
+            font-size: 32px;
+            color: white;
+        }
+
+        .feriado-destaque-info {
+            flex: 1;
+            color: white;
+        }
+
+        .feriado-destaque-info h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .feriado-destaque-info p {
+            font-size: 16px;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .feriado-countdown {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Calendário */
+        .feriados-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
+        .feriados-calendario {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
+        .calendario-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .calendario-header h3 {
+            font-size: 22px;
+            color: #01627E;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .calendario-nav-btn {
+            background: linear-gradient(135deg, #01627E, #014b61);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(1, 98, 126, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendario-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(1, 98, 126, 0.4);
+            background: linear-gradient(135deg, #0179a1, #01627E);
+        }
+
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            flex: 1 1 auto;
+            /* ocupa o restante do espaço do container */
+            height: 100%;
+            /* garante expansão total */
+            grid-auto-rows: 1fr;
+            /* linhas se ajustam proporcionalmente à altura disponível */
+            min-height: 0;
+        }
+
+        .calendario-dia-header {
+            background: #01627E;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 6px;
+        }
+
+        .calendario-dia {
+            background: white;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            font-weight: 500;
+            position: relative;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendario-dia:hover {
+            background: #e3f2fd;
+            transform: scale(1.05);
+        }
+
+        .calendario-dia.outro-mes {
+            color: #ccc;
+            background: #f5f5f5;
+        }
+
+        .calendario-dia.hoje {
+            background: linear-gradient(135deg, #FFA500, #ff7700);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(255, 165, 0, 0.4);
+        }
+
+        .calendario-dia.feriado {
+            background: linear-gradient(135deg, #01627E, #014b61);
+            color: white;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .calendario-dia.feriado::after {
+            content: '★';
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 10px;
+            color: #FFA500;
+        }
+
+        .calendario-dia.feriado:hover {
+            background: linear-gradient(135deg, #0179a1, #01627E);
+        }
+
+        /* Animations */
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                transform: translateX(-100%) translateY(-100%) rotate(0deg);
+            }
+
+            50% {
+                transform: translateX(100%) translateY(100%) rotate(180deg);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .feriado-destaque-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .feriado-destaque-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .feriado-destaque-icon i {
+                font-size: 24px;
+            }
+
+            .feriado-destaque-info h3 {
+                font-size: 20px;
+            }
+
+            .calendario-grid {
+                gap: 1px;
+                padding: 10px;
+            }
+
+            .calendario-dia {
+                padding: 8px 4px;
+                min-height: 35px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .feriados-calendario {
+                padding: 15px;
+            }
+
+            .calendario-dia-header {
+                padding: 8px 4px;
+                font-size: 12px;
+            }
+
+            .calendario-dia {
+                padding: 6px 2px;
+                min-height: 30px;
+                font-size: 12px;
+            }
+        }
+
+        /* Ajustes específicos para TV 1080p/4K no slide de feriados */
+        @media (min-width: 1920px) {
+            #slide-6 .feriado-destaque-info h3 {
+                font-size: 22px;
+            }
+
+            #slide-6 .feriado-destaque-info p {
+                font-size: 14px;
+            }
+
+            #slide-6 .feriado-countdown {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+            #slide-6 .feriados-calendario {
+                padding: 18px;
+            }
+
+            #slide-6 .calendario-dia-header {
+                padding: 10px 6px;
+                font-size: 13px;
+            }
+
+            #slide-6 .calendario-dia {
+                padding: 10px 6px;
+                min-height: 0;
+            }
         }
     </style>
 </head>
@@ -3363,6 +3814,80 @@
                     </div>
                 </div>
 
+                <!-- Slide 6: Feriados Nacionais -->
+                <div class="carousel-slide" id="slide-6">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-flag-checkered"></i>
+                                Feriados Nacionais
+                            </div>
+                            <div class="card-action">
+                                <div class="feriados-controls">
+                                    <button id="feriadosRefreshBtn" class="refresh-btn" title="Atualizar feriados">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="feriadosNacionaisContainer" class="feriados-nacionais-container">
+                                <!-- Loading inicial -->
+                                <div id="feriadosLoading" class="feriados-loading">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Carregando feriados nacionais...</p>
+                                </div>
+
+                                <!-- Container principal dos feriados -->
+                                <div id="feriadosContent" class="feriados-content" style="display: none;">
+                                    <!-- Próximo feriado em destaque -->
+                                    <div id="proximoFeriadoDestaque" class="proximo-feriado-destaque">
+                                        <div class="feriado-destaque-content">
+                                            <div class="feriado-destaque-icon">
+                                                <i class="fas fa-calendar-star"></i>
+                                            </div>
+                                            <div class="feriado-destaque-info">
+                                                <h3 id="proximoFeriadoNome">Próximo Feriado</h3>
+                                                <p id="proximoFeriadoData">--/--/----</p>
+                                                <div id="proximoFeriadoCountdown" class="feriado-countdown">
+                                                    <span id="feriadoDias">--</span> dias
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Calendário visual -->
+                                    <div id="feriadosCalendario" class="feriados-calendario">
+                                        <div class="calendario-header">
+                                            <button id="calendarioPrevBtn" class="calendario-nav-btn">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <h3 id="calendarioMesAno">Janeiro 2025</h3>
+                                            <button id="calendarioNextBtn" class="calendario-nav-btn">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                        <div id="calendarioGrid" class="calendario-grid">
+                                            <!-- Grid do calendário será gerado dinamicamente -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Estado de erro -->
+                                <div id="feriadosErro" class="feriados-erro" style="display: none;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <h3>Erro ao carregar feriados</h3>
+                                    <p>Não foi possível carregar os feriados nacionais. Tente novamente.</p>
+                                    <button id="feriadosRetryBtn" class="retry-btn">
+                                        <i class="fas fa-redo"></i>
+                                        Tentar Novamente
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Indicadores do carrossel -->
                 <div class="carousel-indicators">
                     <div class="carousel-indicator active" data-slide="1"></div>
@@ -3370,6 +3895,7 @@
                     <div class="carousel-indicator" data-slide="3"></div>
                     <div class="carousel-indicator" data-slide="4"></div>
                     <div class="carousel-indicator" data-slide="5"></div>
+                    <div class="carousel-indicator" data-slide="6"></div>
                 </div>
 
                 <!-- Navegação com setas -->
@@ -3710,27 +4236,30 @@
         }
 
         // Adiciona um efeito de parallax suave no background com as cores da Excel
+        // Desabilitado no modo TV para evitar cortes por transform inline
         document.addEventListener('mousemove', (e) => {
+            const root = document.querySelector('.main-content');
+            const isTvMode = root && root.classList.contains('tv-mode');
+
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
 
-            // Usa as cores da Excel Engenharia no gradiente dinâmico com efeito mais suave
             const angle = 135 + (x * 20) - (y * 15);
             document.body.style.background = `linear-gradient(${angle}deg, #01627E 0%, #054b5f ${35 + x * 25}%, #FFA500 100%)`;
 
-            // Aplica efeito parallax em elementos de destaque
+            if (isTvMode) return;
+
             const cards = document.querySelectorAll('.dashboard-card');
             cards.forEach(card => {
-                const depth = 15; // Profundidade do efeito
+                const depth = 15;
                 const moveX = (x * depth) - (depth / 2);
                 const moveY = (y * depth) - (depth / 2);
-                card.style.transform = `scale(1.03) translate3d(${moveX}px, ${moveY}px, 0)`;
+                card.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
                 card.style.transition = 'transform 0.3s ease-out';
             });
 
-            // Efeito parallax no highlight de hoje
             const todayHighlight = document.querySelector('.today-highlight');
-            if (todayHighlight) {
+            if (todayHighlight && !isTvMode) {
                 const depthToday = 25;
                 const moveXToday = (x * depthToday) - (depthToday / 2);
                 const moveYToday = (y * depthToday) - (depthToday / 2);
@@ -6934,7 +7463,311 @@
             // Inicialmente esconder os botões
             prevButton.style.opacity = '0';
             nextButton.style.opacity = '0';
+
+            // =======================================
+            // SISTEMA DE FERIADOS NACIONAIS
+            // =======================================
+
+            // Inicializar feriados nacionais
+            initFeriadosNacionais();
         });
+
+        // Classe para gerenciar feriados nacionais
+        class FeriadosNacionaisManager {
+            constructor() {
+                this.feriadosCache = new Map();
+                this.anoAtual = new Date().getFullYear();
+                this.mesAtual = new Date().getMonth();
+                this.diaAtual = new Date().getDate();
+                this.isLoading = false;
+                this.feriadosAtuais = []; // Guardar os feriados atuais para o calendário
+
+                this.meses = [
+                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                ];
+
+                this.diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+                this.initElements();
+                this.attachEventListeners();
+            }
+
+            initElements() {
+                this.container = document.getElementById('feriadosNacionaisContainer');
+                this.loadingEl = document.getElementById('feriadosLoading');
+                this.contentEl = document.getElementById('feriadosContent');
+                this.erroEl = document.getElementById('feriadosErro');
+
+                this.refreshBtn = document.getElementById('feriadosRefreshBtn');
+                this.retryBtn = document.getElementById('feriadosRetryBtn');
+
+                this.proximoFeriadoNome = document.getElementById('proximoFeriadoNome');
+                this.proximoFeriadoData = document.getElementById('proximoFeriadoData');
+                this.proximoFeriadoCountdown = document.getElementById('proximoFeriadoCountdown');
+                this.feriadoDias = document.getElementById('feriadoDias');
+
+                this.calendarioMesAno = document.getElementById('calendarioMesAno');
+                this.calendarioGrid = document.getElementById('calendarioGrid');
+                this.calendarioPrevBtn = document.getElementById('calendarioPrevBtn');
+                this.calendarioNextBtn = document.getElementById('calendarioNextBtn');
+            }
+
+            attachEventListeners() {
+                if (this.refreshBtn) {
+                    this.refreshBtn.addEventListener('click', () => {
+                        // Limpar cache local via DataManager
+                        if (window.dataManager && window.dataManager.data.feriadosNacionais) {
+                            delete window.dataManager.data.feriadosNacionais.cache[this.anoAtual];
+                            window.dataManager.salvarNoLocalStorage();
+                            console.log(`Cache de feriados de ${this.anoAtual} limpo para atualização`);
+                        }
+
+                        this.carregarFeriados(this.anoAtual);
+                    });
+                }
+
+                if (this.retryBtn) {
+                    this.retryBtn.addEventListener('click', () => {
+                        this.carregarFeriados(this.anoAtual);
+                    });
+                }
+
+                if (this.calendarioPrevBtn) {
+                    this.calendarioPrevBtn.addEventListener('click', () => {
+                        this.mesAtual = (this.mesAtual - 1 + 12) % 12;
+                        if (this.mesAtual === 11) {
+                            this.anoAtual--;
+                            // Se mudou o ano, recarregar feriados
+                            this.carregarFeriados(this.anoAtual);
+                        } else {
+                            this.renderizarCalendario(this.feriadosAtuais);
+                        }
+                    });
+                }
+
+                if (this.calendarioNextBtn) {
+                    this.calendarioNextBtn.addEventListener('click', () => {
+                        this.mesAtual = (this.mesAtual + 1) % 12;
+                        if (this.mesAtual === 0) {
+                            this.anoAtual++;
+                            // Se mudou o ano, recarregar feriados
+                            this.carregarFeriados(this.anoAtual);
+                        } else {
+                            this.renderizarCalendario(this.feriadosAtuais);
+                        }
+                    });
+                }
+            }
+
+            async carregarFeriados(ano) {
+                if (this.isLoading) return;
+
+                this.isLoading = true;
+                this.showLoading();
+
+                try {
+                    // Primeiro, tentar carregar do cache local via DataManager
+                    if (window.dataManager) {
+                        const feriadosCache = window.dataManager.obterFeriadosNacionais(ano);
+                        if (feriadosCache) {
+                            console.log(`Feriados de ${ano} carregados do cache local`);
+                            this.processarFeriados(feriadosCache, ano);
+                            return;
+                        }
+                    }
+
+                    // Se não estiver no cache, buscar da API
+                    console.log(`Buscando feriados de ${ano} da API...`);
+                    const response = await fetch(`https://date.nager.at/api/v3/publicholidays/${ano}/BR`);
+
+                    if (!response.ok) {
+                        throw new Error(`Erro na API: ${response.status}`);
+                    }
+
+                    const feriados = await response.json();
+
+                    // Salvar no cache local via DataManager
+                    if (window.dataManager) {
+                        window.dataManager.salvarFeriadosNacionais(ano, feriados);
+                        console.log(`Feriados de ${ano} salvos no cache local`);
+                    }
+
+                    this.processarFeriados(feriados, ano);
+
+                } catch (error) {
+                    console.error('Erro ao carregar feriados:', error);
+                    this.showError();
+                } finally {
+                    this.isLoading = false;
+                }
+            }
+
+            processarFeriados(feriados, ano) {
+                // Filtrar apenas feriados públicos globais
+                const feriadosPublicos = feriados.filter(f =>
+                    f.global && f.types.includes('Public')
+                );
+
+                // Ordenar por data
+                feriadosPublicos.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                // Salvar feriados atuais
+                this.feriadosAtuais = feriadosPublicos;
+
+                this.showContent();
+                this.atualizarProximoFeriado(feriadosPublicos);
+                this.renderizarCalendario(feriadosPublicos);
+            }
+
+            atualizarProximoFeriado(feriados) {
+                const hoje = new Date();
+                hoje.setHours(0, 0, 0, 0);
+
+                const proximoFeriado = feriados.find(f => {
+                    const dataFeriado = new Date(f.date);
+                    return dataFeriado >= hoje;
+                });
+
+                if (proximoFeriado && this.proximoFeriadoNome) {
+                    const dataFeriado = new Date(proximoFeriado.date);
+                    const diffTime = dataFeriado - hoje;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    this.proximoFeriadoNome.textContent = proximoFeriado.localName;
+                    this.proximoFeriadoData.textContent = this.formatarData(dataFeriado);
+
+                    if (this.feriadoDias) {
+                        if (diffDays === 0) {
+                            this.feriadoDias.textContent = 'HOJE';
+                            this.proximoFeriadoCountdown.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                        } else if (diffDays === 1) {
+                            this.feriadoDias.textContent = 'AMANHÃ';
+                            this.proximoFeriadoCountdown.style.background = 'linear-gradient(135deg, #f39c12, #e67e22)';
+                        } else {
+                            this.feriadoDias.textContent = diffDays;
+                            this.proximoFeriadoCountdown.style.background = 'rgba(255, 255, 255, 0.15)';
+                        }
+                    }
+                } else if (this.proximoFeriadoNome) {
+                    this.proximoFeriadoNome.textContent = 'Nenhum feriado próximo';
+                    this.proximoFeriadoData.textContent = 'Verifique o próximo ano';
+                    if (this.feriadoDias) {
+                        this.feriadoDias.textContent = '--';
+                    }
+                }
+            }
+
+            renderizarCalendario(feriados = []) {
+                if (!this.calendarioGrid) return;
+
+                const feriadosSet = new Set(feriados.map(f => f.date));
+                const primeiroDiaDoMes = new Date(this.anoAtual, this.mesAtual, 1);
+                const ultimoDiaDoMes = new Date(this.anoAtual, this.mesAtual + 1, 0);
+                const primeiroDiaSemana = primeiroDiaDoMes.getDay();
+                const ultimoDia = ultimoDiaDoMes.getDate();
+
+                if (this.calendarioMesAno) {
+                    this.calendarioMesAno.textContent = `${this.meses[this.mesAtual]} ${this.anoAtual}`;
+                }
+
+                let html = '';
+
+                // Cabeçalhos dos dias da semana
+                this.diasSemana.forEach(dia => {
+                    html += `<div class="calendario-dia-header">${dia}</div>`;
+                });
+
+                // Dias do mês anterior (se necessário)
+                for (let i = 0; i < primeiroDiaSemana; i++) {
+                    const diaAnterior = new Date(this.anoAtual, this.mesAtual, -(primeiroDiaSemana - 1 - i));
+                    html += `<div class="calendario-dia outro-mes">${diaAnterior.getDate()}</div>`;
+                }
+
+                // Dias do mês atual
+                const hoje = new Date();
+                for (let dia = 1; dia <= ultimoDia; dia++) {
+                    const dataAtual = new Date(this.anoAtual, this.mesAtual, dia);
+                    const dataString = dataAtual.toISOString().split('T')[0];
+
+                    let classes = 'calendario-dia';
+
+                    // Verificar se é hoje
+                    if (dataAtual.toDateString() === hoje.toDateString()) {
+                        classes += ' hoje';
+                    }
+
+                    // Verificar se é feriado
+                    if (feriadosSet.has(dataString)) {
+                        classes += ' feriado';
+                    }
+
+                    html += `<div class="${classes}" data-date="${dataString}">${dia}</div>`;
+                }
+
+                // Dias do próximo mês (se necessário)
+                const totalCells = Math.ceil((primeiroDiaSemana + ultimoDia) / 7) * 7;
+                const diasRestantes = totalCells - (primeiroDiaSemana + ultimoDia);
+
+                for (let i = 1; i <= diasRestantes; i++) {
+                    html += `<div class="calendario-dia outro-mes">${i}</div>`;
+                }
+
+                this.calendarioGrid.innerHTML = html;
+            }
+
+            formatarData(data) {
+                return data.toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            }
+
+            showLoading() {
+                if (this.loadingEl) this.loadingEl.style.display = 'flex';
+                if (this.contentEl) this.contentEl.style.display = 'none';
+                if (this.erroEl) this.erroEl.style.display = 'none';
+            }
+
+            showContent() {
+                if (this.loadingEl) this.loadingEl.style.display = 'none';
+                if (this.contentEl) this.contentEl.style.display = 'flex';
+                if (this.erroEl) this.erroEl.style.display = 'none';
+            }
+
+            showError() {
+                if (this.loadingEl) this.loadingEl.style.display = 'none';
+                if (this.contentEl) this.contentEl.style.display = 'none';
+                if (this.erroEl) this.erroEl.style.display = 'flex';
+            }
+
+            init() {
+                // Inicializar com o ano atual
+                this.anoAtual = new Date().getFullYear();
+                this.mesAtual = new Date().getMonth();
+
+                // Limpar cache antigo automaticamente
+                if (window.dataManager) {
+                    window.dataManager.limparCacheFeriadosAntigos(3);
+                }
+
+                this.carregarFeriados(this.anoAtual);
+            }
+        }
+
+        // Função global para inicializar feriados nacionais
+        function initFeriadosNacionais() {
+            // Verificar se estamos no slide correto antes de inicializar
+            const slide6 = document.getElementById('slide-6');
+            if (slide6) {
+                window.feriadosManager = new FeriadosNacionaisManager();
+                window.feriadosManager.init();
+
+                console.log('Sistema de Feriados Nacionais inicializado com sucesso!');
+            }
+        }
     </script>
 </body>
 

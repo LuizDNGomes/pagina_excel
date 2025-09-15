@@ -19,6 +19,15 @@ class DataManager {
             noticias: [],
             eventos: [],
             ferias: [],
+            feriadosNacionais: {
+                cache: {},
+                ultimaAtualizacao: null,
+                configuracoes: {
+                    atualizacaoAutomatica: true,
+                    notificacoes: true,
+                    exibirProximoFeriado: true
+                }
+            },
             lastUpdated: new Date().toISOString()
         };
         
@@ -1349,9 +1358,161 @@ class DataManager {
                 feriasDataFim.value = '';
             }
         }
+    }
+
+    // ===========================================
+    // MÉTODOS PARA FERIADOS NACIONAIS
+    // ===========================================
+
+    /**
+     * Salva feriados nacionais no cache local
+     * @param {number} ano - Ano dos feriados
+     * @param {Array} feriados - Array de feriados
+     */
+    salvarFeriadosNacionais(ano, feriados) {
+        if (!this.data.feriadosNacionais) {
+            this.data.feriadosNacionais = {
+                cache: {},
+                ultimaAtualizacao: null,
+                configuracoes: {
+                    atualizacaoAutomatica: true,
+                    notificacoes: true,
+                    exibirProximoFeriado: true
+                }
+            };
+        }
+
+        // Converter Map para objeto serializável se necessário
+        if (!this.data.feriadosNacionais.cache) {
+            this.data.feriadosNacionais.cache = {};
+        }
+
+        this.data.feriadosNacionais.cache[ano] = {
+            feriados: feriados,
+            dataAtualizacao: new Date().toISOString()
+        };
+
+        this.data.feriadosNacionais.ultimaAtualizacao = new Date().toISOString();
         
-        // Atualizar timestamp
-        this.data.lastUpdated = new Date().toISOString();
+        // Salvar automaticamente
+        this.salvarNoLocalStorage();
+        
+        console.log(`Feriados de ${ano} salvos no cache local`);
+    }
+
+    /**
+     * Recupera feriados nacionais do cache local
+     * @param {number} ano - Ano dos feriados
+     * @returns {Array|null} Array de feriados ou null se não encontrado
+     */
+    obterFeriadosNacionais(ano) {
+        if (!this.data.feriadosNacionais || !this.data.feriadosNacionais.cache) {
+            return null;
+        }
+
+        const dadosAno = this.data.feriadosNacionais.cache[ano];
+        if (!dadosAno) {
+            return null;
+        }
+
+        // Verificar se os dados não estão muito antigos (ex: mais de 30 dias)
+        const dataAtualizacao = new Date(dadosAno.dataAtualizacao);
+        const agora = new Date();
+        const diasAtras = (agora - dataAtualizacao) / (1000 * 60 * 60 * 24);
+
+        if (diasAtras > 30) {
+            console.log(`Cache de feriados de ${ano} está desatualizado (${Math.round(diasAtras)} dias)`);
+            return null;
+        }
+
+        console.log(`Feriados de ${ano} recuperados do cache local`);
+        return dadosAno.feriados;
+    }
+
+    /**
+     * Limpa cache de feriados antigos
+     * @param {number} anosParaManter - Número de anos para manter no cache (padrão: 3)
+     */
+    limparCacheFeriadosAntigos(anosParaManter = 3) {
+        if (!this.data.feriadosNacionais || !this.data.feriadosNacionais.cache) {
+            return;
+        }
+
+        const anoAtual = new Date().getFullYear();
+        const anoMinimo = anoAtual - anosParaManter;
+        
+        Object.keys(this.data.feriadosNacionais.cache).forEach(ano => {
+            if (parseInt(ano) < anoMinimo) {
+                delete this.data.feriadosNacionais.cache[ano];
+                console.log(`Cache de feriados de ${ano} removido (muito antigo)`);
+            }
+        });
+
+        this.salvarNoLocalStorage();
+    }
+
+    /**
+     * Atualiza configurações dos feriados nacionais
+     * @param {Object} novasConfiguracoes - Objeto com as novas configurações
+     */
+    atualizarConfiguracoesFeriados(novasConfiguracoes) {
+        if (!this.data.feriadosNacionais) {
+            this.data.feriadosNacionais = {
+                cache: {},
+                ultimaAtualizacao: null,
+                configuracoes: {
+                    atualizacaoAutomatica: true,
+                    notificacoes: true,
+                    exibirProximoFeriado: true
+                }
+            };
+        }
+
+        this.data.feriadosNacionais.configuracoes = {
+            ...this.data.feriadosNacionais.configuracoes,
+            ...novasConfiguracoes
+        };
+
+        this.salvarNoLocalStorage();
+        console.log('Configurações de feriados nacionais atualizadas:', this.data.feriadosNacionais.configuracoes);
+    }
+
+    /**
+     * Obtém configurações dos feriados nacionais
+     * @returns {Object} Configurações atuais
+     */
+    obterConfiguracoesFeriados() {
+        if (!this.data.feriadosNacionais || !this.data.feriadosNacionais.configuracoes) {
+            return {
+                atualizacaoAutomatica: true,
+                notificacoes: true,
+                exibirProximoFeriado: true
+            };
+        }
+
+        return this.data.feriadosNacionais.configuracoes;
+    }
+
+    /**
+     * Obtém estatísticas do cache de feriados
+     * @returns {Object} Estatísticas do cache
+     */
+    obterEstatisticasFeriados() {
+        if (!this.data.feriadosNacionais || !this.data.feriadosNacionais.cache) {
+            return {
+                anosEmCache: 0,
+                ultimaAtualizacao: null,
+                tamanhoCache: 0
+            };
+        }
+
+        const anos = Object.keys(this.data.feriadosNacionais.cache);
+        return {
+            anosEmCache: anos.length,
+            anos: anos.map(a => parseInt(a)).sort(),
+            ultimaAtualizacao: this.data.feriadosNacionais.ultimaAtualizacao,
+            tamanhoCache: JSON.stringify(this.data.feriadosNacionais.cache).length
+        };
     }
 }
 
