@@ -1281,8 +1281,14 @@
             opacity: 0.8;
             transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
             height: auto;
-            min-height: 65vh;
+            min-height: 70vh;
             max-height: 85vh;
+        }
+
+        /* Aumentar espaço especificamente para o slide do clima (slide-7) */
+        #slide-7 .dashboard-card {
+            min-height: 78vh;
+            padding-bottom: 26px;
         }
 
         .carousel-slide.active .dashboard-card {
@@ -1406,6 +1412,34 @@
             border: 3px solid rgba(255, 255, 255, 0.4);
             position: relative;
             overflow: hidden;
+        }
+
+        /* Header clima estilos */
+        #header-clima {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 6px 10px;
+            border-radius: 10px;
+        }
+
+        #header-clima-info {
+            min-width: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #header-clima-days>div {
+            opacity: 0.95
+        }
+
+        @media (max-width: 700px) {
+            #header-clima-days {
+                display: none;
+            }
+
+            #header-clima {
+                gap: 8px;
+            }
         }
 
         .today-highlight::before {
@@ -3049,7 +3083,21 @@
             pointer-events: none;
             /* Garante que o ícone não interfira nos cliques */
             color: white;
-            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+
+            #climaWeekListSingle {
+                display: flex;
+                gap: 8px;
+                margin-top: 8px;
+                overflow-x: auto;
+                padding-bottom: 6px;
+            }
+
+            /* cada item inline */
+            .clima-day {
+                min-width: 150px;
+                flex: 0 0 auto;
+            }
+
             transition: all 0.3s ease;
         }
 
@@ -3609,6 +3657,147 @@
                 min-height: 0;
             }
         }
+
+        /* ==========================
+           ESTILOS PARA O SLIDE DE CLIMA
+           ========================== */
+        #slide-7 .feriados-nacionais-container {
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #slide-7 .feriados-loading i {
+            color: #0179a1;
+        }
+
+        #climaContent .feriado-destaque-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #FFA500, #ffb347);
+            box-shadow: 0 6px 20px rgba(1, 98, 126, 0.12);
+            flex-shrink: 0;
+        }
+
+
+        /* Tornar o destaque de clima mais alto e com espaçamento */
+        #climaContent .proximo-feriado-destaque {
+            padding: 28px;
+        }
+
+        /* Aumentar tipografia do bloco principal de clima */
+        #climaContent h3#climaLocal {
+            font-size: 26px !important;
+        }
+
+        #climaContent p {
+            font-size: 15px !important;
+        }
+
+        #climaTemp {
+            font-size: 20px !important;
+            padding: 8px 12px !important;
+        }
+
+        /* Itens da previsão: maior e mais legível (horizontal) */
+        #climaWeekListSingle .clima-day {
+            min-width: 220px;
+            padding: 14px;
+            font-size: 15px;
+            border-radius: 12px;
+        }
+
+        /* Ajustes responsivos para o slide de clima */
+        @media (max-width: 900px) {
+            #slide-7 .dashboard-card {
+                min-height: 62vh;
+            }
+
+            #climaWeekListSingle .clima-day {
+                min-width: 140px;
+                font-size: 13px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            #slide-7 .dashboard-card {
+                min-height: 78vh;
+            }
+
+            #climaWeekListSingle .clima-day {
+                min-width: 190px;
+                font-size: 15px;
+            }
+        }
+
+        #climaContent h3#climaLocal {
+            margin: 0;
+            color: #fff;
+            font-size: 20px;
+        }
+
+        #climaContent p {
+            margin: 6px 0 0 0;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        @media (max-width: 900px) {
+            #climaDetails {
+                flex-direction: column;
+            }
+
+            #climaDetails>div {
+                width: 100% !important;
+            }
+        }
+
+        /* Estilos para previsão semanal: horizontal com rolagem */
+        #climaWeekListSingle {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            margin-top: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        .clima-day {
+            background: linear-gradient(180deg, #ffffff, #f7fbfc);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(1, 98, 126, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .clima-day .day-name {
+            font-weight: 700;
+            color: #01627E;
+        }
+
+        .clima-day .day-icon {
+            font-size: 18px;
+            color: #ff8c00;
+        }
+
+        .clima-day .day-temp {
+            font-weight: 700;
+            color: #014b61;
+        }
+
+        .clima-day .day-precip {
+            color: #01627E;
+            font-size: 12px;
+            opacity: 0.95;
+        }
     </style>
 </head>
 
@@ -3636,8 +3825,17 @@
                 <div class="today-date" id="data-hoje">22 de julho de 2025</div>
                 <div id="holiday-info"></div>
             </div>
-            <div class="today-events">
+            <div class="today-events" style="display:flex;align-items:center;gap:18px;">
                 <div class="clock" id="relogio">16:42:56</div>
+                <div id="header-clima" style="display:flex;align-items:center;gap:12px;">
+                    <div id="header-clima-icon"
+                        style="width:42px;height:42px;border-radius:8px;background:linear-gradient(135deg,#FFA500,#ffb347);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">
+                        <i class="fas fa-cloud-sun" style="font-size:18px;color:white;"></i>
+                    </div>
+                    <div id="header-clima-info" style="display:flex;align-items:center;justify-content:center;">
+                        <div id="header-clima-temp" style="font-weight:700;color:white;font-size:40px;"> </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -3888,6 +4086,79 @@
                     </div>
                 </div>
 
+                <!-- Slide 7: Clima - Blumenau -->
+                <div class="carousel-slide" id="slide-7">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-cloud-sun"></i>
+                                Previsão do Tempo - Blumenau
+                            </div>
+                            <div class="card-action">
+                                <div class="feriados-controls">
+                                    <button id="climaRefreshBtn" class="refresh-btn" title="Atualizar clima">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="climaContainer" class="feriados-nacionais-container">
+                                <div id="climaLoading" class="feriados-loading">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Carregando previsão para Blumenau...</p>
+                                </div>
+
+                                <div id="climaContent" style="display:none;">
+                                    <div class="proximo-feriado-destaque"
+                                        style="background: linear-gradient(135deg,#0179a1,#01627E);">
+                                        <div style="display:flex;align-items:center;gap:18px;">
+                                            <div id="climaIcon" class="feriado-destaque-icon"
+                                                style="background:transparent;box-shadow:none;">
+                                                <i class="fas fa-cloud" style="font-size:36px;color:#fff;"></i>
+                                            </div>
+                                            <div style="color:white;">
+                                                <h3 id="climaLocal">Blumenau, SC</h3>
+                                                <p id="climaResumo">--</p>
+                                                <div style="margin-top:8px;">
+                                                    <span id="climaTemp" class="feriado-countdown"
+                                                        style="background:rgba(255,255,255,0.12);"> </span>
+                                                    <span id="climaFeels"
+                                                        style="margin-left:12px;color:#fff;opacity:0.9;">Sensação:
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="climaDetails"
+                                        style="margin-top:16px;display:flex;gap:16px;flex-direction:column;color:#033;">
+                                        <div id="climaWeekSingle"
+                                            style="background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.08);">
+                                            <strong>Previsão da Semana</strong>
+                                            <div id="climaWeekListSingle" style="margin-top:8px;">
+                                                <!-- preenchido por JS com 7 dias -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Previsão Semanal (removido grid duplicado, usa #climaWeekListSingle horizontal) -->
+                                </div>
+
+                                <div id="climaErro" class="feriados-erro" style="display:none;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <h3>Erro ao carregar previsão</h3>
+                                    <p>Não foi possível obter a previsão do tempo. Verifique a conexão.</p>
+                                    <button id="climaRetryBtn" class="retry-btn">
+                                        <i class="fas fa-redo"></i>
+                                        Tentar Novamente
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Indicadores do carrossel -->
                 <div class="carousel-indicators">
                     <div class="carousel-indicator active" data-slide="1"></div>
@@ -3896,6 +4167,7 @@
                     <div class="carousel-indicator" data-slide="4"></div>
                     <div class="carousel-indicator" data-slide="5"></div>
                     <div class="carousel-indicator" data-slide="6"></div>
+                    <div class="carousel-indicator" data-slide="7"></div>
                 </div>
 
                 <!-- Navegação com setas -->
@@ -4224,6 +4496,223 @@
                 document.getElementById('holiday-info').innerHTML = '';
             }
         }
+
+        /* =====================
+           Previsão do Tempo - Blumenau (Slide 7)
+           - Usa Open-Meteo (sem chave)
+           - Atualiza a cada 15 minutos
+           ===================== */
+
+        const CLIMA_COORDS = { lat: -26.9235, lon: -49.0657 }; // Blumenau
+        const CLIMA_UPDATE_INTERVAL = 15 * 60 * 1000; // 15 minutos
+
+        function formatWeekday(dateString) {
+            try {
+                const d = new Date(dateString);
+                const opts = { weekday: 'short', day: '2-digit', month: '2-digit' };
+                // Ex: Ter, 16/09
+                const partes = d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
+                const dia = String(d.getDate()).padStart(2, '0');
+                const mes = String(d.getMonth() + 1).padStart(2, '0');
+                return `${partes.charAt(0).toUpperCase() + partes.slice(1)} ${dia}/${mes}`;
+            } catch (e) {
+                return dateString;
+            }
+        }
+
+        function mapWeatherCodeToIcon(code) {
+            // Map básico baseado em Open-Meteo weathercode
+            // 0 clear, 1-3 mainly clear/partly cloudy, 45,48 fog, 51-67 drizzle/rain, 71-77 snow, 80-82 rain showers, 95-99 thunder
+            if (code === 0) return { icon: 'fas fa-sun', label: 'Ensolarado' };
+            if (code >= 1 && code <= 3) return { icon: 'fas fa-cloud-sun', label: 'Parcialmente nublado' };
+            if (code === 45 || code === 48) return { icon: 'fas fa-smog', label: 'Neblina' };
+            if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return { icon: 'fas fa-cloud-showers-heavy', label: 'Chuva' };
+            if (code >= 71 && code <= 77) return { icon: 'fas fa-snowflake', label: 'Neve/Granizo' };
+            if (code >= 95) return { icon: 'fas fa-bolt', label: 'Tempestade' };
+            return { icon: 'fas fa-cloud', label: 'Nublado' };
+        }
+
+        async function fetchClima() {
+            const loadingEl = document.getElementById('climaLoading');
+            const contentEl = document.getElementById('climaContent');
+            const errorEl = document.getElementById('climaErro');
+
+            loadingEl.style.display = 'flex';
+            contentEl.style.display = 'none';
+            errorEl.style.display = 'none';
+
+            try {
+                const params = new URLSearchParams({
+                    latitude: CLIMA_COORDS.lat,
+                    longitude: CLIMA_COORDS.lon,
+                    hourly: 'temperature_2m,apparent_temperature,relativehumidity_2m,windspeed_10m,weathercode',
+                    daily: 'temperature_2m_max,temperature_2m_min,weathercode',
+                    current_weather: 'true',
+                    timezone: 'America/Sao_Paulo'
+                });
+
+                const url = `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
+                const resp = await fetch(url, { cache: 'no-store' });
+
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+
+                const data = await resp.json();
+
+                // Preencher dados básicos
+                const current = data.current_weather || {};
+
+                // Encontrar índice horário correspondente ao current.time
+                let nowIndex = 0;
+                if (data.hourly && Array.isArray(data.hourly.time)) {
+                    if (current.time) {
+                        nowIndex = data.hourly.time.indexOf(current.time);
+                    }
+
+                    // Se não encontrou, tenta achar o índice mais próximo por timestamp
+                    if (nowIndex === -1 || nowIndex === undefined) {
+                        nowIndex = 0;
+                        try {
+                            const nowTs = new Date(current.time).getTime();
+                            let bestDiff = Infinity;
+                            data.hourly.time.forEach((t, idx) => {
+                                const ts = new Date(t).getTime();
+                                const diff = Math.abs(ts - nowTs);
+                                if (diff < bestDiff) {
+                                    bestDiff = diff;
+                                    nowIndex = idx;
+                                }
+                            });
+                        } catch (e) {
+                            nowIndex = 0;
+                        }
+                    }
+                }
+
+                const temp = (data.hourly?.temperature_2m && data.hourly.temperature_2m[nowIndex] !== undefined) ? data.hourly.temperature_2m[nowIndex] : (current.temperature ?? '--');
+                const apparent = (data.hourly?.apparent_temperature && data.hourly.apparent_temperature[nowIndex] !== undefined) ? data.hourly.apparent_temperature[nowIndex] : temp;
+                const wind = (data.hourly?.windspeed_10m && data.hourly.windspeed_10m[nowIndex] !== undefined) ? data.hourly.windspeed_10m[nowIndex] : (current.windspeed ?? '--');
+                const code = (data.hourly?.weathercode && data.hourly.weathercode[nowIndex] !== undefined) ? data.hourly.weathercode[nowIndex] : (current.weathercode ?? 0);
+
+                const iconInfo = mapWeatherCodeToIcon(code);
+
+                document.getElementById('climaLocal').textContent = 'Blumenau, SC';
+                document.getElementById('climaResumo').textContent = iconInfo.label;
+                document.getElementById('climaTemp').textContent = `${Math.round(temp)} °C`;
+                document.getElementById('climaFeels').textContent = `Sensação: ${Math.round(apparent)} °C`;
+
+                const iconEl = document.getElementById('climaIcon');
+                if (iconEl) iconEl.innerHTML = `<i class="${iconInfo.icon}" style="font-size:36px;color:white;"></i>`;
+
+                // Detalhes: usar dados diários se disponíveis (atualiza elemento apenas se existir)
+                const elCond = document.getElementById('climaCondition');
+                if (elCond) {
+                    if (data.daily && Array.isArray(data.daily.time)) {
+                        const max = data.daily.temperature_2m_max?.[0];
+                        const min = data.daily.temperature_2m_min?.[0];
+                        const dailyCode = data.daily.weathercode?.[0];
+                        const dailyLabel = dailyCode !== undefined ? mapWeatherCodeToIcon(dailyCode).label : '';
+                        elCond.textContent = `${dailyLabel} • Máx ${max !== undefined ? Math.round(max) + '°C' : '--'} / Mín ${min !== undefined ? Math.round(min) + '°C' : '--'}`;
+                    } else {
+                        elCond.textContent = `${iconInfo.label}`;
+                    }
+                }
+
+                const humidity = (data.hourly?.relativehumidity_2m && data.hourly.relativehumidity_2m[nowIndex] !== undefined) ? data.hourly.relativehumidity_2m[nowIndex] : '--';
+                const elHum = document.getElementById('climaHumidity');
+                if (elHum) elHum.textContent = humidity !== '--' ? `${humidity}%` : '--';
+                const elWind = document.getElementById('climaWind');
+                if (elWind) elWind.textContent = wind !== '--' ? `${wind} km/h` : '--';
+
+                // Curta previsão para próximas horas (pega 6 horas seguintes a partir do nowIndex)
+                let forecastShort = '';
+                try {
+                    const hours = data.hourly; // arrays alinhados
+                    if (hours && Array.isArray(hours.time) && hours.time.length) {
+                        const limit = Math.min(6, hours.time.length - nowIndex);
+                        const pieces = [];
+                        for (let i = nowIndex; i < nowIndex + limit; i++) {
+                            const t = hours.time[i];
+                            const tt = (hours.temperature_2m && hours.temperature_2m[i] !== undefined) ? Math.round(hours.temperature_2m[i]) + '°C' : '--';
+                            const wc = (hours.weathercode && hours.weathercode[i] !== undefined) ? mapWeatherCodeToIcon(hours.weathercode[i]).label : '';
+                            const hourLabel = t.includes('T') ? t.split('T')[1].slice(0, 5) : t;
+                            pieces.push(`${hourLabel} ${tt} ${wc}`);
+                        }
+                        forecastShort = pieces.join(' · ');
+                    }
+                } catch (e) {
+                    forecastShort = '--';
+                }
+
+                const elForecastShort = document.getElementById('climaForecastShort');
+                if (elForecastShort) elForecastShort.textContent = forecastShort || '--';
+
+                // Previsão semanal - popular lista única com até 7 dias
+                try {
+                    const singleList = document.getElementById('climaWeekListSingle');
+                    if (singleList && data.daily && Array.isArray(data.daily.time)) {
+                        const count = Math.min(7, data.daily.time.length);
+                        singleList.innerHTML = '';
+                        for (let i = 0; i < count; i++) {
+                            const dayTime = data.daily.time[i];
+                            const maxT = data.daily.temperature_2m_max?.[i];
+                            const minT = data.daily.temperature_2m_min?.[i];
+                            const dayCode = data.daily.weathercode?.[i];
+                            const precipProb = data.daily.precipitation_probability_max?.[i];
+                            const precipSum = data.daily.precipitation_sum?.[i];
+                            const icon = dayCode !== undefined ? mapWeatherCodeToIcon(dayCode).icon : 'fas fa-cloud';
+
+                            const dayName = formatWeekday(dayTime);
+
+                            const item = document.createElement('div');
+                            item.className = 'clima-day';
+                            item.innerHTML = `
+                                <div style="display:flex;flex-direction:column;align-items:flex-start;flex:1;">
+                                    <div class="day-name">${dayName}</div>
+                                    <div style="font-size:13px;color:#666">${minT !== undefined ? Math.round(minT) + '°' : '--'} / ${maxT !== undefined ? Math.round(maxT) + '°' : '--'}</div>
+                                </div>
+                                <div style="text-align:center;width:48px;color:#ff8c00;"><i class="${icon}"></i></div>
+                                <div style="width:56px;text-align:right;color:#01627E;font-weight:600">${precipProb !== undefined ? precipProb + '%' : (precipSum !== undefined ? precipSum + ' mm' : '')}</div>
+                            `;
+                            singleList.appendChild(item);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Erro ao popular previsão semanal:', e);
+                }
+
+                // Atualizar header do clima (apenas temperatura e ícone)
+                try {
+                    const hTemp = document.getElementById('header-clima-temp');
+                    const hIcon = document.getElementById('header-clima-icon');
+
+                    if (hTemp) hTemp.textContent = `${Math.round(temp)} °C`;
+                    if (hIcon) hIcon.innerHTML = `<i class="${iconInfo.icon}" style="font-size:18px;color:white;"></i>`;
+                } catch (e) {
+                    console.error('Erro ao atualizar header clima:', e);
+                }
+
+                loadingEl.style.display = 'none';
+                contentEl.style.display = 'block';
+
+            } catch (err) {
+                console.error('Erro ao buscar clima:', err);
+                loadingEl.style.display = 'none';
+                document.getElementById('climaErro').style.display = 'flex';
+            }
+        }
+
+        // Handlers de botões
+        document.addEventListener('DOMContentLoaded', function () {
+            const climaRetry = document.getElementById('climaRetryBtn');
+            const climaRefresh = document.getElementById('climaRefreshBtn');
+
+            if (climaRetry) climaRetry.addEventListener('click', fetchClima);
+            if (climaRefresh) climaRefresh.addEventListener('click', fetchClima);
+
+            // Dispara a primeira busca e agenda atualizações periódicas
+            setTimeout(fetchClima, 500);
+            setInterval(fetchClima, CLIMA_UPDATE_INTERVAL);
+        });
 
         // Função para atualizar o relógio
         function atualizarRelogio() {
