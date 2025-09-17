@@ -3762,7 +3762,18 @@
             gap: 8px;
             margin-top: 8px;
             overflow-x: auto;
-            padding-bottom: 6px;
+            overflow-y: visible;
+            /* permite badge acima */
+            padding: 14px 14px 10px 18px;
+            /* espaço extra à esquerda para outline */
+        }
+
+        #climaWeekListSingle .clima-day:first-child {
+            margin-left: 2px;
+        }
+
+        .clima-day.clima-day--today {
+            outline-offset: 3px;
         }
 
         .clima-day {
@@ -3776,6 +3787,72 @@
             justify-content: space-between;
             gap: 12px;
             font-size: 13px;
+        }
+
+        /* Estilos complementares avançados para o carrossel de clima */
+        .clima-day .day-range {
+            font-size: 12px;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        .clima-day .day-icon-wrapper {
+            text-align: center;
+            width: 44px;
+            color: #ff8c00;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .clima-day .day-extra {
+            width: 58px;
+            text-align: right;
+            color: #01627E;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .clima-day.clima-day--today {
+            outline: 2px solid #FFA500;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(255, 165, 0, 0.18), 0 6px 18px rgba(0, 0, 0, 0.10);
+            background: linear-gradient(135deg, #fffaf2, #ffffff);
+            position: relative;
+        }
+
+        .clima-day.clima-day--today::after {
+            content: 'HOJE';
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            background: #FFA500;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        }
+
+        .clima-day:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+            border-color: #01627E;
+        }
+
+        .clima-day:hover .day-name {
+            color: #014b61;
+        }
+
+        .clima-day[title] {
+            cursor: help;
+        }
+
+        .clima-day:active {
+            transform: translateY(-1px) scale(0.985);
         }
 
         .clima-day .day-name {
@@ -4504,7 +4581,12 @@
            ===================== */
 
         const CLIMA_COORDS = { lat: -26.9235, lon: -49.0657 }; // Blumenau
-        const CLIMA_UPDATE_INTERVAL = 15 * 60 * 1000; // 15 minutos
+        const CLIMA_UPDATE_INTERVAL = 5 * 60 * 1000; // 5 minutos (refetch da API)
+        const CLIMA_HEADER_REFRESH = 60 * 1000; // 1 minuto (atualiza header)
+        let climaUltimosDados = null; // cache do último JSON retornado
+        let climaUltimaAtualizacao = 0; // timestamp do último fetch real
+        let climaTempAtual = null; // último valor numérico arredondado exibido
+        let climaIconAtual = null; // última classe de ícone exibida
 
         function formatWeekday(dateString) {
             try {
@@ -4521,21 +4603,77 @@
         }
 
         function mapWeatherCodeToIcon(code) {
-            // Map básico baseado em Open-Meteo weathercode
-            // 0 clear, 1-3 mainly clear/partly cloudy, 45,48 fog, 51-67 drizzle/rain, 71-77 snow, 80-82 rain showers, 95-99 thunder
-            if (code === 0) return { icon: 'fas fa-sun', label: 'Ensolarado' };
-            if (code >= 1 && code <= 3) return { icon: 'fas fa-cloud-sun', label: 'Parcialmente nublado' };
-            if (code === 45 || code === 48) return { icon: 'fas fa-smog', label: 'Neblina' };
-            if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return { icon: 'fas fa-cloud-showers-heavy', label: 'Chuva' };
-            if (code >= 71 && code <= 77) return { icon: 'fas fa-snowflake', label: 'Neve/Granizo' };
-            if (code >= 95) return { icon: 'fas fa-bolt', label: 'Tempestade' };
-            return { icon: 'fas fa-cloud', label: 'Nublado' };
+            // Referência Open-Meteo: https://open-meteo.com/en/docs
+            const grupos = [
+                { cod: [0], icon: 'fas fa-sun', label: 'Céu limpo' },
+                { cod: [1], icon: 'fas fa-sun', label: 'Pred. limpo' },
+                { cod: [2], icon: 'fas fa-cloud-sun', label: 'Parcial nublado' },
+                { cod: [3], icon: 'fas fa-cloud', label: 'Nublado' },
+                { cod: [45, 48], icon: 'fas fa-smog', label: 'Nevoeiro' },
+                { cod: [51, 53, 55], icon: 'fas fa-cloud-rain', label: 'Garoa' },
+                { cod: [56, 57], icon: 'fas fa-cloud-rain', label: 'Garoa congelante' },
+                { cod: [61, 63, 65], icon: 'fas fa-cloud-showers-heavy', label: 'Chuva' },
+                { cod: [66, 67], icon: 'fas fa-cloud-showers-heavy', label: 'Chuva congelante' },
+                { cod: [71, 73, 75], icon: 'fas fa-snowflake', label: 'Neve' },
+                { cod: [77], icon: 'fas fa-snowflake', label: 'Cristais de gelo' },
+                { cod: [80, 81, 82], icon: 'fas fa-cloud-sun-rain', label: 'Pancadas de chuva' },
+                { cod: [85, 86], icon: 'fas fa-snowflake', label: 'Pancadas de neve' },
+                { cod: [95], icon: 'fas fa-bolt', label: 'Trovoadas' },
+                { cod: [96, 99], icon: 'fas fa-bolt', label: 'Trovoadas com granizo' }
+            ];
+            for (const g of grupos) if (g.cod.includes(code)) return { icon: g.icon, label: g.label };
+            return { icon: 'fas fa-question-circle', label: 'Indefinido' };
         }
 
-        async function fetchClima() {
+        function extrairTemperaturaAtual(data) {
+            try {
+                const current = data.current_weather || {};
+                let nowIndex = 0;
+                if (data.hourly && Array.isArray(data.hourly.time)) {
+                    if (current.time) {
+                        nowIndex = data.hourly.time.indexOf(current.time);
+                    }
+                    if (nowIndex === -1 || nowIndex === undefined) {
+                        nowIndex = 0;
+                        const nowTs = new Date(current.time || Date.now()).getTime();
+                        let bestDiff = Infinity;
+                        data.hourly.time.forEach((t, idx) => {
+                            const ts = new Date(t).getTime();
+                            const diff = Math.abs(ts - nowTs);
+                            if (diff < bestDiff) { bestDiff = diff; nowIndex = idx; }
+                        });
+                    }
+                }
+            } catch (e) {
+                return { temp: '--', apparent: '--', wind: '--', code: 0, nowIndex: 0 };
+            }
+        }
+
+        function atualizarHeaderClimaComCache() {
+            // Usa sempre os últimos valores calculados no fetch principal
+            try {
+                const hTemp = document.getElementById('header-clima-temp');
+                const hIcon = document.getElementById('header-clima-icon');
+                if (hTemp && climaTempAtual !== null) hTemp.textContent = `${climaTempAtual} °C`;
+                if (hIcon && climaIconAtual) hIcon.innerHTML = `<i class="${climaIconAtual}" style="font-size:18px;color:white;"></i>`;
+            } catch (e) {
+                console.debug('Falha ao atualizar header (cache simplificado):', e);
+            }
+        }
+
+        let climaUltimaHoraRegistrada = new Date().getHours();
+        let climaUltimaVisibilidade = Date.now();
+
+        async function fetchClima(forcar = false) {
             const loadingEl = document.getElementById('climaLoading');
             const contentEl = document.getElementById('climaContent');
             const errorEl = document.getElementById('climaErro');
+            const agora = Date.now();
+            // Se já temos dados recentes (menos que intervalo) e não forçou, apenas atualiza header
+            if (!forcar && climaUltimosDados && (agora - climaUltimaAtualizacao) < CLIMA_UPDATE_INTERVAL) {
+                atualizarHeaderClimaComCache();
+                return;
+            }
 
             loadingEl.style.display = 'flex';
             contentEl.style.display = 'none';
@@ -4546,7 +4684,7 @@
                     latitude: CLIMA_COORDS.lat,
                     longitude: CLIMA_COORDS.lon,
                     hourly: 'temperature_2m,apparent_temperature,relativehumidity_2m,windspeed_10m,weathercode',
-                    daily: 'temperature_2m_max,temperature_2m_min,weathercode',
+                    daily: 'temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum,precipitation_probability_max,windspeed_10m_max,uv_index_max',
                     current_weather: 'true',
                     timezone: 'America/Sao_Paulo'
                 });
@@ -4557,6 +4695,8 @@
                 if (!resp.ok) throw new Error('HTTP ' + resp.status);
 
                 const data = await resp.json();
+                climaUltimosDados = data;
+                climaUltimaAtualizacao = Date.now();
 
                 // Preencher dados básicos
                 const current = data.current_weather || {};
@@ -4597,11 +4737,13 @@
 
                 document.getElementById('climaLocal').textContent = 'Blumenau, SC';
                 document.getElementById('climaResumo').textContent = iconInfo.label;
-                document.getElementById('climaTemp').textContent = `${Math.round(temp)} °C`;
+                climaTempAtual = Math.round(temp);
+                document.getElementById('climaTemp').textContent = `${climaTempAtual} °C`;
                 document.getElementById('climaFeels').textContent = `Sensação: ${Math.round(apparent)} °C`;
 
                 const iconEl = document.getElementById('climaIcon');
                 if (iconEl) iconEl.innerHTML = `<i class="${iconInfo.icon}" style="font-size:36px;color:white;"></i>`;
+                climaIconAtual = iconInfo.icon;
 
                 // Detalhes: usar dados diários se disponíveis (atualiza elemento apenas se existir)
                 const elCond = document.getElementById('climaCondition');
@@ -4652,26 +4794,40 @@
                     if (singleList && data.daily && Array.isArray(data.daily.time)) {
                         const count = Math.min(7, data.daily.time.length);
                         singleList.innerHTML = '';
+                        const hojeISO = new Date().toISOString().slice(0, 10);
                         for (let i = 0; i < count; i++) {
                             const dayTime = data.daily.time[i];
+                            const isHoje = dayTime === hojeISO;
                             const maxT = data.daily.temperature_2m_max?.[i];
                             const minT = data.daily.temperature_2m_min?.[i];
                             const dayCode = data.daily.weathercode?.[i];
-                            const precipProb = data.daily.precipitation_probability_max?.[i];
-                            const precipSum = data.daily.precipitation_sum?.[i];
-                            const icon = dayCode !== undefined ? mapWeatherCodeToIcon(dayCode).icon : 'fas fa-cloud';
-
+                            const prob = data.daily.precipitation_probability_max?.[i];
+                            const pSum = data.daily.precipitation_sum?.[i];
+                            const windMax = data.daily.windspeed_10m_max?.[i];
+                            const uv = data.daily.uv_index_max?.[i];
+                            const iconInfoDay = dayCode !== undefined ? mapWeatherCodeToIcon(dayCode) : { icon: 'fas fa-cloud', label: 'N/A' };
                             const dayName = formatWeekday(dayTime);
 
+                            const tooltip = [
+                                `${dayName}`,
+                                iconInfoDay.label,
+                                `Máx: ${maxT !== undefined ? Math.round(maxT) + '°C' : '--'}`,
+                                `Mín: ${minT !== undefined ? Math.round(minT) + '°C' : '--'}`,
+                                `Precip: ${prob !== undefined ? prob + '%' : (pSum !== undefined ? pSum + ' mm' : '--')}`,
+                                windMax !== undefined ? `Vento máx: ${Math.round(windMax)} km/h` : null,
+                                uv !== undefined ? `UV máx: ${uv}` : null
+                            ].filter(Boolean).join('\n');
+
                             const item = document.createElement('div');
-                            item.className = 'clima-day';
+                            item.className = 'clima-day' + (isHoje ? ' clima-day--today' : '');
+                            item.setAttribute('title', tooltip);
                             item.innerHTML = `
-                                <div style="display:flex;flex-direction:column;align-items:flex-start;flex:1;">
+                                <div class="clima-day-col1">
                                     <div class="day-name">${dayName}</div>
-                                    <div style="font-size:13px;color:#666">${minT !== undefined ? Math.round(minT) + '°' : '--'} / ${maxT !== undefined ? Math.round(maxT) + '°' : '--'}</div>
+                                    <div class="day-range">${minT !== undefined ? Math.round(minT) + '°' : '--'} / ${maxT !== undefined ? Math.round(maxT) + '°' : '--'}</div>
                                 </div>
-                                <div style="text-align:center;width:48px;color:#ff8c00;"><i class="${icon}"></i></div>
-                                <div style="width:56px;text-align:right;color:#01627E;font-weight:600">${precipProb !== undefined ? precipProb + '%' : (precipSum !== undefined ? precipSum + ' mm' : '')}</div>
+                                <div class="day-icon-wrapper"><i class="${iconInfoDay.icon}"></i></div>
+                                <div class="day-extra">${prob !== undefined ? prob + '%' : (pSum !== undefined ? pSum + ' mm' : '')}</div>
                             `;
                             singleList.appendChild(item);
                         }
@@ -4681,15 +4837,7 @@
                 }
 
                 // Atualizar header do clima (apenas temperatura e ícone)
-                try {
-                    const hTemp = document.getElementById('header-clima-temp');
-                    const hIcon = document.getElementById('header-clima-icon');
-
-                    if (hTemp) hTemp.textContent = `${Math.round(temp)} °C`;
-                    if (hIcon) hIcon.innerHTML = `<i class="${iconInfo.icon}" style="font-size:18px;color:white;"></i>`;
-                } catch (e) {
-                    console.error('Erro ao atualizar header clima:', e);
-                }
+                atualizarHeaderClimaComCache();
 
                 loadingEl.style.display = 'none';
                 contentEl.style.display = 'block';
@@ -4706,12 +4854,33 @@
             const climaRetry = document.getElementById('climaRetryBtn');
             const climaRefresh = document.getElementById('climaRefreshBtn');
 
-            if (climaRetry) climaRetry.addEventListener('click', fetchClima);
-            if (climaRefresh) climaRefresh.addEventListener('click', fetchClima);
+            if (climaRetry) climaRetry.addEventListener('click', () => fetchClima(true));
+            if (climaRefresh) climaRefresh.addEventListener('click', () => fetchClima(true));
 
-            // Dispara a primeira busca e agenda atualizações periódicas
-            setTimeout(fetchClima, 500);
-            setInterval(fetchClima, CLIMA_UPDATE_INTERVAL);
+            // Dispara a primeira busca e agenda atualizações
+            setTimeout(() => fetchClima(true), 500);
+            setInterval(() => fetchClima(false), CLIMA_UPDATE_INTERVAL); // refetch completo periódico
+            setInterval(() => {
+                atualizarHeaderClimaComCache();
+                // Forçar fetch se mudou a hora local (garante renovação de dados de hora em hora)
+                const horaAtual = new Date().getHours();
+                if (horaAtual !== climaUltimaHoraRegistrada) {
+                    climaUltimaHoraRegistrada = horaAtual;
+                    fetchClima(true);
+                }
+            }, CLIMA_HEADER_REFRESH);
+
+            // Refetch ao voltar para a aba se passou mais que 2 * intervalo
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    const agora = Date.now();
+                    if ((agora - climaUltimaAtualizacao) > (CLIMA_UPDATE_INTERVAL * 2)) {
+                        fetchClima(true);
+                    } else {
+                        atualizarHeaderClimaComCache();
+                    }
+                }
+            });
         });
 
         // Função para atualizar o relógio
@@ -8276,6 +8445,41 @@
             }
         }
     </script>
+<script>
+// Auto-reload suave a cada 1 hora mantendo posição do scroll
+(function(){
+    const ONE_HOUR = 60 * 60 * 1000; // 3600000 ms
+    let reloadTimer = null;
+    function scheduleReload(){
+        if(reloadTimer) clearTimeout(reloadTimer);
+        reloadTimer = setTimeout(()=>{
+            try {
+                // Evita recarregar se a aba não estiver visível; posterga até voltar
+                if (document.hidden) { scheduleReload(); return; }
+                const scrollPos = { x: window.scrollX, y: window.scrollY };
+                sessionStorage.setItem('autoReloadScroll', JSON.stringify(scrollPos));
+                location.reload();
+            } catch(e){ console.warn('Falha ao tentar auto-reload:', e); scheduleReload(); }
+        }, ONE_HOUR);
+    }
+    // Restaurar posição após reload
+    window.addEventListener('load', ()=>{
+        try {
+            const saved = sessionStorage.getItem('autoReloadScroll');
+            if(saved){
+                const pos = JSON.parse(saved);
+                setTimeout(()=>window.scrollTo(pos.x, pos.y), 50);
+                sessionStorage.removeItem('autoReloadScroll');
+            }
+        } catch(e){}
+    });
+    document.addEventListener('visibilitychange', ()=>{
+        // Ao voltar para a aba, se faltam menos de 5 min (impreciso), reagendar para hora cheia
+        if(!document.hidden) scheduleReload();
+    });
+    scheduleReload();
+})();
+</script>
 </body>
 
 </html>
