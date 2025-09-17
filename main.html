@@ -8445,41 +8445,41 @@
             }
         }
     </script>
-<script>
-// Auto-reload suave a cada 1 hora mantendo posição do scroll
-(function(){
-    const ONE_HOUR = 60 * 60 * 1000; // 3600000 ms
-    let reloadTimer = null;
-    function scheduleReload(){
-        if(reloadTimer) clearTimeout(reloadTimer);
-        reloadTimer = setTimeout(()=>{
-            try {
-                // Evita recarregar se a aba não estiver visível; posterga até voltar
-                if (document.hidden) { scheduleReload(); return; }
-                const scrollPos = { x: window.scrollX, y: window.scrollY };
-                sessionStorage.setItem('autoReloadScroll', JSON.stringify(scrollPos));
-                location.reload();
-            } catch(e){ console.warn('Falha ao tentar auto-reload:', e); scheduleReload(); }
-        }, ONE_HOUR);
-    }
-    // Restaurar posição após reload
-    window.addEventListener('load', ()=>{
-        try {
-            const saved = sessionStorage.getItem('autoReloadScroll');
-            if(saved){
-                const pos = JSON.parse(saved);
-                setTimeout(()=>window.scrollTo(pos.x, pos.y), 50);
-                sessionStorage.removeItem('autoReloadScroll');
+    <script>
+        // Auto-reload suave a cada 1 hora mantendo posição do scroll
+        (function () {
+            const ONE_HOUR = 60 * 60 * 1000; // 3600000 ms
+            let reloadTimer = null;
+            function scheduleReload() {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(() => {
+                    try {
+                        // Evita recarregar se a aba não estiver visível; posterga até voltar
+                        if (document.hidden) { scheduleReload(); return; }
+                        const scrollPos = { x: window.scrollX, y: window.scrollY };
+                        sessionStorage.setItem('autoReloadScroll', JSON.stringify(scrollPos));
+                        location.reload();
+                    } catch (e) { console.warn('Falha ao tentar auto-reload:', e); scheduleReload(); }
+                }, ONE_HOUR);
             }
-        } catch(e){}
-    });
-    document.addEventListener('visibilitychange', ()=>{
-        // Ao voltar para a aba, se faltam menos de 5 min (impreciso), reagendar para hora cheia
-        if(!document.hidden) scheduleReload();
-    });
-    scheduleReload();
-})();
-</script>
+            // Restaurar posição após reload
+            window.addEventListener('load', () => {
+                try {
+                    const saved = sessionStorage.getItem('autoReloadScroll');
+                    if (saved) {
+                        const pos = JSON.parse(saved);
+                        setTimeout(() => window.scrollTo(pos.x, pos.y), 50);
+                        sessionStorage.removeItem('autoReloadScroll');
+                    }
+                } catch (e) { }
+            });
+            document.addEventListener('visibilitychange', () => {
+                // Ao voltar para a aba, se faltam menos de 5 min (impreciso), reagendar para hora cheia
+                if (!document.hidden) scheduleReload();
+            });
+            scheduleReload();
+        })();
+    </script>
 </body>
 
 </html>
