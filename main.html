@@ -174,6 +174,71 @@
             width: 80%;
         }
 
+        /* Saudação dinâmica */
+        .greeting-wrapper {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0,0,0,.25);
+            animation: fadeIn .6s ease;
+            max-width: 40%;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .greeting-wrapper i {
+            color: #FFA500;
+            font-size: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+        }
+
+        .greeting-text-highlight {
+            font-weight: 700;
+            color: #FFA500;
+        }
+
+        @media (max-width: 1024px) {
+            .greeting-wrapper { font-size:16px; }
+        }
+
+        @media (max-width: 820px) {
+            .greeting-wrapper { font-size:15px; padding:6px 12px; }
+        }
+
+        @media (max-width: 768px) {
+            .header { height: auto; padding: 10px 15px 12px; }
+            .logo-container { flex-direction: column; gap: 8px; }
+            .company-name { font-size: 24px; }
+            .greeting-wrapper {
+                position: static;
+                transform: none;
+                max-width: 100%;
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+                font-size: 15px;
+                background: rgba(255,255,255,0.12);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .company-name { font-size: 20px; }
+            .greeting-wrapper { font-size: 14px; padding:6px 10px; }
+        }
+
         /* Espaço para Main Content */
         .main-content {
             flex: 1;
@@ -3891,6 +3956,9 @@
     <header class="header">
         <div class="logo-container">
             <div class="company-name">Intranet Excel Engenharia</div>
+            <div class="greeting-wrapper" aria-live="polite" aria-atomic="true">
+                <span id="saudacao" class="greeting-text">&nbsp;</span>
+            </div>
         </div>
     </header>
 
@@ -7706,7 +7774,7 @@
             const slides = document.querySelectorAll('.carousel-slide');
             const indicators = document.querySelectorAll('.carousel-indicator');
             let currentSlide = 0;
-            const slideInterval = 10000; // 10 segundos
+            const slideInterval = 25000; // 25 segundos
             let slideTimer;
 
             // Função para mostrar um slide específico
@@ -7763,7 +7831,7 @@
 
                 // Iniciar novo temporizador com verificação de segurança
                 slideTimer = setInterval(function () {
-                    console.log('Avançando para o próximo slide - Timer de 10s');
+                    console.log('Avançando para o próximo slide - Timer de 25s');
                     nextSlide();
 
                     // Verificar se estamos no slide de notícias e ajustar o layout
@@ -7793,10 +7861,10 @@
                     nextSlide();
                 }
                 ultimoSlide = currentSlide;
-            }, 15000); // Verificar a cada 15 segundos
+            }, 35000); // Verificar a cada 35 segundos (maior que 1 intervalo para detectar travas)
             setInterval(() => {
                 console.log(`Verificação de saúde do carrossel: Slide atual = ${currentSlide + 1}/${slides.length}`);
-            }, 10000); // Verificar a cada 10 segundos
+            }, 20000); // Verificar a cada 20 segundos
 
             // Adicionar evento de clique aos indicadores
             indicators.forEach((indicator, index) => {
@@ -8478,6 +8546,67 @@
                 if (!document.hidden) scheduleReload();
             });
             scheduleReload();
+        })();
+    </script>
+    <script>
+        // Script de saudação dinâmica profissional e responsivo
+        (function(){
+            const saudacaoEl = document.getElementById('saudacao');
+            if(!saudacaoEl) return;
+
+            function gerarMensagem(data){
+                const hora = data.getHours();
+                const diaSemana = data.getDay(); // 0=Domingo ... 5=sexta 6=sabado
+                let base;
+                if(hora < 13) {
+                    base = 'Bom dia';
+                } else if(hora < 18) {
+                    base = 'Boa tarde';
+                } else {
+                    base = 'Boa noite';
+                }
+
+                // Final de semana / sexta final do dia
+                let complemento = '';
+                if(diaSemana === 5 && hora >= 16) { // sexta apos 16h
+                    complemento = ' | Bom final de semana!';
+                } else if(diaSemana === 6 || diaSemana === 0) { // sabado ou domingo
+                    complemento = ' | Bom final de semana!';
+                }
+
+                return base + complemento;
+            }
+
+            function atualizarSaudacao(){
+                const agora = new Date();
+                const msg = gerarMensagem(agora);
+                // Texto completo em negrito com destaque de cor somente na parte inicial
+                const partes = msg.split('|');
+                let html;
+                if (partes.length > 1) {
+                    html = `<span class=\"greeting-text-highlight\">${partes[0].trim()}</span><span style=\"font-weight:700;opacity:.9\"> | ${partes[1].trim()}</span>`;
+                } else {
+                    html = `<span class=\"greeting-text-highlight\">${msg}</span>`;
+                }
+                if(saudacaoEl.innerHTML !== html){
+                    saudacaoEl.style.opacity = '0';
+                    requestAnimationFrame(()=>{
+                        saudacaoEl.innerHTML = html;
+                        saudacaoEl.style.transition = 'opacity .4s ease';
+                        saudacaoEl.style.opacity = '1';
+                    });
+                }
+                saudacaoEl.setAttribute('aria-label', msg);
+            }
+
+            // Atualização inicial e intervalos: revalida a cada minuto
+            atualizarSaudacao();
+            setInterval(atualizarSaudacao, 60 * 1000);
+
+            // Ajusta caso a guia retorne do modo oculto
+            document.addEventListener('visibilitychange', ()=>{
+                if(!document.hidden) atualizarSaudacao();
+            });
         })();
     </script>
 </body>
