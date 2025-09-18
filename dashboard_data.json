@@ -2,10 +2,10 @@
   "ferias": [
     {
       "id": "ferias-1",
-      "nome": "Marina Naatz",
+      "nome": "Jean Júnior",
       "depto": "Engenharia",
-      "dataInicio": "2025-09-08",
-      "dataFim": "2025-09-12"
+      "dataInicio": "2025-10-03",
+      "dataFim": "2025-10-03"
     },
     {
       "id": "ferias-2",
@@ -92,10 +92,10 @@
   ],
   "noticias": [
     {
-      "titulo": "Nova versão do Gerenciador de DXF (v.1.7.9)",
-      "conteudo": "Prezados,\nTemos o prazer de anunciar o lançamento da nova versão do Gerenciador de DXF (v.1.7.9), que traz avanços significativos em agilidade e performance de processamento.\n\nPrincipais melhorias:\n- Janela de atualização integrada no submenu, permitindo acesso direto ao servidor para manter o gerenciador sempre atualizado.\n- Ferramenta de renomeação automática, que possibilita renomear arquivos e pastas de forma prática, removendo a palavra _tratado de maneira rápida e eficiente.\n- Métricas de utilização, que oferecem à equipe de desenvolvimento uma visão clara sobre as funcionalidades mais utilizadas no programa, bem como registro de eventuais erros para aprimorar continuamente a ferramenta.",
+      "titulo": "Nova versão do Gerenciador de DXF (v.1.8)",
+      "conteudo": "Prezados,\nEstá disponível a versão 1.8 do Gerenciador de DXF, Nesta versão, foi implementado um novo programa: Comparador de Versões de Arquivos DXF.\n- Além disso, foram realizadas melhorias gerais, incluindo correções de problemas e novas tratativas de erros.\n no caminho abaixo:\n Z:\\Engenharia\\UTILIDADES\\Programas\\Desenvolvimento Excel\\Ferramentas de DXF",
       "autor": "Departamento de TI",
-      "data": "06/08/2025"
+      "data": "17/09/2025"
     }
   ],
   "eventos": [
