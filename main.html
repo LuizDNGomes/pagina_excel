@@ -192,7 +192,7 @@
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(6px);
-            box-shadow: 0 4px 15px rgba(0,0,0,.25);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .25);
             animation: fadeIn .6s ease;
             max-width: 40%;
             text-align: right;
@@ -212,12 +212,12 @@
             font-weight: 700;
             letter-spacing: .5px;
             color: #ffffff;
-            background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
             padding: 8px 18px 8px 14px;
             border-radius: 14px;
             border: 1px solid rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(6px);
-            box-shadow: 0 4px 18px -2px rgba(0,0,0,.28);
+            box-shadow: 0 4px 18px -2px rgba(0, 0, 0, .28);
             animation: fadeIn .6s ease;
             white-space: nowrap;
             line-height: 1.15;
@@ -226,23 +226,38 @@
         .countdown-wrapper i {
             color: #FFA500;
             font-size: 20px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .25));
             animation: pulseHourglass 3.5s ease-in-out infinite;
         }
 
         @keyframes pulseHourglass {
-            0%, 100% { transform: rotate(0deg) scale(1); }
-            45% { transform: rotate(0deg) scale(1.08); }
-            50% { transform: rotate(180deg) scale(1.08); }
-            55% { transform: rotate(360deg) scale(1.08); }
+
+            0%,
+            100% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            45% {
+                transform: rotate(0deg) scale(1.08);
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.08);
+            }
+
+            55% {
+                transform: rotate(360deg) scale(1.08);
+            }
         }
 
-        .countdown-number-highlight { color: #FFA500; }
+        .countdown-number-highlight {
+            color: #FFA500;
+        }
 
         .greeting-wrapper i {
             color: #FFA500;
             font-size: 20px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .25));
         }
 
         .greeting-text-highlight {
@@ -251,17 +266,33 @@
         }
 
         @media (max-width: 1024px) {
-            .greeting-wrapper { font-size:16px; }
+            .greeting-wrapper {
+                font-size: 16px;
+            }
         }
 
         @media (max-width: 820px) {
-            .greeting-wrapper { font-size:15px; padding:6px 12px; }
+            .greeting-wrapper {
+                font-size: 15px;
+                padding: 6px 12px;
+            }
         }
 
         @media (max-width: 768px) {
-            .header { height: auto; padding: 10px 15px 12px; }
-            .logo-container { flex-direction: column; gap: 8px; }
-            .company-name { font-size: 24px; }
+            .header {
+                height: auto;
+                padding: 10px 15px 12px;
+            }
+
+            .logo-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .company-name {
+                font-size: 24px;
+            }
+
             .greeting-wrapper {
                 position: static;
                 transform: none;
@@ -270,8 +301,9 @@
                 text-align: center;
                 justify-content: center;
                 font-size: 15px;
-                background: rgba(255,255,255,0.12);
+                background: rgba(255, 255, 255, 0.12);
             }
+
             .countdown-wrapper {
                 position: static;
                 transform: none;
@@ -280,15 +312,21 @@
                 justify-content: center;
                 text-align: center;
                 font-size: 15px;
-                background: rgba(255,255,255,0.14);
+                background: rgba(255, 255, 255, 0.14);
                 order: -1;
                 white-space: normal;
             }
         }
 
         @media (max-width: 480px) {
-            .company-name { font-size: 20px; }
-            .greeting-wrapper { font-size: 14px; padding:6px 10px; }
+            .company-name {
+                font-size: 20px;
+            }
+
+            .greeting-wrapper {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
         }
 
         /* Espaço para Main Content */
@@ -4007,7 +4045,8 @@
     <!-- Header simplificado com o nome da empresa centralizado -->
     <header class="header">
         <div class="logo-container">
-            <div class="countdown-wrapper" id="year-countdown" aria-live="polite" aria-label="Dias restantes para o fim do ano">
+            <div class="countdown-wrapper" id="year-countdown" aria-live="polite"
+                aria-label="Dias restantes para o fim do ano">
                 <i class="fas fa-hourglass-half" aria-hidden="true"></i>
                 <span id="year-countdown-text">--</span>
             </div>
@@ -4713,14 +4752,14 @@
         let climaIconAtual = null; // última classe de ícone exibida
 
         function formatWeekday(dateString) {
+            // Garante interpretação LOCAL de "YYYY-MM-DD" para evitar deslocamento UTC
             try {
-                const d = new Date(dateString);
-                const opts = { weekday: 'short', day: '2-digit', month: '2-digit' };
-                // Ex: Ter, 16/09
-                const partes = d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
-                const dia = String(d.getDate()).padStart(2, '0');
-                const mes = String(d.getMonth() + 1).padStart(2, '0');
-                return `${partes.charAt(0).toUpperCase() + partes.slice(1)} ${dia}/${mes}`;
+                const [y, m, d] = (dateString || '').split('-').map(Number);
+                const localDate = new Date(y, (m || 1) - 1, d || 1);
+                const wd = localDate.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
+                const dia = String(localDate.getDate()).padStart(2, '0');
+                const mes = String(localDate.getMonth() + 1).padStart(2, '0');
+                return `${wd.charAt(0).toUpperCase() + wd.slice(1)} ${dia}/${mes}`;
             } catch (e) {
                 return dateString;
             }
@@ -4918,7 +4957,9 @@
                     if (singleList && data.daily && Array.isArray(data.daily.time)) {
                         const count = Math.min(7, data.daily.time.length);
                         singleList.innerHTML = '';
-                        const hojeISO = new Date().toISOString().slice(0, 10);
+                        // Usa data LOCAL no formato YYYY-MM-DD para bater com "daily.time" da API
+                        const now = new Date();
+                        const hojeISO = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
                         for (let i = 0; i < count; i++) {
                             const dayTime = data.daily.time[i];
                             const isHoje = dayTime === hojeISO;
@@ -8606,17 +8647,23 @@
     </script>
     <script>
         // Script de saudação dinâmica profissional e responsivo
-        (function(){
+        (function () {
             const saudacaoEl = document.getElementById('saudacao');
-            if(!saudacaoEl) return;
+            if (!saudacaoEl) return;
 
-            function gerarMensagem(data){
+            function gerarMensagem(data) {
                 const hora = data.getHours();
-                const diaSemana = data.getDay(); // 0=Domingo ... 5=sexta 6=sabado
+                const diaSemana = data.getDay(); // 0=Domingo ... 5=sexta 6=sábado
+
+                // Terça especial: 09:00 até 10:59 (encerra às 11:00)
+                if (diaSemana === 2 && hora >= 9 && hora < 11) {
+                    return 'Começou a Super Terça do Seu Fred <i class="fas fa-bolt"></i> | Das 09h às 11h';
+                }
+
                 let base;
-                if(hora < 13) {
+                if (hora < 13) {
                     base = 'Bom dia';
-                } else if(hora < 18) {
+                } else if (hora < 18) {
                     base = 'Boa tarde';
                 } else {
                     base = 'Boa noite';
@@ -8624,16 +8671,16 @@
 
                 // Final de semana / sexta final do dia
                 let complemento = '';
-                if(diaSemana === 5 && hora >= 16) { // sexta apos 16h
+                if (diaSemana === 5 && hora >= 16) { // sexta após 16h
                     complemento = ' | Bom final de semana!';
-                } else if(diaSemana === 6 || diaSemana === 0) { // sabado ou domingo
+                } else if (diaSemana === 6 || diaSemana === 0) { // sábado ou domingo
                     complemento = ' | Bom final de semana!';
                 }
 
                 return base + complemento;
             }
 
-            function atualizarSaudacao(){
+            function atualizarSaudacao() {
                 const agora = new Date();
                 const msg = gerarMensagem(agora);
                 // Texto completo em negrito com destaque de cor somente na parte inicial
@@ -8644,9 +8691,9 @@
                 } else {
                     html = `<span class=\"greeting-text-highlight\">${msg}</span>`;
                 }
-                if(saudacaoEl.innerHTML !== html){
+                if (saudacaoEl.innerHTML !== html) {
                     saudacaoEl.style.opacity = '0';
-                    requestAnimationFrame(()=>{
+                    requestAnimationFrame(() => {
                         saudacaoEl.innerHTML = html;
                         saudacaoEl.style.transition = 'opacity .4s ease';
                         saudacaoEl.style.opacity = '1';
@@ -8660,47 +8707,47 @@
             setInterval(atualizarSaudacao, 60 * 1000);
 
             // Ajusta caso a guia retorne do modo oculto
-            document.addEventListener('visibilitychange', ()=>{
-                if(!document.hidden) atualizarSaudacao();
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) atualizarSaudacao();
             });
         })();
     </script>
     <script>
         // Contador de dias restantes até o fim do ano (atualiza automaticamente à meia-noite)
-        (function(){
+        (function () {
             const el = document.getElementById('year-countdown-text');
-            if(!el) return;
+            if (!el) return;
 
-            function formatarDias(d){
-                if(d === 0) return '<span class="countdown-number-highlight">Último dia do ano!</span>';
-                if(d === 1) return '<span class="countdown-number-highlight">1</span> dia para o fim do ano';
+            function formatarDias(d) {
+                if (d === 0) return '<span class="countdown-number-highlight">Último dia do ano!</span>';
+                if (d === 1) return '<span class="countdown-number-highlight">1</span> dia para o fim do ano';
                 return `<span class="countdown-number-highlight">${d}</span> dias para o fim do ano`;
             }
 
-            function atualizarCountdown(){
+            function atualizarCountdown() {
                 const agora = new Date();
                 const ano = agora.getFullYear();
                 const fim = new Date(ano, 11, 31, 23, 59, 59, 999); // 31 Dez 23:59:59.999
                 const diffMs = fim.getTime() - agora.getTime();
-                const diasRestantes = Math.max(0, Math.ceil(diffMs / (1000*60*60*24)));
+                const diasRestantes = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
                 const html = formatarDias(diasRestantes);
-                if(el.innerHTML !== html) el.innerHTML = html;
+                if (el.innerHTML !== html) el.innerHTML = html;
                 // aria-label em texto puro
                 el.setAttribute('aria-label', `${diasRestantes} dias restantes para o fim do ano`);
             }
 
             // Agenda atualização na virada do dia com pequeno buffer
-            function agendarProximaAtualizacao(){
+            function agendarProximaAtualizacao() {
                 const agora = new Date();
-                const amanha = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate()+1, 0,0,2);
+                const amanha = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + 1, 0, 0, 2);
                 const wait = amanha.getTime() - agora.getTime();
-                setTimeout(()=>{ atualizarCountdown(); agendarProximaAtualizacao(); }, wait);
+                setTimeout(() => { atualizarCountdown(); agendarProximaAtualizacao(); }, wait);
             }
 
             atualizarCountdown();
             agendarProximaAtualizacao();
 
-            document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) atualizarCountdown(); });
+            document.addEventListener('visibilitychange', () => { if (!document.hidden) atualizarCountdown(); });
             window.addEventListener('focus', atualizarCountdown);
         })();
     </script>
