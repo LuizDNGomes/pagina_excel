@@ -8655,6 +8655,12 @@
                 const hora = data.getHours();
                 const diaSemana = data.getDay(); // 0=Domingo ... 5=sexta 6=sábado
 
+                // Segunda-feira: mensagem especial desejada, adaptando ao período do dia
+                if (diaSemana === 1) { // segunda-feira
+                    const baseSeg = hora < 13 ? 'Bom dia' : (hora < 18 ? 'Boa tarde' : 'Boa noite');
+                    return `${baseSeg} | Ótima semana a todos`;
+                }
+
                 // Terça especial: 09:00 até 10:59 (encerra às 11:00)
                 if (diaSemana === 2 && hora >= 9 && hora < 11) {
                     return 'Começou a Super Terça do Seu Fred <i class="fas fa-bolt"></i> | Das 09h às 11h';
