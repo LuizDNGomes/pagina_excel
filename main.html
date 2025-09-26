@@ -3063,6 +3063,109 @@
             text-align: center;
         }
 
+        /* =============================
+           SLIDE 8 - RECESSO REMUNERADO
+           ============================= */
+        #slide-8 .card-body {
+            padding-bottom: 120px;
+        }
+
+        #slide-8 .recesso-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        #slide-8 .recesso-badge {
+            background: linear-gradient(135deg, #01627E, #0188a9);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            border: 2px solid rgba(255,255,255,0.35);
+            box-shadow: 0 6px 18px rgba(1,98,126,0.25);
+        }
+
+        #slide-8 .recesso-periodo-box {
+            background: linear-gradient(135deg, #fff, #f7fbfc);
+            border: 1px solid rgba(1,98,126,0.12);
+            border-left: 5px solid #FFA500;
+            padding: 12px 16px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+
+        #slide-8 .recesso-periodo-box strong {
+            color: #01627E;
+        }
+
+        #slide-8 .recesso-progress {
+            width: 100%;
+            height: 14px;
+            background: #eef3f5;
+            border-radius: 999px;
+            overflow: hidden;
+            border: 1px solid rgba(1,98,126,0.15);
+            margin: 14px auto 6px;
+            max-width: 900px;
+        }
+
+        #slide-8 .recesso-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #FFA500, #ff8c00);
+            box-shadow: 0 4px 10px rgba(255,165,0,0.4);
+            transition: width .6s ease;
+        }
+
+        #slide-8 .recesso-progress-label {
+            text-align: center;
+            font-weight: 700;
+            color: #01627E;
+        }
+
+        #slide-8 .recesso-detalhes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            color: #033;
+        }
+
+        #slide-8 .recesso-detalhe-item {
+            background: #fff;
+            border: 1px solid rgba(1,98,126,0.12);
+            border-radius: 10px;
+            padding: 10px 14px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            font-weight: 600;
+        }
+
+        #slide-8 .countdown-event-name {
+            font-size: 2.2rem;
+            color: #01627E;
+            font-weight: 800;
+        }
+
+        #slide-8 .event-description {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        @media (min-width: 1920px) {
+            #slide-8 .countdown-digit {
+                width: 100px;
+                height: 100px;
+                font-size: 3.2rem;
+            }
+        }
+
         /* Ajustes responsivos para o layout */
         @media (max-width: 1400px) {
             .event-container {
@@ -4399,6 +4502,86 @@
                     </div>
                 </div>
 
+                <!-- Slide 8: Recesso Remunerado -->
+                <div class="carousel-slide" id="slide-8">
+                    <div class="dashboard-card event-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-umbrella-beach"></i>
+                                Recesso Remunerado
+                            </div>
+                            <div class="card-action">
+                                <i class="fas fa-stopwatch"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="event-countdown" id="recessoContainer">
+                                <div class="recesso-header">
+                                    <span class="recesso-badge" id="recessoStatus">Preparando...</span>
+                                </div>
+                                <div class="recesso-periodo-box">
+                                    <div>
+                                        <strong>Período:</strong>
+                                        <span id="recessoInicioTexto">18/12/2025</span>
+                                        &nbsp;até&nbsp;
+                                        <span id="recessoFimTexto">06/01/2026</span>
+                                        &nbsp;(<span id="recessoTotalDias">20</span> dias)
+                                    </div>
+                                    <div style="margin-top:6px;color:#555;font-weight:600;">
+                                        Último dia trabalhado: <span id="recessoUltimoDia">17/12/2025 (quarta-feira)</span>
+                                        &nbsp;•&nbsp;
+                                        Retorno: <span id="recessoRetorno">07/01/2026 (quarta-feira)</span>
+                                    </div>
+                                </div>
+
+                                <div class="countdown-event-name" id="recessoTitulo">Contagem para o início</div>
+                                <div class="countdown-timer" id="recessoTimer">
+                                    <div class="countdown-block">
+                                        <div class="countdown-digit" id="recessoDays">00</div>
+                                        <div class="countdown-label">Dias</div>
+                                    </div>
+                                    <div class="countdown-block">
+                                        <div class="countdown-digit" id="recessoHours">00</div>
+                                        <div class="countdown-label">Horas</div>
+                                    </div>
+                                    <div class="countdown-block">
+                                        <div class="countdown-digit" id="recessoMinutes">00</div>
+                                        <div class="countdown-label">Min</div>
+                                    </div>
+                                    <div class="countdown-block">
+                                        <div class="countdown-digit" id="recessoSeconds">00</div>
+                                        <div class="countdown-label">Seg</div>
+                                    </div>
+                                </div>
+
+                                <div class="recesso-progress">
+                                    <div class="recesso-progress-bar" id="recessoProgressBar"></div>
+                                </div>
+                                <div class="recesso-progress-label" id="recessoProgressLabel">0% do recesso concluído</div>
+                                
+                                <div class="event-info-box" style="margin-top:16px;">
+                                    <span id="recessoInfo">Organize-se: estamos quase lá! 🎉</span>
+                                </div>
+                                
+                                <div class="recesso-detalhes">
+                                    <div class="recesso-detalhe-item">
+                                        <i class="fas fa-calendar-day" style="color:#FFA500;margin-right:8px;"></i>
+                                        Início: <strong>18/12/2025</strong>
+                                    </div>
+                                    <div class="recesso-detalhe-item">
+                                        <i class="fas fa-calendar-check" style="color:#01627E;margin-right:8px;"></i>
+                                        Fim: <strong>06/01/2026</strong>
+                                    </div>
+                                    <div class="recesso-detalhe-item">
+                                        <i class="fas fa-briefcase" style="color:#28a745;margin-right:8px;"></i>
+                                        Retorno: <strong>07/01/2026</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Indicadores do carrossel -->
                 <div class="carousel-indicators">
                     <div class="carousel-indicator active" data-slide="1"></div>
@@ -4408,6 +4591,7 @@
                     <div class="carousel-indicator" data-slide="5"></div>
                     <div class="carousel-indicator" data-slide="6"></div>
                     <div class="carousel-indicator" data-slide="7"></div>
+                    <div class="carousel-indicator" data-slide="8"></div>
                 </div>
 
                 <!-- Navegação com setas -->
@@ -8293,7 +8477,139 @@
 
             // Inicializar feriados nacionais
             initFeriadosNacionais();
+
+            // Inicializar contador do Recesso Remunerado
+            initRecessoRemunerado();
         });
+
+        // =============================
+        // SLIDE 8 - RECESSO REMUNERADO
+        // =============================
+        function initRecessoRemunerado() {
+            const el = {
+                titulo: document.getElementById('recessoTitulo'),
+                status: document.getElementById('recessoStatus'),
+                days: document.getElementById('recessoDays'),
+                hours: document.getElementById('recessoHours'),
+                minutes: document.getElementById('recessoMinutes'),
+                seconds: document.getElementById('recessoSeconds'),
+                progressBar: document.getElementById('recessoProgressBar'),
+                progressLabel: document.getElementById('recessoProgressLabel'),
+                info: document.getElementById('recessoInfo'),
+                inicioTexto: document.getElementById('recessoInicioTexto'),
+                fimTexto: document.getElementById('recessoFimTexto'),
+                totalDias: document.getElementById('recessoTotalDias'),
+                ultimoDia: document.getElementById('recessoUltimoDia'),
+                retorno: document.getElementById('recessoRetorno')
+            };
+
+            if (!el.titulo) return; // slide pode não existir
+
+            // Datas oficiais do recesso
+            const recessoInicio = new Date(2025, 11, 18, 0, 0, 0); // 18/12/2025 00:00:00
+            // O dia 06/01/2026 é o último dia de recesso; retorno 07/01/2026
+            const recessoFim = new Date(2026, 0, 6, 23, 59, 59); // 06/01/2026 23:59:59
+            const retornoData = new Date(2026, 0, 7, 8, 0, 0); // 07/01/2026 08:00 (informativo)
+            const ultimoDiaTrabalho = new Date(2025, 11, 17, 23, 59, 59); // 17/12/2025 23:59:59
+            const janelaInicio = new Date(2025, 0, 1, 0, 0, 0); // 01/01/2025 00:00:00 (janela anual)
+
+            // Textos fixos (em caso de ajustes futuros, basta alterar as datas acima)
+            if (el.inicioTexto) el.inicioTexto.textContent = '18/12/2025';
+            if (el.fimTexto) el.fimTexto.textContent = '06/01/2026';
+            if (el.totalDias) el.totalDias.textContent = '20';
+            if (el.ultimoDia) el.ultimoDia.textContent = '17/12/2025 (quarta-feira)';
+            if (el.retorno) el.retorno.textContent = '07/01/2026 (quarta-feira)';
+
+            function zeroDigits() {
+                el.days.textContent = '00';
+                el.hours.textContent = '00';
+                el.minutes.textContent = '00';
+                el.seconds.textContent = '00';
+            }
+
+            function setStatus(texto, cor) {
+                if (!el.status) return;
+                el.status.textContent = texto;
+                el.status.style.background = cor || 'linear-gradient(135deg, #01627E, #0188a9)';
+            }
+
+            function progressoAteUltimoDia(agora) {
+                const total = Math.max(1, (ultimoDiaTrabalho - janelaInicio));
+                const decorrido = Math.min(Math.max(0, (agora - janelaInicio)), total);
+                return (decorrido / total) * 100;
+            }
+
+            function setProgressPercentToLastWorkday(agora) {
+                let p = progressoAteUltimoDia(agora);
+                // Snap para 100% quando chegar ou passar do último dia de trabalho
+                if (agora >= ultimoDiaTrabalho) p = 100;
+                p = Math.max(0, Math.min(100, p));
+                if (el.progressBar) el.progressBar.style.width = p.toFixed(1) + '%';
+                if (el.progressLabel) {
+                    el.progressLabel.textContent = `${p.toFixed(1)}% até o último dia trabalhado`;
+                }
+            }
+
+            function update() {
+                const agora = new Date();
+                if (agora < recessoInicio) {
+                    // Antes de iniciar
+                    el.titulo.textContent = 'Início do recesso em';
+                    // Oculta o badge de status no pré-início
+                    if (el.status) {
+                        const headerEl = el.status.closest('.recesso-header');
+                        if (headerEl) headerEl.style.display = 'none';
+                    }
+                    const diff = recessoInicio - agora;
+                    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+                    el.days.textContent = String(dias).padStart(2, '0');
+                    el.hours.textContent = String(horas).padStart(2, '0');
+                    el.minutes.textContent = String(minutos).padStart(2, '0');
+                    el.seconds.textContent = String(segundos).padStart(2, '0');
+                    setProgressPercentToLastWorkday(agora);
+                    if (el.info) el.info.textContent = 'Último dia trabalhado: 17/12/2025. Prepare suas entregas.';
+                } else if (agora <= recessoFim) {
+                    // Durante o recesso
+                    el.titulo.textContent = 'Recesso em andamento';
+                    setStatus('Em recesso', 'linear-gradient(135deg, #FFA500, #ff8c00)');
+                    // Reexibe o badge de status
+                    if (el.status) {
+                        const headerEl = el.status.closest('.recesso-header');
+                        if (headerEl) headerEl.style.display = 'flex';
+                    }
+                    const diff = recessoFim - agora; // tempo restante para terminar
+                    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+                    el.days.textContent = String(dias).padStart(2, '0');
+                    el.hours.textContent = String(horas).padStart(2, '0');
+                    el.minutes.textContent = String(minutos).padStart(2, '0');
+                    el.seconds.textContent = String(segundos).padStart(2, '0');
+                    setProgressPercentToLastWorkday(agora);
+                    if (el.info) el.info.textContent = 'Aproveite o descanso! Retornamos em 07/01/2026.';
+                } else {
+                    // Após o recesso
+                    el.titulo.textContent = 'Recesso encerrado';
+                    setStatus('Encerrado', 'linear-gradient(135deg, #28a745, #1e7e34)');
+                    // Reexibe o badge de status
+                    if (el.status) {
+                        const headerEl = el.status.closest('.recesso-header');
+                        if (headerEl) headerEl.style.display = 'flex';
+                    }
+                    zeroDigits();
+                    setProgressPercentToLastWorkday(agora);
+                    if (el.info) el.info.textContent = 'Bem-vindos de volta! Retomamos as atividades em 07/01/2026.';
+                }
+            }
+
+            // Atualiza imediatamente e a cada segundo
+            update();
+            setInterval(update, 1000);
+        }
 
         // Classe para gerenciar feriados nacionais
         class FeriadosNacionaisManager {
