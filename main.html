@@ -1291,14 +1291,14 @@
             height: 100%;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+            box-shadow: none;
+            border-radius: 0;
+            background: transparent;
+            backdrop-filter: none;
             margin: 0 auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: none;
             /* Reserva espaço acima para os títulos dos cards ficarem visíveis */
-            padding-top: 14px;
+            padding-top: 0;
         }
 
         .carousel-slide {
@@ -1312,7 +1312,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 0;
             pointer-events: none;
             transform: scale(0.9) translateY(20px);
             z-index: 1;
@@ -1550,6 +1550,240 @@
             font-size: 1.4rem;
             margin-right: 10px;
         }
+
+        /* Slide de imagem profissional (Fases do Projeto) */
+        .image-slide-wrapper {
+            display: flex;
+            align-items: flex-start; /* aproxima a imagem do título (topo) */
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            background: transparent;
+            border-radius: 0;
+            overflow: visible;
+            position: relative;
+            padding-top: 6px; /* pequeno respiro abaixo do título */
+        }
+
+    :root { --fases-max-vh: 74vh; }
+    /* Em tela cheia, reduza um pouco para evitar corte no rodapé/cabeçalho do card */
+    body.fullscreen-mode { --fases-max-vh: 85vh; }
+
+        .image-slide-wrapper img.fases-img {
+            max-width: 95%;
+            max-height: var(--fases-max-vh);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            object-position: center top; /* ancora no topo para ficar perto do título */
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            /* Evita corte da imagem no carrossel */
+            animation: none;
+            background: transparent;
+            transition: all 0.3s ease-in-out;
+            margin: 2px auto 0; /* quase encostada no título */
+            display: block;
+        }
+
+        /* Removida a legenda da imagem para um visual mais limpo */
+
+        @keyframes kenburnsSlow {
+            0% { transform: scale(1) translate3d(0,0,0); }
+            50% { transform: scale(1.03) translate3d(0,0,0); }
+            100% { transform: scale(1.06) translate3d(0,0,0); }
+        }
+
+        /* Ajustes específicos para o slide das fases para aproveitar melhor a tela */
+        #slide-3b .dashboard-card {
+            min-height: 76vh;
+            max-height: 92vh;
+        }
+
+        /* Centralização e destaque do slide 3B */
+        #slide-3b .card-header {
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            /* Mantém apenas o azul no cabeçalho, sem o branco */
+            background: linear-gradient(45deg, #01627E, #0188a9) !important;
+        }
+        /* Remove o brilho branco sobre o título neste slide */
+        #slide-3b .card-header::after { display: none; }
+        #slide-3b .card-title {
+            gap: 10px;
+            font-size: 22px;
+            letter-spacing: 0.6px;
+        }
+        #slide-3b .card-title i {
+            font-size: 22px;
+        }
+        #slide-3b .card-action { display: none; }
+        #slide-3b .card-body.fases-center {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            padding: 2px 80px 180px; /* reduz padding superior para aproximar da borda do título */
+        }
+
+        /* Layout enxuto: somente a imagem centralizada e ocupando bem o espaço */
+        .fases-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 100%;
+            max-width: 1600px;
+            height: 100%;
+            margin: 0 auto;
+        }
+        .fases-img-col {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            padding: 0;
+        }
+        /* Bloco de texto removido do slide 3B */
+        .fases-badge {
+            align-self: flex-start;
+            background: linear-gradient(135deg,#01627E,#0188a9);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: .6px;
+            box-shadow: 0 6px 16px rgba(1,98,126,.25);
+            border: 1px solid rgba(255,165,0,.35);
+        }
+        .fases-subtitle {
+            font-size: 18px;
+            color: #01627E;
+            font-weight: 800;
+        }
+        .fases-desc {
+            color: #333;
+            font-weight: 600;
+            line-height: 1.45;
+        }
+        .fases-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            padding-left: 0;
+        }
+        .fases-list li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            background: rgba(1,98,126,.05);
+            border: 1px solid rgba(1,98,126,.08);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+        .fases-list li i { color: #FFA500; margin-top: 2px; }
+        .fases-note {
+            font-size: 12px;
+            color: #555;
+            opacity: .9;
+        }
+
+        /* Responsividade: já é coluna única por padrão; apenas ajustes sutis */
+        @media (max-width: 1150px) {
+            .fases-info { order: 2; }
+        }
+
+        /* Ajustes em modo tela cheia para máxima legibilidade */
+    body.fullscreen-mode .header,
+    body.fullscreen-mode .footer { display: none !important; }
+    /* Oculta destaque do dia em tela cheia para liberar a viewport ao carrossel */
+    body.fullscreen-mode .today-highlight { display: none !important; }
+        /* Elimina gaps no conteúdo e impõe 100vh real */
+    body.fullscreen-mode .main-content { padding: 0 !important; height: 100vh !important; }
+    body.fullscreen-mode .dashboard { height: 100vh !important; margin-top: 0 !important; }
+    /* Remove o topo reservado no container do carrossel e elimina offsets em fullscreen */
+    body.fullscreen-mode .carousel-container { padding-top: 0 !important; }
+    /* Remover bordas/raios/sombras do carrossel em fullscreen para ganhar área útil */
+    body.fullscreen-mode .carousel-container {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        z-index: 9998 !important;
+    }
+    /* Evita que transforms do slide causem recorte/offset do conteúdo fixo */
+    body.fullscreen-mode #slide-3b { transform: none !important; padding: 0 !important; align-items: stretch !important; }
+        /* Slide 3B em tela cheia ocupa a tela inteira, sem bordas */
+        body.fullscreen-mode #slide-3b .dashboard-card {
+            position: fixed !important;
+            inset: 0 !important; /* top:0; right:0; bottom:0; left:0 */
+            width: 100vw !important;
+            height: 100vh !important;
+            min-height: 100vh !important;
+            max-height: 100vh !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+            margin: 0 !important;
+            transform: none !important;
+        }
+        /* Esconde o cabeçalho do slide 3B em fullscreen para liberar espaço vertical */
+        body.fullscreen-mode #slide-3b .card-header { display: none !important; }
+    body.fullscreen-mode #slide-3b .card-body { flex: 1 1 auto; overflow: hidden; padding: 0 !important; }
+        /* Layout e imagem expandem para 100% da altura */
+    body.fullscreen-mode .fases-layout { grid-template-columns: 1fr; gap: 0 !important; height: 100%; margin: 0 auto; width: 100%; }
+        body.fullscreen-mode .fases-img-col { padding: 0 !important; display: flex; justify-content: center; align-items: center; height: 100%; }
+        body.fullscreen-mode .image-slide-wrapper {
+            width: 100vw;
+            height: 100vh;
+            padding: 0 !important;
+            background: transparent !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 9999 !important;
+            padding-top: 10px !important;
+        }
+        body.fullscreen-mode .image-slide-wrapper img.fases-img {
+            /* Margens mínimas para maximizar o tamanho da imagem */
+            max-height: calc(100vh - 30px) !important;
+            max-width: calc(100vw - 30px) !important;
+            height: auto !important;
+            width: auto !important;
+            object-fit: contain !important;
+            object-position: center top !important;
+            border-radius: 8px !important;
+            margin: 5px auto 0 auto !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+            /* Desativa animação para evitar qualquer jitter/corte */
+            animation: none !important;
+        }
+    body.fullscreen-mode .fases-subtitle { font-size: 19px; }
+    /* Oculta elementos de navegação/indicadores no fullscreen para foco total */
+    body.fullscreen-mode .carousel-indicators,
+    body.fullscreen-mode .carousel-nav,
+    body.fullscreen-mode .carousel-nav-button { display: none !important; }
+
+    /* Modo normal: remover bordas/sombras do slide 3B para um visual flat mais limpo */
+    #slide-3b .dashboard-card { border: none; box-shadow: none; }
+    #slide-3b .card-header { border-bottom: 2px solid rgba(1,98,126,.12); }
+        /* Bloqueia rolagem do documento em fullscreen, o painel de texto pode rolar sozinho */
+        .fullscreen-root, .fullscreen-root body { height: 100%; overflow: hidden; }
+        body.fullscreen-mode .fases-info { overflow: auto; }
+
 
         /* Página hoje - otimizado para TV */
         .today-highlight {
@@ -4190,7 +4424,7 @@
                         <div class="card-header">
                             <div class="card-title">
                                 <i class="fas fa-birthday-cake"></i>
-                                Aniversários Pessoais
+                                Aniversários
                             </div>
                             <div class="card-action">
                                 <i class="fas fa-user-friends"></i>
@@ -4279,6 +4513,30 @@
                         <div class="card-body">
                             <div class="news-container" id="noticiasContainer">
                                 <!-- Notícias serão carregadas do JSON via JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3B: Fases do Projeto Estrutural (Imagem) -->
+                <div class="carousel-slide" id="slide-3b" data-duration="30000">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-project-diagram"></i>
+                                Fases do Projeto Estrutural da Excel
+                            </div>
+                            <div class="card-action">
+                                <i class="fas fa-image"></i>
+                            </div>
+                        </div>
+                        <div class="card-body fases-center">
+                            <div class="fases-layout">
+                                <div class="fases-img-col">
+                                    <div class="image-slide-wrapper">
+                                        <img class="fases-img" src="fases do projeto.jpg" alt="Fluxo das Fases do Projeto Estrutural" loading="lazy" decoding="async">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -4508,7 +4766,7 @@
                         <div class="card-header">
                             <div class="card-title">
                                 <i class="fas fa-umbrella-beach"></i>
-                                Recesso Remunerado
+                                Recesso
                             </div>
                             <div class="card-action">
                                 <i class="fas fa-stopwatch"></i>
@@ -4587,6 +4845,7 @@
                     <div class="carousel-indicator active" data-slide="1"></div>
                     <div class="carousel-indicator" data-slide="2"></div>
                     <div class="carousel-indicator" data-slide="3"></div>
+                    <div class="carousel-indicator" data-slide="3b"></div>
                     <div class="carousel-indicator" data-slide="4"></div>
                     <div class="carousel-indicator" data-slide="5"></div>
                     <div class="carousel-indicator" data-slide="6"></div>
@@ -8055,8 +8314,15 @@
             const slides = document.querySelectorAll('.carousel-slide');
             const indicators = document.querySelectorAll('.carousel-indicator');
             let currentSlide = 0;
-            const slideInterval = 25000; // 25 segundos
-            let slideTimer;
+            const defaultSlideInterval = 25000; // 25 segundos padrão
+            let slideTimer; // usaremos setTimeout para permitir duração variável por slide
+
+            function getSlideDuration(index) {
+                const slide = slides[index];
+                const raw = slide?.dataset?.duration;
+                const val = raw ? parseInt(raw, 10) : NaN;
+                return Number.isFinite(val) ? val : defaultSlideInterval;
+            }
 
             // Função para mostrar um slide específico
             function showSlide(index) {
@@ -8087,8 +8353,13 @@
                 // Atualizar o índice do slide atual
                 currentSlide = index;
 
+
                 // Registrar a mudança de slide no console para monitoramento
                 console.log(`Slide alterado para: ${index + 1}/${slides.length} - ${new Date().toLocaleTimeString()}`);
+                // Reiniciar o timer com a duração específica deste slide
+                restartSlideTimer();
+                // Atualizar a animação de progresso do indicador com a nova duração
+                updateProgressAnimation();
             }
 
             // Função para mostrar o slide anterior
@@ -8103,41 +8374,41 @@
                 showSlide(currentSlide);
             }
 
-            // Função para iniciar o temporizador do carrossel
-            function startSlideTimer() {
-                // Limpar temporizador existente, se houver
+            // Funções de temporização do carrossel (duração variável por slide)
+            function clearSlideTimer() {
                 if (slideTimer) {
-                    clearInterval(slideTimer);
+                    clearTimeout(slideTimer);
+                    slideTimer = null;
                 }
+            }
 
-                // Iniciar novo temporizador com verificação de segurança
-                slideTimer = setInterval(function () {
-                    console.log('Avançando para o próximo slide - Timer de 25s');
+            function restartSlideTimer() {
+                clearSlideTimer();
+                const duration = getSlideDuration(currentSlide);
+                slideTimer = setTimeout(() => {
+                    console.log(`Avançando para o próximo slide - Timer de ${duration / 1000}s`);
                     nextSlide();
-
-                    // Verificar se estamos no slide de notícias e ajustar o layout
-                    if (currentSlide === 2) { // O slide-3 é o de notícias
+                    // Ajuste específico para o slide de notícias
+                    if (currentSlide === 2) {
                         setTimeout(ajustarTamanhoTextoNoticias, 100);
                     }
-                }, slideInterval);
-
-                // Registrar início do temporizador no console
-                console.log('Timer do carrossel iniciado: ' + new Date().toLocaleTimeString());
+                }, duration);
+                console.log('Timer do carrossel (dinâmico) iniciado: ' + new Date().toLocaleTimeString());
             }
 
             // Exibir o primeiro slide inicialmente
             showSlide(0);
 
             // Iniciar o temporizador do carrossel
-            startSlideTimer();
+            restartSlideTimer();
 
             // Adicionar monitoramento para garantir que o carrossel está funcionando
             let ultimoSlide = currentSlide;
             let monitorTimer = setInterval(function () {
                 if (ultimoSlide === currentSlide) {
                     console.log('⚠️ Carrossel parado! Reiniciando timer...');
-                    clearInterval(slideTimer);
-                    startSlideTimer();
+                    clearSlideTimer();
+                    restartSlideTimer();
                     // Forçar avanço para o próximo slide
                     nextSlide();
                 }
@@ -8151,7 +8422,7 @@
             indicators.forEach((indicator, index) => {
                 indicator.addEventListener('click', () => {
                     showSlide(index);
-                    startSlideTimer(); // Reiniciar o temporizador
+                    restartSlideTimer(); // Reiniciar o temporizador
                     console.log(`Slide alterado manualmente para: ${index + 1}/${slides.length}`);
                 });
             });
@@ -8163,14 +8434,14 @@
             if (carouselPrevButton) {
                 carouselPrevButton.addEventListener('click', () => {
                     prevSlide();
-                    startSlideTimer(); // Reiniciar o temporizador
+                    restartSlideTimer(); // Reiniciar o temporizador
                 });
             }
 
             if (carouselNextButton) {
                 carouselNextButton.addEventListener('click', () => {
                     nextSlide();
-                    startSlideTimer(); // Reiniciar o temporizador
+                    restartSlideTimer(); // Reiniciar o temporizador
                 });
             }
 
@@ -8178,15 +8449,15 @@
             const carouselContainer = document.querySelector('.carousel-container');
             if (carouselContainer) {
                 carouselContainer.addEventListener('mouseenter', () => {
-                    if (slideTimer) {
-                        clearInterval(slideTimer);
-                    }
+                    clearSlideTimer();
                 });
 
                 carouselContainer.addEventListener('mouseleave', () => {
-                    startSlideTimer();
+                    restartSlideTimer();
                 });
             }
+
+            // Mantido comportamento padrão; nenhum modo alternativo fora do fullscreen
 
             // Animação suave para indicar progresso do tempo
             function updateProgressAnimation() {
@@ -8200,7 +8471,8 @@
                     void activeIndicator.offsetWidth;
 
                     // Aplicar a transição e o gradiente
-                    activeIndicator.style.transition = `background ${slideInterval}ms linear`;
+                    const duration = getSlideDuration(currentSlide);
+                    activeIndicator.style.transition = `background ${duration}ms linear`;
                     activeIndicator.style.background = 'linear-gradient(to right, #FFA500 0%, rgba(255, 255, 255, 0.3) 100%)';
 
                     console.log('Animação de progresso do indicador iniciada: ' + new Date().toLocaleTimeString());
@@ -8444,12 +8716,12 @@
             prevButton.addEventListener('click', function () {
                 currentSlide = (currentSlide - 1 + slides.length) % slides.length;
                 showSlide(currentSlide);
-                startSlideTimer(); // Reiniciar o temporizador
+                restartSlideTimer(); // Reiniciar o temporizador
             });
 
             nextButton.addEventListener('click', function () {
                 nextSlide();
-                startSlideTimer(); // Reiniciar o temporizador
+                restartSlideTimer(); // Reiniciar o temporizador
             });
 
             // Adicionar botões ao container
@@ -8927,6 +9199,50 @@
         }
     </script>
     <script>
+        // Ajuste automático para tela cheia (F11) – melhora o uso vertical da imagem das fases
+        (function () {
+            function isFullScreen() {
+                return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+            }
+            function updateFSClass() {
+                if (isFullScreen()) {
+                    document.body.classList.add('fullscreen-mode');
+                    document.documentElement.classList.add('fullscreen-root');
+                    // Evitar rolagem indesejada ao entrar em fullscreen
+                    try {
+                        window.scrollTo({ top: 0, behavior: 'instant' });
+                    } catch (_) {
+                        window.scrollTo(0, 0);
+                    }
+                    const activeSlide = document.querySelector('.carousel-slide.active');
+                    if (activeSlide) {
+                        try { activeSlide.scrollIntoView({ behavior: 'instant', block: 'start' }); }
+                        catch (_) { activeSlide.scrollIntoView(true); }
+                    }
+                } else {
+                    document.body.classList.remove('fullscreen-mode');
+                    document.documentElement.classList.remove('fullscreen-root');
+                }
+            }
+
+            document.addEventListener('fullscreenchange', updateFSClass);
+            document.addEventListener('webkitfullscreenchange', updateFSClass);
+            document.addEventListener('mozfullscreenchange', updateFSClass);
+            document.addEventListener('MSFullscreenChange', updateFSClass);
+
+            // Tentativa de detectar F11 (nem todos navegadores disparam keydown com F11)
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'F11') {
+                    // Aguarda mudança de estado
+                    setTimeout(updateFSClass, 200);
+                }
+            });
+
+            // Atualiza na carga inicial
+            window.addEventListener('load', updateFSClass);
+        })();
+    </script>
+    <script>
         // Auto-reload suave a cada 1 hora mantendo posição do scroll
         (function () {
             const ONE_HOUR = 60 * 60 * 1000; // 3600000 ms
@@ -9032,6 +9348,62 @@
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) atualizarSaudacao();
             });
+        })();
+    </script>
+    <script>
+        // Ajuste fino da imagem de fases de projeto em modo fullscreen (F11)
+        (function() {
+            const faseImg = document.querySelector('.fases-img');
+            if (!faseImg) return;
+            
+            function ajustarImagemFasesTelacheia() {
+                // Verifica se estamos em modo tela cheia
+                const isFullscreen = document.body.classList.contains('fullscreen-mode');
+                if (isFullscreen) {
+                    // Calcula altura e largura disponível e define margens seguras
+                    const viewportHeight = window.innerHeight;
+                    const viewportWidth = window.innerWidth;
+                    const margemSeguranca = 16; // margem mínima
+                    // Usa dvh quando disponível via CSS já, aqui apenas fallback
+                    faseImg.style.maxHeight = `${viewportHeight - margemSeguranca}px`;
+                    faseImg.style.maxWidth = `${viewportWidth - margemSeguranca}px`;
+                    faseImg.style.position = 'relative';
+                    faseImg.style.zIndex = '10000';
+                    faseImg.style.marginTop = '5px';
+                } else {
+                    // Em modo normal, volta para os valores do CSS
+                    faseImg.style.maxHeight = '';
+                    faseImg.style.maxWidth = '';
+                    faseImg.style.position = '';
+                    faseImg.style.zIndex = '';
+                    faseImg.style.marginTop = '';
+                }
+            }
+            
+            // Ajusta quando o tamanho da janela muda
+            window.addEventListener('resize', ajustarImagemFasesTelacheia);
+            
+            // Ajusta quando entra ou sai do modo tela cheia
+            document.addEventListener('fullscreenchange', () => {
+                setTimeout(ajustarImagemFasesTelacheia, 100);
+            });
+            
+            // Detecta mudanças na classe fullscreen-mode do body
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        setTimeout(ajustarImagemFasesTelacheia, 100);
+                    }
+                });
+            });
+            
+            observer.observe(document.body, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+            
+            // Executa no carregamento
+            setTimeout(ajustarImagemFasesTelacheia, 500);
         })();
     </script>
     <script>
