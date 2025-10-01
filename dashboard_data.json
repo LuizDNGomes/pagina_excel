@@ -34,6 +34,13 @@
       "depto": "Coordenação",
       "dataInicio": "2025-10-10",
       "dataFim": "2025-10-10"
+    },
+    {
+      "id": "ferias-6",
+      "nome": "Marina Naatz",
+      "depto": "Engenharia",
+      "dataInicio": "2025-11-10",
+      "dataFim": "2025-11-14"
     }
   ],
   "aniversariosPessoais": [
