@@ -2574,8 +2574,25 @@
         }
 
         .ferias-status.concluida {
-            background: #f5f5f5;
-            color: #616161;
+            background: #e8f5e9; /* verde claro de sucesso */
+            color: #2e7d32;     /* verde escuro para contraste */
+            border: 1px solid #c8e6c9; /* borda sutil para um look profissional */
+            font-weight: 600;
+        }
+
+        /* Badge complementar para indicar "há X dias" */
+        .ferias-badge {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 2px 8px;
+            font-size: 0.78em;
+            line-height: 1.6;
+            border-radius: 999px;
+            background: #f1f8e9; /* tom claro complementar */
+            color: #5f7c41;      /* verde oliva para diferenciar do status */
+            border: 1px solid #dce7c7;
+            vertical-align: middle;
+            white-space: nowrap;
         }
 
         /* Editor rápido para administradores - completamente refeito para maior compatibilidade */
@@ -7360,9 +7377,16 @@
             // Ordena as férias futuras pela data de início (uso de parser local)
             feriasFuturas.sort((a, b) => parseDataLocal(a.dataInicio) - parseDataLocal(b.dataInicio));
 
-            // Ordenar passadas por data de fim (mais recentes primeiro) usando parser local e limitar a 5
-            feriasPassadas.sort((a, b) => parseDataLocal(b.dataFim) - parseDataLocal(a.dataFim));
-            const feriasPassadasLimitadas = feriasPassadas.slice(0, 5);
+            // Filtrar passadas para exibir apenas as concluídas nos últimos 2 dias
+            const feriasPassadasRecentes = feriasPassadas.filter(item => {
+                const fimBase = inicioDoDia(parseDataLocal(item.dataFim));
+                const diasDesdeFim = Math.floor((hojeBase.getTime() - fimBase.getTime()) / MS_DIA);
+                return diasDesdeFim >= 0 && diasDesdeFim <= 2; // inclui hoje, +1 e +2 dias
+            });
+
+            // Ordenar passadas recentes por data de fim (mais recentes primeiro) e limitar a 5
+            feriasPassadasRecentes.sort((a, b) => parseDataLocal(b.dataFim) - parseDataLocal(a.dataFim));
+            const feriasPassadasLimitadas = feriasPassadasRecentes.slice(0, 5);
 
             // Limita a 5 férias futuras para exibição
             const feriasFuturasLimitadas = feriasFuturas.slice(0, 5);
@@ -7490,18 +7514,22 @@
 
                 feriasPassadasLimitadas.forEach(item => {
                     try {
-                        const dataInicio = new Date(item.dataInicio);
-                        const dataFim = new Date(item.dataFim);
+                        // Usar parser local consistente para evitar desvios de data
+                        const dataInicio = parseDataLocal(item.dataInicio);
+                        const dataFim = parseDataLocal(item.dataFim);
                         if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) return;
                         const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR');
                         const dataFimFormatada = dataFim.toLocaleDateString('pt-BR');
+                        // Cálculo de dias desde o fim (base local, início do dia)
+                        const diasDesdeFim = Math.floor((inicioDoDia(new Date()).getTime() - inicioDoDia(dataFim).getTime()) / MS_DIA);
+                        const textoBadge = diasDesdeFim <= 0 ? 'hoje' : (diasDesdeFim === 1 ? 'há 1 dia' : `há ${diasDesdeFim} dias`);
                         const feriasItem = document.createElement('div');
                         feriasItem.className = 'ferias-item';
                         feriasItem.innerHTML = `
                             <div class="ferias-periodo">De ${dataInicioFormatada} até ${dataFimFormatada}</div>
                             <div class="ferias-colaborador">${item.nome || 'Sem nome'}</div>
                             <div class="ferias-departamento">${item.departamento || 'Sem departamento'}</div>
-                            <div class="ferias-status concluida">Concluída</div>
+                            <div class="ferias-status concluida">Concluída <span class="ferias-badge">${textoBadge}</span></div>
                         `;
                         feriasPassadasHTML.appendChild(feriasItem);
                     } catch (e) { console.error('Erro ao exibir férias passadas:', e); }
